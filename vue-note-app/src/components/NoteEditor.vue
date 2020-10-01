@@ -1,31 +1,30 @@
 <template>
-    <div class="note-grid">
-        <div class="note-editor">
-            <input class="title-input" type="text" v-model="title" placeholder="Title">
-            <textarea rows="10" v-model="text" placeholder="Take a note..."></textarea>            
-            <div class="note-editor-bottom">
-                <button @click=createNew class="fas fas-check-circle"><i class="fas fa-check-circle"></i></button>
-            </div>
+<div class="note-grid">
+    <div class="note-editor">
+        <input class="title-input" type="text" v-model="title" placeholder="Title">
+        <textarea rows="10" v-model="text" placeholder="Take a note..."></textarea>
+        <div class="note-editor-bottom">
+            <button @click=createNew class="fas fas-check-circle"><i class="fas fa-check-circle"></i></button>
         </div>
     </div>
+</div>
 </template>
 
 <script>
-
 export default {
-    data: function() {
+    data: function () {
         return {
-            title: '',            
-            theme: '',            
+            title: '',
+            theme: '',
             text: ''
         }
-    },   
-    methods: {        
+    },
+    methods: {
         createNew() {
             this.$emit('noteAdded', this.title, this.text, this.theme);
             this.title = '';
             this.text = '',
-            this.theme = '';
+                this.theme = '';
         },
         deleteNote(index) {
             this.$emit('noteDeleted', index);
