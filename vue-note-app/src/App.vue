@@ -18,11 +18,12 @@ App.vue
       <WriteBtn @noteAdded="newNote" />
 
       <div class="noteContainer">
-        <v-row>
+        <v-row v-masonry item-selector=".note">
           <v-col
             class="note"
             v-for="(note, index) in notes"
             :key="`note-${index}`"
+            v-masonry-tile
             :style="{ 'background-color': note.theme }"
             cols="12"
             lg="2"
