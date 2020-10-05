@@ -1,5 +1,3 @@
-Header.vue
-
 <template>
   <div class="header">
     <p>10조</p>

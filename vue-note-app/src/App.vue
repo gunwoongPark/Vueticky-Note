@@ -5,15 +5,7 @@ App.vue
     <v-main>
       <Header style="z-index: 10" />
 
-      <v-btn
-        class="mx-2 calendarBtn"
-        fab
-        dark
-        color="black"
-        style="z-index: 10"
-      >
-        <v-icon dark> mdi-calendar </v-icon>
-      </v-btn>
+      <CalendarBtn />
 
       <WriteBtn @noteAdded="newNote" />
 
@@ -33,7 +25,9 @@ App.vue
             <v-card>
               <div class="delete">
                 <v-spacer></v-spacer>
-                <v-icon dark class="modifyIcon">mdi-pen</v-icon>
+                <v-icon dark class="modifyIcon" @click="modifyNote(index)"
+                  >mdi-pen</v-icon
+                >
                 <v-icon
                   dark
                   class="deleteIcon"
@@ -54,9 +48,10 @@ App.vue
 <script>
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
+import CalendarBtn from "./components/CalendarBtn";
 
 export default {
-  components: { Header, WriteBtn },
+  components: { Header, WriteBtn, CalendarBtn },
 
   data() {
     return {
@@ -90,17 +85,14 @@ export default {
     deleteNote(index) {
       this.notes.splice(index, 1);
     },
+    modifyNote(index) {
+      console.log(index);
+    },
   },
 };
 </script>
 
 <style scoped>
-.calendarBtn {
-  position: fixed;
-  right: 5%;
-  bottom: 15%;
-}
-
 .noteContainer {
   margin-top: 100px;
   margin-left: 25px;

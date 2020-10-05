@@ -1,5 +1,3 @@
-WriteBtn.vue
-
 <template>
   <div>
     <v-dialog v-model="dialog" width="500">
@@ -11,7 +9,6 @@ WriteBtn.vue
           fab
           dark
           color="black"
-          style="z-index: 10"
         >
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
@@ -70,6 +67,7 @@ export default {
   position: fixed;
   right: 5%;
   bottom: 5%;
+  z-index: 10;
 }
 
 textarea {
