@@ -1,9 +1,9 @@
 <template>
-  <div>
+<div>
     <v-btn class="mx-2 calendarBtn" fab dark color="black">
-      <v-icon dark> mdi-calendar </v-icon>
+        <v-icon dark> mdi-calendar </v-icon>
     </v-btn>
-  </div>
+</div>
 </template>
 
 <script>
@@ -12,9 +12,9 @@ export default {};
 
 <style scoped>
 .calendarBtn {
-  position: fixed;
-  right: 5%;
-  bottom: 15%;
-  z-index: 10;
+    position: fixed;
+    right: 5%;
+    bottom: 15%;
+    z-index: 10;
 }
 </style>
