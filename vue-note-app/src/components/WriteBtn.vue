@@ -6,7 +6,7 @@
                 <v-icon dark> mdi-plus </v-icon>
             </v-btn>
         </template>
-        <Editor @noteAdded="newNote" />
+        <Editor :notes="notes" @noteAdded="newNote" />
     </v-dialog>
 </div>
 </template>
@@ -16,6 +16,12 @@ import Editor from "./Editor";
 export default {
     data() {
         return {
+            notes: {
+                title: "",
+                text: "",
+                theme: "",
+            },
+
             dialog: false,
         };
     },

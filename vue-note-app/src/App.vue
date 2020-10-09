@@ -21,7 +21,8 @@
                             <v-spacer></v-spacer>
 
                             <div class="iconContainer">
-                                <v-icon class="modifyIcon">mdi-pen</v-icon>
+                                <ModifyBtn :index="index" @noteModified="modifyNote" />
+
                                 <v-icon class="deleteIcon" @click.prevent="deleteNote(index)">mdi-delete</v-icon>
                             </div>
                         </div>
@@ -36,11 +37,13 @@
 <script>
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
+import ModifyBtn from "./components/ModifyBtn";
 
 export default {
     components: {
         Header,
         WriteBtn,
+        ModifyBtn,
     },
 
     data() {
@@ -72,6 +75,13 @@ export default {
                 text: text,
                 theme: theme,
             });
+        },
+        modifyNote(title, text, theme, index) {
+            console.log(title, text, theme, index);
+            this.notes = JSON.parse(localStorage.getItem("notes"));
+            this.notes[index].title = title;
+            this.notes[index].text = text;
+            this.notes[index].theme = theme;
         },
         deleteNote(index) {
             this.notes.splice(index, 1);
