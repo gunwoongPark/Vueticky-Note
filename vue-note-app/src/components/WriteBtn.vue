@@ -2,7 +2,7 @@
 <div>
     <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" class="mx-2 plusBtn" fab dark color="black" style="z-index: 10">
+            <v-btn v-bind="attrs" v-on="on" class="mx-2 plusBtn" fab dark color="black" style="z-index: 10" @click="initData">
                 <v-icon dark> mdi-plus </v-icon>
             </v-btn>
         </template>
@@ -27,6 +27,11 @@ export default {
     },
 
     methods: {
+        initData() {
+            this.notes.title = "";
+            this.notes.text = "";
+            this.notes.theme = "";
+        },
         newNote(title, text, theme) {
             this.dialog = false;
             this.$emit("noteAdded", title, text, theme);

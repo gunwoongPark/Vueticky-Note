@@ -53,6 +53,7 @@ export default {
                 this.notes.title,
                 this.notes.text,
                 this.notes.theme
+
             );
         },
 
