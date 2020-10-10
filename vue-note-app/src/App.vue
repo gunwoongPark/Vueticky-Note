@@ -50,8 +50,6 @@ export default {
         return {
             notes: [],
             mouseHover: false,
-
-            time: ""
         };
     },
 

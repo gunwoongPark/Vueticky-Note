@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import vuex from 'vuex'
+import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
@@ -7,7 +7,7 @@ export default new Vuex.Store({
 
     // data
     state:()=>({
-        
+
     }),
 
     // computed
