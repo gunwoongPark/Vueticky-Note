@@ -10,21 +10,7 @@
         <div class="noteContainer">
             <v-row v-masonry item-selector=".noteList">
                 <v-col class="noteList" v-for="(note, index) in notes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
-                        <v-card-title>{{ note.title }}</v-card-title>
-                        <v-card-text>{{ note.text }}</v-card-text>
-
-                        <div class="footerContainer">
-                            <div class="time">{{note.time}}</div>
-                            <v-spacer></v-spacer>
-
-                            <div class="iconContainer">
-                                <ModifyBtn :index="index" @noteModified="modifyNote" />
-
-                                <v-icon class="deleteIcon" @click.prevent="deleteNote(index)">mdi-delete</v-icon>
-                            </div>
-                        </div>
-                    </v-card>
+                    <Card :index="index" :note="note" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                 </v-col>
             </v-row>
         </div>
@@ -35,15 +21,15 @@
 <script>
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
-import ModifyBtn from "./components/ModifyBtn";
 import CalendarBtn from "./components/CalendarBtn"
+import Card from "./components/Card"
 
 export default {
     components: {
         Header,
         WriteBtn,
-        ModifyBtn,
-        CalendarBtn
+        CalendarBtn,
+        Card
     },
 
     data() {
@@ -77,23 +63,15 @@ export default {
                 time: time
             });
         },
-        modifyNote(title, text, theme, index, time) {
-            console.log(title, text, theme, index);
-            this.notes = JSON.parse(localStorage.getItem("notes"));
-            this.notes[index].title = title;
-            this.notes[index].text = text;
-            this.notes[index].theme = theme;
-            this.notes[index].time = time;
+
+        modifyNote(notes) {
+            this.notes = notes;
         },
-        deleteNote(index) {
-            this.notes.splice(index, 1);
-        },
-        mouseEnter(e) {
-            e.target.lastChild.lastChild.style.display = "flex";
-        },
-        mouseLeave(e) {
-            e.target.lastChild.lastChild.style.display = "none";
-        },
+
+        deleteNote(notes) {
+            this.notes = notes;
+        }
+
     },
 };
 </script>
@@ -109,26 +87,5 @@ export default {
     margin-top: 100px;
     margin-left: 25px;
     margin-right: 25px;
-}
-
-.deleteIcon:hover {
-    cursor: pointer;
-}
-
-.modifyIcon:hover {
-    cursor: pointer;
-}
-
-.footerContainer {
-    display: flex;
-}
-
-.time {
-    place-self: center;
-    margin-left: 3%;
-}
-
-.iconContainer {
-    display: none;
 }
 </style>

@@ -31,6 +31,7 @@ export default {
     },
     methods: {
         initData(index) {
+            console.log(index);
             let notes = JSON.parse(localStorage.getItem("notes"));
             this.notes.title = notes[index].title;
             this.notes.text = notes[index].text;
