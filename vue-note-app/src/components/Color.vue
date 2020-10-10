@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="300">
         <template v-slot:activator="{on, attrs}">
 
-            <v-icon v-bind="attrs" v-on="on" class="colorIcon">mdi-palette</v-icon>
+            <v-icon v-bind="attrs" v-on="on" class="colorIcon" @click="initColor">mdi-palette</v-icon>
 
         </template>
 
@@ -48,6 +48,9 @@ export default {
         selectColor() {
             this.dialog = false;
             this.$emit("selectedColor", this.picker);
+        },
+        initColor() {
+            this.picker = this.theme
         }
     },
 
