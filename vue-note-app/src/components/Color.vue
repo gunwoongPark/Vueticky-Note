@@ -8,9 +8,9 @@
         </template>
 
         <v-card>
-            <div>
-                <v-color-picker class="palette" hide-mode-switch v-model="picker" show-swatches></v-color-picker>
-            </div>
+
+            <v-color-picker class="palette" hide-mode-switch v-model="picker" show-swatches></v-color-picker>
+
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>

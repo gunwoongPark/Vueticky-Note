@@ -3,9 +3,7 @@
     <v-main>
         <Header style="z-index: 10" />
 
-        <v-btn class="mx-2 calendarBtn" fab dark color="black" style="z-index: 10">
-            <v-icon dark> mdi-calendar </v-icon>
-        </v-btn>
+        <CalendarBtn />
 
         <WriteBtn @noteAdded="newNote" />
 
@@ -38,12 +36,14 @@
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import ModifyBtn from "./components/ModifyBtn";
+import CalendarBtn from "./components/CalendarBtn"
 
 export default {
     components: {
         Header,
         WriteBtn,
         ModifyBtn,
+        CalendarBtn
     },
 
     data() {
