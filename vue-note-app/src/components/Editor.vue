@@ -57,16 +57,25 @@ export default {
 
     methods: {
         createNew() {
+            if (this.notes.title === "" || this.notes.text === "") {
+                alert("제목이나 내용을 입력해주세요");
+                return;
+            }
+
             this.$emit(
                 "noteAdded",
                 this.notes.title,
                 this.notes.text,
                 this.notes.theme
-
             );
         },
 
         modifyNote() {
+            if (this.notes.title === "" || this.notes.text === "") {
+                alert("제목이나 내용을 입력해주세요");
+                return;
+            }
+
             this.$emit(
                 "noteModified",
                 this.notes.title,
