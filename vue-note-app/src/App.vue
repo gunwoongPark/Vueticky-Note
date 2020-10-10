@@ -11,8 +11,8 @@
 
         <div class="noteContainer">
             <v-row v-masonry item-selector=".noteList">
-                <v-col class="noteList" v-for="(note, index) in notes" :key="`note-${index}`" v-masonry-tile :style="{ 'background-color': note.theme }" cols="12" lg="2" md="3" sm="6">
-                    <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note">
+                <v-col class="noteList" v-for="(note, index) in notes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
                         <v-card-title>{{ note.title }}</v-card-title>
                         <v-card-text>{{ note.text }}</v-card-text>
 

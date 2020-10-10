@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" class="mx-2 plusBtn" fab dark color="black" style="z-index: 10" @click="initData">
                 <v-icon dark> mdi-plus </v-icon>
@@ -19,7 +19,7 @@ export default {
             notes: {
                 title: "",
                 text: "",
-                theme: "",
+                theme: "#FFFFFFFF",
             },
 
             dialog: false,
@@ -30,7 +30,7 @@ export default {
         initData() {
             this.notes.title = "";
             this.notes.text = "";
-            this.notes.theme = "";
+            this.notes.theme = "#FFFFFFFF";
         },
         newNote(title, text, theme) {
             this.dialog = false;

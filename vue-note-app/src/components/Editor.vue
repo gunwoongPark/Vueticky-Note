@@ -1,17 +1,23 @@
 <template>
 <div>
-    <v-card>
-        <v-card-title class="headline grey lighten-2">
-            <textarea v-model="notes.title" cols="60" placeholder="Title"></textarea>
+    <v-card class="dialogBox">
+
+        <v-card-title class="headline lighten-2">
+            <textarea v-model="notes.title" cols="65" placeholder="Title"></textarea>
         </v-card-title>
 
+        <v-divider></v-divider>
+
         <v-card-text>
-            <textarea v-model="notes.text" placeholder="Take a note..." cols="60" rows="20"></textarea>
+            <textarea v-model="notes.text" placeholder="Take a note..." cols="65" rows="20"></textarea>
         </v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
+
+            <Color :theme="notes.theme" @selectedColor="initColor" />
+
             <v-spacer></v-spacer>
             <v-btn v-if="!isModify" color="black" text @click="createNew">
                 register
@@ -19,12 +25,15 @@
             <v-btn v-if="isModify" color="black" text @click="modifyNote">
                 modify
             </v-btn>
+
         </v-card-actions>
+
     </v-card>
 </div>
 </template>
 
 <script>
+import Color from "./Color"
 export default {
     data() {
         return {
@@ -65,7 +74,16 @@ export default {
                 this.notes.theme
             );
         },
+
+        initColor(theme) {
+            this.notes.theme = theme;
+        }
+
     },
+
+    components: {
+        Color
+    }
 };
 </script>
 
@@ -82,5 +100,9 @@ textarea:hover {
 
 textarea:focus {
     outline: 0;
+}
+
+.dialogBox {
+    overflow: hidden;
 }
 </style>

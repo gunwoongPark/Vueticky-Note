@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
             <v-icon v-bind="attrs" v-on="on" class="modifyIcon" @click.prevent="initData(index)">mdi-pen</v-icon>
         </template>
