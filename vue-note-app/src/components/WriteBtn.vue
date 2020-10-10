@@ -32,9 +32,9 @@ export default {
             this.notes.text = "";
             this.notes.theme = "#FFFFFFFF";
         },
-        newNote(title, text, theme) {
+        newNote(title, text, theme, time) {
             this.dialog = false;
-            this.$emit("noteAdded", title, text, theme);
+            this.$emit("noteAdded", title, text, theme, time);
         },
     },
 

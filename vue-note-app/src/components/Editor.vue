@@ -48,11 +48,11 @@ export default {
     },
 
     mounted() {
-        if (this.notes.text === "") {
+        if (this.notes.text === "")
             this.isModify = false;
-        } else {
+        else
             this.isModify = true;
-        }
+
     },
 
     methods: {
@@ -62,11 +62,26 @@ export default {
                 return;
             }
 
+            const today = new Date();
+            let hour = today.getHours();
+            let minutes = today.getMinutes();
+            let seconds = today.getSeconds();
+
+            if (hour < 10)
+                hour = '0' + hour;
+            if (minutes < 10)
+                minutes = '0' + minutes;
+            if (seconds < 10)
+                seconds = '0' + seconds;
+
+            const time = `${hour}:${minutes}:${seconds}`
+
             this.$emit(
                 "noteAdded",
                 this.notes.title,
                 this.notes.text,
-                this.notes.theme
+                this.notes.theme,
+                time
             );
         },
 
@@ -76,11 +91,26 @@ export default {
                 return;
             }
 
+            const today = new Date();
+            let hour = today.getHours();
+            let minutes = today.getMinutes();
+            let seconds = today.getSeconds();
+
+            if (hour < 10)
+                hour = '0' + hour;
+            if (minutes < 10)
+                minutes = '0' + minutes;
+            if (seconds < 10)
+                seconds = '0' + seconds;
+
+            const time = `${hour}:${minutes}:${seconds}`
+
             this.$emit(
                 "noteModified",
                 this.notes.title,
                 this.notes.text,
-                this.notes.theme
+                this.notes.theme,
+                time
             );
         },
 

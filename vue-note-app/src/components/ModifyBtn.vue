@@ -37,9 +37,9 @@ export default {
             this.notes.theme = notes[index].theme;
         },
 
-        modifyNote(title, text, theme) {
+        modifyNote(title, text, theme, time) {
             this.dialog = false;
-            this.$emit("noteModified", title, text, theme, this.index);
+            this.$emit("noteModified", title, text, theme, this.index, time);
         },
     },
 

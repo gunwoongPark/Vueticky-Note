@@ -17,7 +17,7 @@
                         <v-card-text>{{ note.text }}</v-card-text>
 
                         <div class="footerContainer">
-                            <div class="time">time</div>
+                            <div class="time">{{note.time}}</div>
                             <v-spacer></v-spacer>
 
                             <div class="iconContainer">
@@ -50,6 +50,8 @@ export default {
         return {
             notes: [],
             mouseHover: false,
+
+            time: ""
         };
     },
 
@@ -69,19 +71,21 @@ export default {
     },
 
     methods: {
-        newNote(title, text, theme) {
+        newNote(title, text, theme, time) {
             this.notes.push({
                 title: title,
                 text: text,
                 theme: theme,
+                time: time
             });
         },
-        modifyNote(title, text, theme, index) {
+        modifyNote(title, text, theme, index, time) {
             console.log(title, text, theme, index);
             this.notes = JSON.parse(localStorage.getItem("notes"));
             this.notes[index].title = title;
             this.notes[index].text = text;
             this.notes[index].theme = theme;
+            this.notes[index].time = time;
         },
         deleteNote(index) {
             this.notes.splice(index, 1);
