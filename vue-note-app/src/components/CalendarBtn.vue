@@ -25,10 +25,17 @@
 
 <script>
 export default {
+    created() {
+        const dateObj = new Date();
+        const year = dateObj.getFullYear();
+        const month = dateObj.getMonth() + 1;
+        const day = dateObj.getDate();
+
+        this.picker = `${year}-${month}-${day}`;
+    },
     data() {
         return {
-            picker: new Date().toISOString().substr(0, 10),
-
+            picker: "",
             dialog: false,
         }
     },

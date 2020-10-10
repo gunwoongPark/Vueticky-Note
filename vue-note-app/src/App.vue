@@ -3,7 +3,7 @@
     <v-main>
         <Header style="z-index: 10" />
 
-        <CalendarBtn />
+        <CalendarBtn @selectDate="selectDate" />
 
         <WriteBtn @noteAdded="newNote" />
 
@@ -36,6 +36,7 @@ export default {
         return {
             notes: [],
             mouseHover: false,
+            date: ""
         };
     },
 
@@ -70,6 +71,11 @@ export default {
 
         deleteNote(notes) {
             this.notes = notes;
+        },
+
+        selectDate(picker) {
+            this.date = picker
+            console.log(this.date)
         }
 
     },

@@ -62,13 +62,11 @@ export default {
                 return;
             }
 
-            const today = new Date();
-            let hour = today.getHours();
-            let minutes = today.getMinutes();
-            let seconds = today.getSeconds();
+            const dateObj = new Date();
+            let hour = dateObj.getHours();
+            let minutes = dateObj.getMinutes();
+            let seconds = dateObj.getSeconds();
 
-            if (hour < 10)
-                hour = '0' + hour;
             if (minutes < 10)
                 minutes = '0' + minutes;
             if (seconds < 10)
@@ -91,17 +89,22 @@ export default {
                 return;
             }
 
-            const today = new Date();
-            let hour = today.getHours();
-            let minutes = today.getMinutes();
-            let seconds = today.getSeconds();
+            const dateObj = new Date();
 
-            if (hour < 10)
-                hour = '0' + hour;
+            const year = dateObj.getFullYear();
+            const month = dateObj.getMonth() + 1;
+            const day = dateObj.getDate();
+
+            let hour = dateObj.getHours();
+            let minutes = dateObj.getMinutes();
+            let seconds = dateObj.getSeconds();
+
             if (minutes < 10)
                 minutes = '0' + minutes;
             if (seconds < 10)
                 seconds = '0' + seconds;
+
+            const date = `${year}-${month}-${day}`;
 
             const time = `${hour}:${minutes}:${seconds}`
 
@@ -110,7 +113,7 @@ export default {
                 this.notes.title,
                 this.notes.text,
                 this.notes.theme,
-                time
+                time, date
             );
         },
 

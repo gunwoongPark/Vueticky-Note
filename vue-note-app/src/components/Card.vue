@@ -60,12 +60,13 @@ export default {
         mouseLeave(e) {
             e.target.lastChild.lastChild.style.display = "none";
         },
-        modifyNote(title, text, theme, index, time) {
+        modifyNote(title, text, theme, index, time, date) {
             this.notes = JSON.parse(localStorage.getItem("notes"));
             this.notes[index].title = title;
             this.notes[index].text = text;
             this.notes[index].theme = theme;
             this.notes[index].time = time;
+            this.notes[index].date = date;
 
             this.$emit("modifyNote", this.notes);
         },
