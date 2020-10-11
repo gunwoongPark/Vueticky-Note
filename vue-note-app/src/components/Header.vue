@@ -1,6 +1,7 @@
 <template>
   <div class="header">
-    <p>10조</p>
+    <img src="../assets/Vemo.png" />
+    <p>Vemo</p>
     <v-spacer></v-spacer>
     <p>{{ this.date }}</p>
   </div>
@@ -30,9 +31,12 @@ export default {
   left: 0;
   right: 0;
 }
-
+img {
+  margin-left: 20px;
+}
 p {
   font-size: 25px;
   margin: 25px;
+  margin-left: 10px;
 }
 </style>
