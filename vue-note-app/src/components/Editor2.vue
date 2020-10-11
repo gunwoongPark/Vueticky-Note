@@ -16,7 +16,7 @@
           v-model="notes.text"
           placeholder="Take a note..."
           cols="65"
-          rows="18"
+          rows="20"
         ></textarea>
       </v-card-text>
 
@@ -89,7 +89,6 @@ export default {
     },
 
     modifyNote () {
-      //console.log(this.notes.title)
       if (this.notes.title === "" || this.notes.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -120,8 +119,6 @@ export default {
         time,
         date
       );
-
-
     },
 
     initColor (theme) {

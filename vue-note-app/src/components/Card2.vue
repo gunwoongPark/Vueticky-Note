@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="550">
+    <v-dialog v-model="dialog" width="1000">
       <template v-slot:activator="{ on, attrs }">
         <v-card
           @mouseenter="mouseEnter"
@@ -8,7 +8,7 @@
           class="note"
           :style="{ 'background-color': note.theme }"
         >
-          <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
+          <div v-bind="attrs" v-on="on">
             <v-card-title>{{ note.title }}</v-card-title>
             <v-card-text>{{ note.text }}</v-card-text>
           </div>
@@ -18,6 +18,12 @@
             <v-spacer></v-spacer>
 
             <div class="iconContainer">
+              <ModifyBtn
+                :date="date"
+                :index="index"
+                @noteModified="modifyNote"
+              />
+
               <v-icon class="deleteIcon" @click.prevent="deleteNote(index)"
                 >mdi-delete</v-icon
               >
@@ -25,14 +31,14 @@
           </div>
         </v-card>
       </template>
-      <Editor :notes="note" @noteModified="modifyNote" />
+      <Detail :note="note" />
     </v-dialog>
   </div>
 </template>
 
 <script>
-
-import Editor from "./Editor";
+import ModifyBtn from "./ModifyBtn";
+import Detail from "./Detail";
 export default {
   props: {
     note: {
@@ -49,8 +55,8 @@ export default {
     },
   },
   components: {
-
-    Editor
+    ModifyBtn,
+    Detail,
   },
 
   data () {
@@ -67,15 +73,14 @@ export default {
     mouseLeave (e) {
       e.target.lastChild.lastChild.style.display = "none";
     },
-    modifyNote (title, text, theme, time, date) {
+    modifyNote (title, text, theme, index, time, date) {
       this.notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes[this.index].title = title;
-      this.notes[this.index].text = text;
-      this.notes[this.index].theme = theme;
-      this.notes[this.index].time = `edited ${date} ${time}`;
+      this.notes[index].title = title;
+      this.notes[index].text = text;
+      this.notes[index].theme = theme;
+      this.notes[index].time = `edited ${date} ${time}`;
 
       this.$emit("modifyNote", this.notes);
-      this.dialog = false;
     },
 
     deleteNote (index) {
@@ -83,13 +88,6 @@ export default {
       this.notes.splice(index, 1);
 
       this.$emit("deleteNote", this.notes);
-    },
-    initData (index) {
-      let notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes.title = notes[index].title;
-      this.notes.text = notes[index].text;
-      this.notes.theme = notes[index].theme;
-      this.notes.date = this.date;
     },
   },
 };
