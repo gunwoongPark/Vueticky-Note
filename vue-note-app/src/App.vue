@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       notes: [],
+      todayNotes: [],
       mouseHover: false,
       date: "",
     };
@@ -62,9 +63,8 @@ export default {
     const day = dateObj.getDate();
     this.date = `${year}-${month}-${day}`;
 
-    if (localStorage.getItem("notes")) {
+    if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
-    }
   },
 
   watch: {
@@ -75,6 +75,23 @@ export default {
       },
       deep: true,
     },
+    // 날짜를 변경하면
+    date: {
+      handler() {
+        // 빈 배열 생성
+        if (!localStorage.getItem(`${this.date}`))
+          localStorage.setItem(`${this.date}`, JSON.stringify([]));
+        else {
+          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
+        }
+      },
+      deep: true,
+    },
+
+    todayNotes: {
+      handler() {},
+    },
+    deep: true,
   },
 
   methods: {
@@ -101,6 +118,7 @@ export default {
         console.log("same!");
       } else {
         this.date = picker;
+        console.log(this.date);
       }
     },
   },
