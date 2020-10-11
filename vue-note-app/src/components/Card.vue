@@ -1,101 +1,106 @@
 <template>
-<div>
+  <div>
     <v-dialog v-model="dialog" width="1000">
+      <template v-slot:activator="{ on, attrs }">
+        <v-card
+          @mouseenter="mouseEnter"
+          @mouseleave="mouseLeave"
+          class="note"
+          :style="{ 'background-color': note.theme }"
+        >
+          <div v-bind="attrs" v-on="on">
+            <v-card-title>{{ note.title }}</v-card-title>
+            <v-card-text>{{ note.text }}</v-card-text>
+          </div>
 
-        <template v-slot:activator="{on, attrs}">
-            <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
+          <div class="footerContainer">
+            <div class="time">{{ note.time }}</div>
+            <v-spacer></v-spacer>
 
-                <div v-bind="attrs" v-on="on">
-                    <v-card-title>{{ note.title }}</v-card-title>
-                    <v-card-text>{{ note.text }}</v-card-text>
-                </div>
+            <div class="iconContainer">
+              <ModifyBtn :index="index" @noteModified="modifyNote" />
 
-                <div class="footerContainer">
-                    <div class="time">{{note.time}}</div>
-                    <v-spacer></v-spacer>
-
-                    <div class="iconContainer">
-                        <ModifyBtn :index="index" @noteModified="modifyNote" />
-
-                        <v-icon class="deleteIcon" @click.prevent="deleteNote(index)">mdi-delete</v-icon>
-                    </div>
-                </div>
-            </v-card>
-        </template>
-        <Detail :note="note" />
+              <v-icon class="deleteIcon" @click.prevent="deleteNote(index)"
+                >mdi-delete</v-icon
+              >
+            </div>
+          </div>
+        </v-card>
+      </template>
+      <Detail :note="note" />
     </v-dialog>
-</div>
+  </div>
 </template>
 
 <script>
-import ModifyBtn from "./ModifyBtn"
-import Detail from "./Detail"
+import ModifyBtn from "./ModifyBtn";
+import Detail from "./Detail";
 export default {
-    props: {
-        note: {
-            type: Object,
-            required: true
-        },
-        index: {
-            type: Number,
-            required: true
-        }
+  props: {
+    note: {
+      type: Object,
+      required: true,
     },
-    components: {
-        ModifyBtn,
-        Detail
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: {
+    ModifyBtn,
+    Detail,
+  },
+
+  data() {
+    return {
+      notes: [],
+      dialog: false,
+    };
+  },
+
+  methods: {
+    mouseEnter(e) {
+      e.target.lastChild.lastChild.style.display = "flex";
+    },
+    mouseLeave(e) {
+      e.target.lastChild.lastChild.style.display = "none";
+    },
+    modifyNote(title, text, theme, index, time, date) {
+      this.notes = JSON.parse(localStorage.getItem("notes"));
+      this.notes[index].title = title;
+      this.notes[index].text = text;
+      this.notes[index].theme = theme;
+      this.notes[index].time = time;
+      this.notes[index].date = date;
+
+      this.$emit("modifyNote", this.notes);
     },
 
-    data() {
-        return {
-            notes: [],
-            dialog: false
-        }
+    deleteNote(index) {
+      this.notes = JSON.parse(localStorage.getItem("notes"));
+      this.notes.splice(index, 1);
+
+      this.$emit("deleteNote", this.notes);
     },
-
-    methods: {
-        mouseEnter(e) {
-            e.target.lastChild.lastChild.style.display = "flex";
-        },
-        mouseLeave(e) {
-            e.target.lastChild.lastChild.style.display = "none";
-        },
-        modifyNote(title, text, theme, index, time, date) {
-            this.notes = JSON.parse(localStorage.getItem("notes"));
-            this.notes[index].title = title;
-            this.notes[index].text = text;
-            this.notes[index].theme = theme;
-            this.notes[index].time = time;
-            this.notes[index].date = date;
-
-            this.$emit("modifyNote", this.notes);
-        },
-
-        deleteNote(index) {
-            this.notes = JSON.parse(localStorage.getItem("notes"));
-            this.notes.splice(index, 1);
-
-            this.$emit("deleteNote", this.notes);
-        },
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
 .footerContainer {
-    display: flex;
+  display: flex;
 }
 
 .iconContainer {
-    display: none;
+  display: none;
 }
 
 .deleteIcon:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .time {
-    place-self: center;
-    margin-left: 3%;
+  place-self: center;
+  margin-left: 3%;
 }
 </style>
