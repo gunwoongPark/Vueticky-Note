@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <Header style="z-index: 10" />
+      <Header style="z-index: 10" :date="date" />
 
       <CalendarBtn @selectDate="selectDate" />
 
@@ -11,7 +11,7 @@
         <v-row v-masonry item-selector=".noteList">
           <v-col
             class="noteList"
-            v-for="(note, index) in notes"
+            v-for="(note, index) in todayNotes"
             :key="`note-${index}`"
             v-masonry-tile
             cols="12"
@@ -22,6 +22,7 @@
             <Card
               :index="index"
               :note="note"
+              :date="date"
               @modifyNote="modifyNote"
               @deleteNote="deleteNote"
             />
@@ -55,7 +56,6 @@ export default {
     };
   },
 
-  // 최초 시작 시 오늘 불러오는 기능!
   mounted() {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
@@ -70,28 +70,29 @@ export default {
   watch: {
     notes: {
       handler() {
+        console.log("change notes!");
         var newNotes = this.notes;
+        this.todayNotes = newNotes.filter(
+          (note) => note.date === `${this.date}`
+        );
         localStorage.setItem("notes", JSON.stringify(newNotes));
+        localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
       },
       deep: true,
     },
-    // 날짜를 변경하면
+
     date: {
       handler() {
-        // 빈 배열 생성
-        if (!localStorage.getItem(`${this.date}`))
+        console.log("change date!");
+        if (!localStorage.getItem(`${this.date}`)) {
           localStorage.setItem(`${this.date}`, JSON.stringify([]));
-        else {
+          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
+        } else {
           this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
         }
       },
       deep: true,
     },
-
-    todayNotes: {
-      handler() {},
-    },
-    deep: true,
   },
 
   methods: {
@@ -114,12 +115,7 @@ export default {
     },
 
     selectDate(picker) {
-      if (this.date === picker) {
-        console.log("same!");
-      } else {
-        this.date = picker;
-        console.log(this.date);
-      }
+      if (this.date !== picker) this.date = picker;
     },
   },
 };

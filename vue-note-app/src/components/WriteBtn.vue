@@ -15,7 +15,7 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <Editor :date="date" :notes="notes" @noteAdded="newNote" />
+      <Editor :notes="notes" @noteAdded="newNote" />
     </v-dialog>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
         title: "",
         text: "",
         theme: "#FFFFFFFF",
+        date: "",
       },
 
       dialog: false,
@@ -46,6 +47,7 @@ export default {
       this.notes.title = "";
       this.notes.text = "";
       this.notes.theme = "#FFFFFFFF";
+      this.notes.date = this.date;
     },
     newNote(title, text, theme, time, date) {
       this.dialog = false;

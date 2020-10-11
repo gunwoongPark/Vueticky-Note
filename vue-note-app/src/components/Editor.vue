@@ -50,10 +50,6 @@ export default {
       type: Object,
       required: true,
     },
-    date: {
-      type: String,
-      required: true,
-    },
   },
 
   mounted() {
@@ -78,7 +74,7 @@ export default {
       if (minutes < 10) minutes = "0" + minutes;
       if (seconds < 10) seconds = "0" + seconds;
 
-      const date = this.date;
+      const date = this.notes.date;
 
       const time = `${hour}:${minutes}:${seconds}`;
 

@@ -1,31 +1,29 @@
 <template>
-<div>
+  <div>
     <v-card :style="{ 'background-color': note.theme }">
-        <v-card-title class="headline lighten-2">
-            {{note.title}}
-        </v-card-title>
+      <v-card-title class="headline lighten-2">
+        {{ note.title }}
+      </v-card-title>
 
-        <v-divider></v-divider>
+      <v-divider></v-divider>
 
-        <v-card-text>
-            {{note.text}}
-        </v-card-text>
-
+      <v-card-text>
+        {{ note.text }}
+      </v-card-text>
     </v-card>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
-        note: {
-            type: Object,
-            required: true,
-        }
-    }
-}
+  props: {
+    note: {
+      type: Object,
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 </style>
