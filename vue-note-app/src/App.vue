@@ -5,7 +5,7 @@
 
       <CalendarBtn @selectDate="selectDate" />
 
-      <WriteBtn @noteAdded="newNote" />
+      <WriteBtn @noteAdded="newNote" :date="date" />
 
       <div class="noteContainer">
         <v-row v-masonry item-selector=".noteList">
@@ -54,9 +54,17 @@ export default {
     };
   },
 
+  // 최초 시작 시 오늘 불러오는 기능!
   mounted() {
-    if (localStorage.getItem("notes"))
+    const dateObj = new Date();
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
+    this.date = `${year}-${month}-${day}`;
+
+    if (localStorage.getItem("notes")) {
       this.notes = JSON.parse(localStorage.getItem("notes"));
+    }
   },
 
   watch: {
@@ -70,12 +78,13 @@ export default {
   },
 
   methods: {
-    newNote(title, text, theme, time) {
+    newNote(title, text, theme, time, date) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
         time: time,
+        date: date,
       });
     },
 
@@ -88,8 +97,11 @@ export default {
     },
 
     selectDate(picker) {
-      this.date = picker;
-      console.log(this.date);
+      if (this.date === picker) {
+        console.log("same!");
+      } else {
+        this.date = picker;
+      }
     },
   },
 };
