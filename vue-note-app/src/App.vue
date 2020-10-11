@@ -1,17 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <Header style="z-index: 10" />
+      <Header style="z-index: 10" :date="date" />
 
       <CalendarBtn @selectDate="selectDate" />
 
-      <WriteBtn @noteAdded="newNote" />
+      <WriteBtn @noteAdded="newNote" :date="date" />
 
       <div class="noteContainer">
         <v-row v-masonry item-selector=".noteList">
           <v-col
             class="noteList"
-            v-for="(note, index) in notes"
+            v-for="(note, index) in todayNotes"
             :key="`note-${index}`"
             v-masonry-tile
             cols="12"
@@ -22,6 +22,7 @@
             <Card
               :index="index"
               :note="note"
+              :date="date"
               @modifyNote="modifyNote"
               @deleteNote="deleteNote"
             />
@@ -49,12 +50,19 @@ export default {
   data() {
     return {
       notes: [],
+      todayNotes: [],
       mouseHover: false,
       date: "",
     };
   },
 
   mounted() {
+    const dateObj = new Date();
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
+    this.date = `${year}-${month}-${day}`;
+
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
   },
@@ -62,20 +70,39 @@ export default {
   watch: {
     notes: {
       handler() {
+        console.log("change notes!");
         var newNotes = this.notes;
+        this.todayNotes = newNotes.filter(
+          (note) => note.date === `${this.date}`
+        );
         localStorage.setItem("notes", JSON.stringify(newNotes));
+        localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
+      },
+      deep: true,
+    },
+
+    date: {
+      handler() {
+        console.log("change date!");
+        if (!localStorage.getItem(`${this.date}`)) {
+          localStorage.setItem(`${this.date}`, JSON.stringify([]));
+          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
+        } else {
+          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
+        }
       },
       deep: true,
     },
   },
 
   methods: {
-    newNote(title, text, theme, time) {
+    newNote(title, text, theme, time, date) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
         time: time,
+        date: date,
       });
     },
 
@@ -88,8 +115,7 @@ export default {
     },
 
     selectDate(picker) {
-      this.date = picker;
-      console.log(this.date);
+      if (this.date !== picker) this.date = picker;
     },
   },
 };

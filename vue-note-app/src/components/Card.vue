@@ -18,7 +18,11 @@
             <v-spacer></v-spacer>
 
             <div class="iconContainer">
-              <ModifyBtn :index="index" @noteModified="modifyNote" />
+              <ModifyBtn
+                :date="date"
+                :index="index"
+                @noteModified="modifyNote"
+              />
 
               <v-icon class="deleteIcon" @click.prevent="deleteNote(index)"
                 >mdi-delete</v-icon
@@ -45,6 +49,10 @@ export default {
       type: Number,
       required: true,
     },
+    date: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     ModifyBtn,
@@ -66,18 +74,17 @@ export default {
       e.target.lastChild.lastChild.style.display = "none";
     },
     modifyNote(title, text, theme, index, time, date) {
-      this.notes = JSON.parse(localStorage.getItem("notes"));
+      this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes[index].title = title;
       this.notes[index].text = text;
       this.notes[index].theme = theme;
-      this.notes[index].time = time;
-      this.notes[index].date = date;
+      this.notes[index].time = `edited ${date} ${time}`;
 
       this.$emit("modifyNote", this.notes);
     },
 
     deleteNote(index) {
-      this.notes = JSON.parse(localStorage.getItem("notes"));
+      this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes.splice(index, 1);
 
       this.$emit("deleteNote", this.notes);
