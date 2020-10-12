@@ -8,20 +8,17 @@
           class="note"
           :style="{ 'background-color': note.theme }"
         >
-          <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
-            <v-card-title>{{ note.title }}</v-card-title>
-            <v-card-text>{{ note.text }}</v-card-text>
-          </div>
-
           <div class="footerContainer">
-            <div class="time">{{ note.time }}</div>
             <v-spacer></v-spacer>
-
             <div class="iconContainer">
               <v-icon class="deleteIcon" @click.prevent="deleteNote(index)"
-                >mdi-delete</v-icon
+                >mdi-close-circle</v-icon
               >
             </div>
+          </div>
+          <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
+            <v-card-title class="cardTitle">{{ note.title }}</v-card-title>
+            <v-card-text>{{ note.text }}</v-card-text>
           </div>
         </v-card>
       </template>
@@ -62,17 +59,17 @@ export default {
 
   methods: {
     mouseEnter (e) {
-      e.target.lastChild.lastChild.style.display = "flex";
+      e.target.firstChild.lastChild.style.visibility = "visible";
     },
     mouseLeave (e) {
-      e.target.lastChild.lastChild.style.display = "none";
+      e.target.firstChild.lastChild.style.visibility = "hidden";
     },
     modifyNote (title, text, theme, time, date) {
       this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes[this.index].title = title;
       this.notes[this.index].text = text;
       this.notes[this.index].theme = theme;
-      this.notes[this.index].time = `edited ${date} ${time}`;
+      this.notes[this.index].time = `${date} ${time}`;
 
       this.$emit("modifyNote", this.notes);
       this.dialog = false;
@@ -96,12 +93,15 @@ export default {
 </script>
 
 <style scoped>
+.cardTitle {
+  margin-top: -25px;
+}
 .footerContainer {
   display: flex;
 }
 
 .iconContainer {
-  display: none;
+  visibility: hidden;
 }
 
 .deleteIcon:hover {
