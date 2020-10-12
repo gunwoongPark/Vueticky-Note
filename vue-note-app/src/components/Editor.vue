@@ -1,7 +1,10 @@
 <template>
   <div>
     <v-card class="dialogBox">
-      <v-card-title class="headline lighten-2">
+      <v-card-title
+        class="headline lighten-2"
+        :style="{ backgroundColor: notes.theme }"
+      >
         <textarea
           v-model="notes.title"
           cols="65"
@@ -24,7 +27,6 @@
 
       <v-card-actions>
         <Color :theme="notes.theme" @selectedColor="initColor" />
-
         <v-spacer></v-spacer>
         <v-btn v-if="!isModify" color="black" text @click="createNew">
           register
