@@ -10,6 +10,8 @@
           cols="65"
           placeholder="Title"
         ></textarea>
+        <v-spacer></v-spacer>
+        <div class="time">{{ notes.time }}</div>
       </v-card-title>
 
       <v-divider></v-divider>
@@ -19,7 +21,7 @@
           v-model="notes.text"
           placeholder="Take a note..."
           cols="65"
-          rows="18"
+          rows="17"
         ></textarea>
       </v-card-text>
 
@@ -78,7 +80,7 @@ export default {
 
       const date = this.notes.date;
 
-      const time = `${hour}:${minutes}:${seconds}`;
+      const time = `${date} ${hour}:${minutes}:${seconds}`;
 
       this.$emit(
         "noteAdded",
@@ -112,7 +114,7 @@ export default {
 
       const date = `${year}-${month}-${day}`;
 
-      const time = `${hour}:${minutes}:${seconds}`;
+      const time = `${date} ${hour}:${minutes}:${seconds}`;
 
       this.$emit(
         "noteModified",
@@ -120,7 +122,7 @@ export default {
         this.notes.text,
         this.notes.theme,
         time,
-        date
+
       );
 
 
@@ -154,5 +156,11 @@ textarea:focus {
 
 .dialogBox {
   overflow: hidden;
+}
+
+.time {
+  color: rgb(102, 102, 102);
+  font-size: 15px;
+  margin-bottom: -10px;
 }
 </style>

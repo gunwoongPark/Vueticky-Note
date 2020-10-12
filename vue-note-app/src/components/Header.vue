@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img src="../assets/Vemo.png" />
+    <img src="../assets/50Vemo.png" />
     <p>Vemo</p>
     <v-spacer></v-spacer>
     <p>{{ this.date }}</p>

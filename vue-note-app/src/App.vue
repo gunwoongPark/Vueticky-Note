@@ -70,7 +70,7 @@ export default {
   watch: {
     notes: {
       handler () {
-        console.log("change notes!");
+        //console.log("change notes!");
         var newNotes = this.notes;
         this.todayNotes = newNotes.filter(
           (note) => note.date === `${this.date}`
@@ -83,7 +83,7 @@ export default {
 
     date: {
       handler () {
-        console.log("change date!");
+        //console.log("change date!");
         if (!localStorage.getItem(`${this.date}`)) {
           localStorage.setItem(`${this.date}`, JSON.stringify([]));
           this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
