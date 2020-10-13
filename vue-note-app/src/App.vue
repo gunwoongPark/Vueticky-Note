@@ -47,7 +47,7 @@ export default {
     Card,
   },
 
-  data () {
+  data() {
     return {
       notes: [],
       todayNotes: [],
@@ -56,7 +56,7 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -69,7 +69,7 @@ export default {
 
   watch: {
     notes: {
-      handler () {
+      handler() {
         //console.log("change notes!");
         var newNotes = this.notes;
         this.todayNotes = newNotes.filter(
@@ -82,7 +82,7 @@ export default {
     },
 
     date: {
-      handler () {
+      handler() {
         //console.log("change date!");
         if (!localStorage.getItem(`${this.date}`)) {
           localStorage.setItem(`${this.date}`, JSON.stringify([]));
@@ -96,7 +96,7 @@ export default {
   },
 
   methods: {
-    newNote (title, text, theme, time, date) {
+    newNote(title, text, theme, time, date) {
       this.notes.push({
         title: title,
         text: text,
@@ -106,15 +106,15 @@ export default {
       });
     },
 
-    modifyNote (notes) {
+    modifyNote(notes) {
       this.notes = notes;
     },
 
-    deleteNote (notes) {
+    deleteNote(notes) {
       this.notes = notes;
     },
 
-    selectDate (picker) {
+    selectDate(picker) {
       if (this.date !== picker) this.date = picker;
     },
   },

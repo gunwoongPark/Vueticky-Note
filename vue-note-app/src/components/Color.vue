@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialog: false,
 
@@ -41,16 +41,16 @@ export default {
     },
   },
 
-  created () {
+  created() {
     this.picker = this.theme;
   },
 
   methods: {
-    selectColor () {
+    selectColor() {
       this.dialog = false;
       this.$emit("selectedColor", this.picker);
     },
-    initColor () {
+    initColor() {
       this.picker = this.theme;
     },
   },

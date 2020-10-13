@@ -28,7 +28,6 @@
 </template>
 
 <script>
-
 import Editor from "./Editor";
 export default {
   props: {
@@ -46,11 +45,10 @@ export default {
     },
   },
   components: {
-
-    Editor
+    Editor,
   },
 
-  data () {
+  data() {
     return {
       notes: [],
       dialog: false,
@@ -58,13 +56,13 @@ export default {
   },
 
   methods: {
-    mouseEnter (e) {
+    mouseEnter(e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
-    mouseLeave (e) {
+    mouseLeave(e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
-    modifyNote (title, text, theme, time, date) {
+    modifyNote(title, text, theme, time, date) {
       this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes[this.index].title = title;
       this.notes[this.index].text = text;
@@ -75,13 +73,13 @@ export default {
       this.dialog = false;
     },
 
-    deleteNote (index) {
+    deleteNote(index) {
       this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes.splice(index, 1);
 
       this.$emit("deleteNote", this.notes);
     },
-    initData (index) {
+    initData(index) {
       let notes = JSON.parse(localStorage.getItem(this.date));
       this.notes.title = notes[index].title;
       this.notes.text = notes[index].text;

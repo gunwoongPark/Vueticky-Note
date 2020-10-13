@@ -29,7 +29,7 @@ export default {
       required: true,
     },
   },
-  data () {
+  data() {
     return {
       notes: {
         title: "",
@@ -43,13 +43,13 @@ export default {
   },
 
   methods: {
-    initData () {
+    initData() {
       this.notes.title = "";
       this.notes.text = "";
       this.notes.theme = "#FFFFFFFF";
       this.notes.date = this.date;
     },
-    newNote (title, text, theme, time, date) {
+    newNote(title, text, theme, time, date) {
       this.dialog = false;
       this.$emit("noteAdded", title, text, theme, time, date);
     },

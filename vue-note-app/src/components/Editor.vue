@@ -44,7 +44,7 @@
 <script>
 import Color from "./Color";
 export default {
-  data () {
+  data() {
     return {
       isModify: false,
     };
@@ -56,13 +56,13 @@ export default {
     },
   },
 
-  mounted () {
+  mounted() {
     if (this.notes.text === "") this.isModify = false;
     else this.isModify = true;
   },
 
   methods: {
-    createNew () {
+    createNew() {
       if (this.notes.title === "" || this.notes.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -92,7 +92,7 @@ export default {
       );
     },
 
-    modifyNote () {
+    modifyNote() {
       //console.log(this.notes.title)
       if (this.notes.title === "" || this.notes.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -124,11 +124,9 @@ export default {
         time,
         date
       );
-
-
     },
 
-    initColor (theme) {
+    initColor(theme) {
       this.notes.theme = theme;
     },
   },
