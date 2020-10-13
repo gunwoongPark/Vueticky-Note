@@ -15,13 +15,14 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <Editor :notes="notes" @noteAdded="newNote" />
+      <WriteEditor :date="date" :note="note" @noteAdded="newNote" />
     </v-dialog>
   </div>
 </template>
 
 <script>
-import Editor from "./Editor";
+import cryptoRandomString from "crypto-random-string";
+import WriteEditor from "./WriteEditor";
 export default {
   props: {
     date: {
@@ -29,13 +30,13 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
-      notes: {
+      note: {
         title: "",
         text: "",
         theme: "#FFFFFFFF",
-        date: "",
       },
 
       dialog: false,
@@ -44,19 +45,27 @@ export default {
 
   methods: {
     initData() {
-      this.notes.title = "";
-      this.notes.text = "";
-      this.notes.theme = "#FFFFFFFF";
-      this.notes.date = this.date;
+      this.note.title = "";
+      this.note.text = "";
+      this.note.theme = "#FFFFFFFF";
     },
+
     newNote(title, text, theme, time, date) {
       this.dialog = false;
-      this.$emit("noteAdded", title, text, theme, time, date);
+      this.$emit(
+        "noteAdded",
+        title,
+        text,
+        theme,
+        time,
+        date,
+        cryptoRandomString({ length: 10 })
+      );
     },
   },
 
   components: {
-    Editor,
+    WriteEditor,
   },
 };
 </script>

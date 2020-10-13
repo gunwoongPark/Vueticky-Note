@@ -70,48 +70,51 @@ export default {
   watch: {
     notes: {
       handler() {
-        //console.log("change notes!");
+        console.log("notes change!");
         var newNotes = this.notes;
-        this.todayNotes = newNotes.filter(
-          (note) => note.date === `${this.date}`
-        );
         localStorage.setItem("notes", JSON.stringify(newNotes));
-        localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
+        this.todayNotes = this.notes.filter((note) => note.date === this.date);
       },
-      deep: true,
     },
 
     date: {
       handler() {
-        //console.log("change date!");
-        if (!localStorage.getItem(`${this.date}`)) {
-          localStorage.setItem(`${this.date}`, JSON.stringify([]));
-          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
-        } else {
-          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
-        }
+        console.log("date change!");
+        this.todayNotes = this.notes.filter((note) => note.date === this.date);
       },
       deep: true,
     },
   },
 
   methods: {
-    newNote(title, text, theme, time, date) {
+    newNote(title, text, theme, time, date, guid) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
         time: time,
         date: date,
+        guid: guid,
       });
     },
 
-    modifyNote(notes) {
-      this.notes = notes;
+    modifyNote(title, text, theme, time, date, guid) {
+      const index = this.notes.findIndex((note) => note.guid === guid);
+
+      let tempObj = {};
+      tempObj.title = title;
+      tempObj.text = text;
+      tempObj.theme = theme;
+      tempObj.time = `edit ${date} ${time}`;
+      tempObj.guid = guid;
+      tempObj.date = this.date;
+
+      this.notes.splice(index, 1);
+      this.notes.splice(index, 0, tempObj);
     },
 
-    deleteNote(notes) {
-      this.notes = notes;
+    deleteNote(index) {
+      this.notes.splice(index, 1);
     },
 
     selectDate(picker) {

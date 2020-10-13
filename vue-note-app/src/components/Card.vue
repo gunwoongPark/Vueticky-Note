@@ -6,7 +6,7 @@
           @mouseenter="mouseEnter"
           @mouseleave="mouseLeave"
           class="note"
-          :style="{ 'background-color': tempNote.theme }"
+          :style="{ 'background-color': note.theme }"
         >
           <div class="footerContainer">
             <v-spacer></v-spacer>
@@ -16,23 +16,23 @@
               >
             </div>
           </div>
-          <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
-            <v-card-title class="cardTitle"
-              ><p>{{ tempNote.title }}</p></v-card-title
+          <div v-bind="attrs" v-on="on" @click.prevent="initData">
+            <v-card-title class="cardTitle noteTitle"
+              ><p>{{ note.title }}</p></v-card-title
             >
-            <v-card-text
-              ><p>{{ tempNote.text }}</p></v-card-text
+            <v-card-text class="noteText"
+              ><p>{{ note.text }}</p></v-card-text
             >
           </div>
         </v-card>
       </template>
-      <Editor :notes="note" @noteModified="modifyNote" />
+      <ModifyEditor :note="note" @noteModified="modifyNote" />
     </v-dialog>
   </div>
 </template>
 
 <script>
-import Editor from "./Editor";
+import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
     note: {
@@ -48,55 +48,57 @@ export default {
       required: true,
     },
   },
-  components: {
-    Editor,
-  },
 
   data() {
     return {
-      notes: [],
-      tempNote: {},
       dialog: false,
+      isSubmit: false,
+      tempNote: {},
     };
   },
 
-  created() {
-    this.tempNote.title = this.note.title;
-    this.tempNote.text = this.note.text;
-    this.tempNote.theme = this.note.theme;
+  watch: {
+    dialog: {
+      handler() {
+        if (this.dialog === false && !this.isSubmit) {
+          console.log("dialog!");
+          this.note.title = this.tempNote.title;
+          this.note.text = this.tempNote.text;
+          this.note.theme = this.tempNote.theme;
+        }
+      },
+    },
   },
 
   methods: {
     mouseEnter(e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
+
     mouseLeave(e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
-    modifyNote(title, text, theme, time, date) {
-      this.notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes[this.index].title = title;
-      this.notes[this.index].text = text;
-      this.notes[this.index].theme = theme;
-      this.notes[this.index].time = `edited ${date} ${time}`;
 
-      this.$emit("modifyNote", this.notes);
+    modifyNote(title, text, theme, time, date) {
+      this.isSubmit = true;
       this.dialog = false;
+
+      this.$emit("modifyNote", title, text, theme, time, date, this.note.guid);
+    },
+
+    initData() {
+      this.tempNote.title = this.note.title;
+      this.tempNote.text = this.note.text;
+      this.tempNote.theme = this.note.theme;
     },
 
     deleteNote(index) {
-      this.notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes.splice(index, 1);
+      this.$emit("deleteNote", index);
+    },
+  },
 
-      this.$emit("deleteNote", this.notes);
-    },
-    initData(index) {
-      let notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes.title = notes[index].title;
-      this.notes.text = notes[index].text;
-      this.notes.theme = notes[index].theme;
-      this.notes.date = this.date;
-    },
+  components: {
+    ModifyEditor,
   },
 };
 </script>
