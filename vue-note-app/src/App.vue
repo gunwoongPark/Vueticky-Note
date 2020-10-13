@@ -20,7 +20,6 @@
             sm="6"
           >
             <Card
-              :allNotes="notes"
               :index="index"
               :note="note"
               :date="date"
@@ -69,22 +68,19 @@ export default {
   },
 
   watch: {
-    notes() {
-      console.log("watch!");
-      var newNotes = this.notes;
-      this.todayNotes = newNotes.filter((note) => note.date === `${this.date}`);
-      localStorage.setItem("notes", JSON.stringify(newNotes));
-      localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
+    notes: {
+      handler() {
+        console.log("notes change!");
+        var newNotes = this.notes;
+        localStorage.setItem("notes", JSON.stringify(newNotes));
+        this.todayNotes = this.notes.filter((note) => note.date === this.date);
+      },
     },
 
     date: {
       handler() {
-        if (!localStorage.getItem(`${this.date}`)) {
-          localStorage.setItem(`${this.date}`, JSON.stringify([]));
-          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
-        } else {
-          this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
-        }
+        console.log("date change!");
+        this.todayNotes = this.notes.filter((note) => note.date === this.date);
       },
       deep: true,
     },
@@ -102,20 +98,23 @@ export default {
       });
     },
 
-    modifyNote(notes, index) {
-      const originIndex = this.notes.findIndex(
-        (note) => note.guid === notes[index].guid
-      );
+    modifyNote(title, text, theme, time, date, guid) {
+      const index = this.notes.findIndex((note) => note.guid === guid);
 
-      this.notes[originIndex] = notes[index];
-      localStorage.setItem("notes", JSON.stringify(this.notes));
-      this.todayNotes = this.notes.filter(
-        (note) => note.date == `${this.date}`
-      );
+      let tempObj = {};
+      tempObj.title = title;
+      tempObj.text = text;
+      tempObj.theme = theme;
+      tempObj.time = `edit ${date} ${time}`;
+      tempObj.guid = guid;
+      tempObj.date = this.date;
+
+      this.notes.splice(index, 1);
+      this.notes.splice(index, 0, tempObj);
     },
 
-    deleteNote(notes) {
-      this.notes = notes;
+    deleteNote(index) {
+      this.notes.splice(index, 1);
     },
 
     selectDate(picker) {

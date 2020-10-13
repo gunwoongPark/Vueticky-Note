@@ -16,17 +16,17 @@
               >
             </div>
           </div>
-          <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
-            <v-card-title class="cardTitle"
+          <div v-bind="attrs" v-on="on" @click.prevent="initData">
+            <v-card-title class="cardTitle noteTitle"
               ><p>{{ note.title }}</p></v-card-title
             >
-            <v-card-text
+            <v-card-text class="noteText"
               ><p>{{ note.text }}</p></v-card-text
             >
           </div>
         </v-card>
       </template>
-      <ModifyEditor :note="tempNote" @noteModified="modifyNote" />
+      <ModifyEditor :note="note" @noteModified="modifyNote" />
     </v-dialog>
   </div>
 </template>
@@ -47,21 +47,27 @@ export default {
       type: String,
       required: true,
     },
-    allNotes: {
-      type: Array,
-      required: true,
-    },
   },
 
   data() {
     return {
-      tempNote: {},
       dialog: false,
+      isSubmit: false,
+      tempNote: {},
     };
   },
 
-  created() {
-    console.log("Card created : ", this.allNotes);
+  watch: {
+    dialog: {
+      handler() {
+        if (this.dialog === false && !this.isSubmit) {
+          console.log("dialog!");
+          this.note.title = this.tempNote.title;
+          this.note.text = this.tempNote.text;
+          this.note.theme = this.tempNote.theme;
+        }
+      },
+    },
   },
 
   methods: {
@@ -74,32 +80,20 @@ export default {
     },
 
     modifyNote(title, text, theme, time, date) {
-      console.log("modifunc! : ", this.allNotes);
-
-      let dateNotes = JSON.parse(localStorage.getItem(this.date));
-
-      dateNotes[this.index].title = title;
-      dateNotes[this.index].text = text;
-      dateNotes[this.index].theme = theme;
-      dateNotes[this.index].time = `edited ${date} ${time}`;
-
+      this.isSubmit = true;
       this.dialog = false;
 
-      this.$emit("modifyNote", dateNotes, this.index);
+      this.$emit("modifyNote", title, text, theme, time, date, this.note.guid);
+    },
+
+    initData() {
+      this.tempNote.title = this.note.title;
+      this.tempNote.text = this.note.text;
+      this.tempNote.theme = this.note.theme;
     },
 
     deleteNote(index) {
-      let notes = JSON.parse(localStorage.getItem(this.date));
-      notes.splice(index, 1);
-
-      this.$emit("deleteNote", notes);
-    },
-    initData(index) {
-      let notes = JSON.parse(localStorage.getItem(this.date));
-      this.tempNote.title = notes[index].title;
-      this.tempNote.text = notes[index].text;
-      this.tempNote.theme = notes[index].theme;
-      this.tempNote.date = this.date;
+      this.$emit("deleteNote", index);
     },
   },
 
