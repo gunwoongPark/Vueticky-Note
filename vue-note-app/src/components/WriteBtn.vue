@@ -15,7 +15,7 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <WriteEditor :note="note" @noteAdded="newNote" />
+      <WriteEditor :date="date" :note="note" @noteAdded="newNote" />
     </v-dialog>
   </div>
 </template>
@@ -23,6 +23,13 @@
 <script>
 import WriteEditor from "./WriteEditor";
 export default {
+  props: {
+    date: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
       note: {
@@ -37,7 +44,6 @@ export default {
 
   methods: {
     initData() {
-      console.log("init!", this.note.title, this.note.text, this.note.theme);
       this.note.title = "";
       this.note.text = "";
       this.note.theme = "#FFFFFFFF";

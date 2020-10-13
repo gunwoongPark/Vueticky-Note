@@ -39,6 +39,11 @@ export default {
       type: Object,
       required: true,
     },
+
+    date: {
+      type: String,
+      required: true,
+    },
   },
 
   methods: {
@@ -53,10 +58,6 @@ export default {
 
       const dateObj = new Date();
 
-      const year = dateObj.getFullYear();
-      const month = dateObj.getMonth() + 1;
-      const day = dateObj.getDate();
-
       let hour = dateObj.getHours();
       let minutes = dateObj.getMinutes();
       let seconds = dateObj.getSeconds();
@@ -64,7 +65,7 @@ export default {
       if (minutes < 10) minutes = "0" + minutes;
       if (seconds < 10) seconds = "0" + seconds;
 
-      const date = `${year}-${month}-${day}`;
+      const date = this.date;
 
       const time = `${hour}:${minutes}:${seconds}`;
 

@@ -5,7 +5,7 @@
 
       <CalendarBtn @selectDate="selectDate" />
 
-      <WriteBtn @noteAdded="newNote" />
+      <WriteBtn @noteAdded="newNote" :date="date" />
 
       <div class="noteContainer">
         <v-row v-masonry item-selector=".noteList">
@@ -70,7 +70,6 @@ export default {
   watch: {
     notes: {
       handler() {
-        //console.log("change notes!");
         var newNotes = this.notes;
         this.todayNotes = newNotes.filter(
           (note) => note.date === `${this.date}`
@@ -78,12 +77,10 @@ export default {
         localStorage.setItem("notes", JSON.stringify(newNotes));
         localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
       },
-      deep: true,
     },
 
     date: {
       handler() {
-        //console.log("change date!");
         if (!localStorage.getItem(`${this.date}`)) {
           localStorage.setItem(`${this.date}`, JSON.stringify([]));
           this.todayNotes = JSON.parse(localStorage.getItem(`${this.date}`));
@@ -107,7 +104,8 @@ export default {
     },
 
     modifyNote(notes) {
-      this.notes = notes;
+      // this.notes = notes;
+      console.log(notes);
     },
 
     deleteNote(notes) {

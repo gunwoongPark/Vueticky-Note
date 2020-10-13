@@ -30,7 +30,7 @@
     </v-card>
   </div>
 </template>
-
+ 
 <script>
 import Color from "./Color";
 export default {
