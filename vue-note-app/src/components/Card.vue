@@ -26,13 +26,13 @@
           </div>
         </v-card>
       </template>
-      <Editor :notes="note" @noteModified="modifyNote" />
+      <ModifyEditor :note="note" @noteModified="modifyNote" />
     </v-dialog>
   </div>
 </template>
 
 <script>
-import Editor from "./Editor";
+import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
     note: {
@@ -48,22 +48,16 @@ export default {
       required: true,
     },
   },
-  components: {
-    Editor,
-  },
 
   data() {
     return {
-      notes: [],
-      tempNote: {},
+      tempNote: {
+        title: this.note.title,
+        text: this.note.text,
+        theme: this.note.theme,
+      },
       dialog: false,
     };
-  },
-
-  created() {
-    this.tempNote.title = this.note.title;
-    this.tempNote.text = this.note.text;
-    this.tempNote.theme = this.note.theme;
   },
 
   methods: {
@@ -74,29 +68,38 @@ export default {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
     modifyNote(title, text, theme, time, date) {
-      this.notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes[this.index].title = title;
-      this.notes[this.index].text = text;
-      this.notes[this.index].theme = theme;
-      this.notes[this.index].time = `edited ${date} ${time}`;
+      let notes = JSON.parse(localStorage.getItem(this.date));
+      notes[this.index].title = title;
+      notes[this.index].text = text;
+      notes[this.index].theme = theme;
+      notes[this.index].time = `edited ${date} ${time}`;
 
-      this.$emit("modifyNote", this.notes);
+      this.tempNote.title = title;
+      this.tempNote.text = text;
+      this.tempNote.theme = theme;
+
       this.dialog = false;
+
+      this.$emit("modifyNote", notes);
     },
 
     deleteNote(index) {
-      this.notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes.splice(index, 1);
+      let notes = JSON.parse(localStorage.getItem(this.date));
+      notes.splice(index, 1);
 
-      this.$emit("deleteNote", this.notes);
+      this.$emit("deleteNote", notes);
     },
     initData(index) {
       let notes = JSON.parse(localStorage.getItem(this.date));
-      this.notes.title = notes[index].title;
-      this.notes.text = notes[index].text;
-      this.notes.theme = notes[index].theme;
-      this.notes.date = this.date;
+      this.note.title = notes[index].title;
+      this.note.text = notes[index].text;
+      this.note.theme = notes[index].theme;
+      this.note.date = this.date;
     },
+  },
+
+  components: {
+    ModifyEditor,
   },
 };
 </script>
