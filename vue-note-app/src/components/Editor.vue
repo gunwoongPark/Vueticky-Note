@@ -80,7 +80,7 @@ export default {
 
       const date = this.notes.date;
 
-      const time = `${date} ${hour}:${minutes}:${seconds}`;
+      const time = `${hour}:${minutes}:${seconds}`;
 
       this.$emit(
         "noteAdded",
@@ -114,7 +114,7 @@ export default {
 
       const date = `${year}-${month}-${day}`;
 
-      const time = `${date} ${hour}:${minutes}:${seconds}`;
+      const time = `${hour}:${minutes}:${seconds}`;
 
       this.$emit(
         "noteModified",
@@ -122,7 +122,7 @@ export default {
         this.notes.text,
         this.notes.theme,
         time,
-
+        date
       );
 
 

@@ -64,12 +64,12 @@ export default {
     mouseLeave (e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
-    modifyNote (title, text, theme, time) {
+    modifyNote (title, text, theme, time, date) {
       this.notes = JSON.parse(localStorage.getItem(this.date));
       this.notes[this.index].title = title;
       this.notes[this.index].text = text;
       this.notes[this.index].theme = theme;
-      this.notes[this.index].time = `edited ${time}`;
+      this.notes[this.index].time = `edited ${date} ${time}`;
 
       this.$emit("modifyNote", this.notes);
       this.dialog = false;
