@@ -15,27 +15,20 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <Editor :notes="notes" @noteAdded="newNote" />
+      <WriteEditor :note="note" @noteAdded="newNote" />
     </v-dialog>
   </div>
 </template>
 
 <script>
-import Editor from "./Editor";
+import WriteEditor from "./WriteEditor";
 export default {
-  props: {
-    date: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
-      notes: {
+      note: {
         title: "",
         text: "",
         theme: "#FFFFFFFF",
-        date: "",
       },
 
       dialog: false,
@@ -44,11 +37,12 @@ export default {
 
   methods: {
     initData() {
-      this.notes.title = "";
-      this.notes.text = "";
-      this.notes.theme = "#FFFFFFFF";
-      this.notes.date = this.date;
+      console.log("init!", this.note.title, this.note.text, this.note.theme);
+      this.note.title = "";
+      this.note.text = "";
+      this.note.theme = "#FFFFFFFF";
     },
+
     newNote(title, text, theme, time, date) {
       this.dialog = false;
       this.$emit("noteAdded", title, text, theme, time, date);
@@ -56,7 +50,7 @@ export default {
   },
 
   components: {
-    Editor,
+    WriteEditor,
   },
 };
 </script>

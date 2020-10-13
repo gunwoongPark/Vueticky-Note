@@ -5,7 +5,7 @@
 
       <CalendarBtn @selectDate="selectDate" />
 
-      <WriteBtn @noteAdded="newNote" :date="date" />
+      <WriteBtn @noteAdded="newNote" />
 
       <div class="noteContainer">
         <v-row v-masonry item-selector=".noteList">
