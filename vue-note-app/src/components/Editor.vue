@@ -124,6 +124,8 @@ export default {
         time,
         date
       );
+
+      location.reload(true);
     },
 
     initColor(theme) {

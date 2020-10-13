@@ -6,7 +6,7 @@
           @mouseenter="mouseEnter"
           @mouseleave="mouseLeave"
           class="note"
-          :style="{ 'background-color': note.theme }"
+          :style="{ 'background-color': tempNote.theme }"
         >
           <div class="footerContainer">
             <v-spacer></v-spacer>
@@ -17,8 +17,8 @@
             </div>
           </div>
           <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
-            <v-card-title class="cardTitle">{{ note.title }}</v-card-title>
-            <v-card-text>{{ note.text }}</v-card-text>
+            <v-card-title class="cardTitle">{{ tempNote.title }}</v-card-title>
+            <v-card-text>{{ tempNote.text }}</v-card-text>
           </div>
         </v-card>
       </template>
@@ -51,8 +51,15 @@ export default {
   data() {
     return {
       notes: [],
+      tempNote: {},
       dialog: false,
     };
+  },
+
+  created() {
+    this.tempNote.title = this.note.title;
+    this.tempNote.text = this.note.text;
+    this.tempNote.theme = this.note.theme;
   },
 
   methods: {
