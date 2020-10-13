@@ -66,11 +66,14 @@ export default {
     },
 
     modifyNote(title, text, theme, time, date) {
-      console.log(title, text, theme, time, date);
-      console.log(this.index);
+      let dateNotes = JSON.parse(localStorage.getItem(this.date));
 
-      let notes = JSON.parse(localStorage.getItem("notes"));
-      this.$emit("modifyNote", notes);
+      dateNotes[this.index].title = title;
+      dateNotes[this.index].text = text;
+      dateNotes[this.index].theme = theme;
+      dateNotes[this.index].time = `edited ${date} ${time}`;
+
+      this.$emit("modifyNote", dateNotes);
     },
 
     deleteNote(index) {

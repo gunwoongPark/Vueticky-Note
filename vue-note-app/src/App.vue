@@ -103,9 +103,11 @@ export default {
       });
     },
 
-    modifyNote(notes) {
+    modifyNote(newDateNotes) {
       // this.notes = notes;
-      console.log(notes);
+      console.log(newDateNotes);
+      let allDateNotes = JSON.parse(localStorage.getItem(`${this.date}`));
+      console.log(allDateNotes);
     },
 
     deleteNote(notes) {
