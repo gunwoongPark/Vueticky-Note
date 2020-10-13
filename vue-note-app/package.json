@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "crypto-random-string": "^3.3.0",
     "vue": "^2.6.11",
     "vue-masonry": "^0.11.8",
     "vuetify": "^2.2.11",

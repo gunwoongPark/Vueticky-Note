@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import cryptoRandomString from "crypto-random-string";
 import WriteEditor from "./WriteEditor";
 export default {
   props: {
@@ -51,7 +52,15 @@ export default {
 
     newNote(title, text, theme, time, date) {
       this.dialog = false;
-      this.$emit("noteAdded", title, text, theme, time, date);
+      this.$emit(
+        "noteAdded",
+        title,
+        text,
+        theme,
+        time,
+        date,
+        cryptoRandomString({ length: 10 })
+      );
     },
   },
 

@@ -20,6 +20,7 @@
             sm="6"
           >
             <Card
+              :allNotes="notes"
               :index="index"
               :note="note"
               :date="date"
@@ -68,15 +69,12 @@ export default {
   },
 
   watch: {
-    notes: {
-      handler() {
-        var newNotes = this.notes;
-        this.todayNotes = newNotes.filter(
-          (note) => note.date === `${this.date}`
-        );
-        localStorage.setItem("notes", JSON.stringify(newNotes));
-        localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
-      },
+    notes() {
+      console.log("watch!");
+      var newNotes = this.notes;
+      this.todayNotes = newNotes.filter((note) => note.date === `${this.date}`);
+      localStorage.setItem("notes", JSON.stringify(newNotes));
+      localStorage.setItem(`${this.date}`, JSON.stringify(this.todayNotes));
     },
 
     date: {
@@ -93,21 +91,27 @@ export default {
   },
 
   methods: {
-    newNote(title, text, theme, time, date) {
+    newNote(title, text, theme, time, date, guid) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
         time: time,
         date: date,
+        guid: guid,
       });
     },
 
-    modifyNote(newDateNotes) {
-      // this.notes = notes;
-      console.log(newDateNotes);
-      let allDateNotes = JSON.parse(localStorage.getItem(`${this.date}`));
-      console.log(allDateNotes);
+    modifyNote(notes, index) {
+      const originIndex = this.notes.findIndex(
+        (note) => note.guid === notes[index].guid
+      );
+
+      this.notes[originIndex] = notes[index];
+      localStorage.setItem("notes", JSON.stringify(this.notes));
+      this.todayNotes = this.notes.filter(
+        (note) => note.date == `${this.date}`
+      );
     },
 
     deleteNote(notes) {

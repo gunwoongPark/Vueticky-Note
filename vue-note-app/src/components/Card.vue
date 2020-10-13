@@ -47,6 +47,10 @@ export default {
       type: String,
       required: true,
     },
+    allNotes: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
@@ -54,6 +58,10 @@ export default {
       tempNote: {},
       dialog: false,
     };
+  },
+
+  created() {
+    console.log("Card created : ", this.allNotes);
   },
 
   methods: {
@@ -66,6 +74,8 @@ export default {
     },
 
     modifyNote(title, text, theme, time, date) {
+      console.log("modifunc! : ", this.allNotes);
+
       let dateNotes = JSON.parse(localStorage.getItem(this.date));
 
       dateNotes[this.index].title = title;
@@ -73,7 +83,9 @@ export default {
       dateNotes[this.index].theme = theme;
       dateNotes[this.index].time = `edited ${date} ${time}`;
 
-      this.$emit("modifyNote", dateNotes);
+      this.dialog = false;
+
+      this.$emit("modifyNote", dateNotes, this.index);
     },
 
     deleteNote(index) {

@@ -41,10 +41,6 @@ export default {
     },
   },
 
-  data() {
-    return {};
-  },
-
   methods: {
     initColor(picker) {
       this.note.theme = picker;
