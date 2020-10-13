@@ -7,6 +7,7 @@
       >
         <textarea v-model="note.title" cols="65" placeholder="Title"></textarea>
         <v-spacer></v-spacer>
+        <div class="time">{{ note.time }}</div>
       </v-card-title>
 
       <v-divider></v-divider>
@@ -103,5 +104,11 @@ textarea:focus {
 
 .dialogBox {
   overflow: hidden;
+}
+
+.time {
+  color: rgb(102, 102, 102);
+  font-size: 15px;
+  margin-bottom: -10px;
 }
 </style>
