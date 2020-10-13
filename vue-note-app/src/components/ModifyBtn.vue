@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="1000">
+    <v-dialog v-model="dialog" width="550">
       <template v-slot:activator="{ on, attrs }">
         <v-icon
           v-bind="attrs"
@@ -18,7 +18,7 @@
 <script>
 import Editor from "./Editor";
 export default {
-  data() {
+  data () {
     return {
       notes: {
         title: "",
@@ -41,7 +41,7 @@ export default {
     },
   },
   methods: {
-    initData(index) {
+    initData (index) {
       let notes = JSON.parse(localStorage.getItem(this.date));
       this.notes.title = notes[index].title;
       this.notes.text = notes[index].text;
@@ -49,7 +49,7 @@ export default {
       this.notes.date = this.date;
     },
 
-    modifyNote(title, text, theme, time, date) {
+    modifyNote (title, text, theme, time, date) {
       this.dialog = false;
       this.$emit("noteModified", title, text, theme, this.index, time, date);
     },

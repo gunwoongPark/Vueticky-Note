@@ -1,12 +1,17 @@
 <template>
   <div>
     <v-card class="dialogBox">
-      <v-card-title class="headline lighten-2">
+      <v-card-title
+        class="headline lighten-2"
+        :style="{ backgroundColor: notes.theme }"
+      >
         <textarea
           v-model="notes.title"
           cols="65"
           placeholder="Title"
         ></textarea>
+        <v-spacer></v-spacer>
+        <div class="time">{{ notes.time }}</div>
       </v-card-title>
 
       <v-divider></v-divider>
@@ -16,7 +21,7 @@
           v-model="notes.text"
           placeholder="Take a note..."
           cols="65"
-          rows="20"
+          rows="17"
         ></textarea>
       </v-card-text>
 
@@ -24,7 +29,6 @@
 
       <v-card-actions>
         <Color :theme="notes.theme" @selectedColor="initColor" />
-
         <v-spacer></v-spacer>
         <v-btn v-if="!isModify" color="black" text @click="createNew">
           register
@@ -40,7 +44,7 @@
 <script>
 import Color from "./Color";
 export default {
-  data() {
+  data () {
     return {
       isModify: false,
     };
@@ -52,13 +56,13 @@ export default {
     },
   },
 
-  mounted() {
+  mounted () {
     if (this.notes.text === "") this.isModify = false;
     else this.isModify = true;
   },
 
   methods: {
-    createNew() {
+    createNew () {
       if (this.notes.title === "" || this.notes.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -88,7 +92,8 @@ export default {
       );
     },
 
-    modifyNote() {
+    modifyNote () {
+      //console.log(this.notes.title)
       if (this.notes.title === "" || this.notes.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -119,9 +124,11 @@ export default {
         time,
         date
       );
+
+
     },
 
-    initColor(theme) {
+    initColor (theme) {
       this.notes.theme = theme;
     },
   },
@@ -149,5 +156,11 @@ textarea:focus {
 
 .dialogBox {
   overflow: hidden;
+}
+
+.time {
+  color: rgb(102, 102, 102);
+  font-size: 15px;
+  margin-bottom: -10px;
 }
 </style>
