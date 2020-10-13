@@ -17,8 +17,12 @@
             </div>
           </div>
           <div v-bind="attrs" v-on="on" @click.prevent="initData(index)">
-            <v-card-title class="cardTitle">{{ tempNote.title }}</v-card-title>
-            <v-card-text>{{ tempNote.text }}</v-card-text>
+            <v-card-title class="cardTitle"
+              ><p>{{ tempNote.title }}</p></v-card-title
+            >
+            <v-card-text
+              ><p>{{ tempNote.text }}</p></v-card-text
+            >
           </div>
         </v-card>
       </template>
@@ -111,5 +115,9 @@ export default {
 
 .deleteIcon:hover {
   cursor: pointer;
+}
+
+p {
+  white-space: pre-line;
 }
 </style>
