@@ -11,7 +11,7 @@
           <div class="footerContainer">
             <v-spacer></v-spacer>
             <div class="iconContainer">
-              <v-icon class="deleteIcon" @click.prevent="deleteNote(index)"
+              <v-icon class="deleteIcon" @click.prevent="deleteNote"
                 >mdi-close-circle</v-icon
               >
             </div>
@@ -37,10 +37,6 @@ export default {
   props: {
     note: {
       type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
       required: true,
     },
     date: {
@@ -92,8 +88,8 @@ export default {
       this.tempNote.theme = this.note.theme;
     },
 
-    deleteNote(index) {
-      this.$emit("deleteNote", index);
+    deleteNote() {
+      this.$emit("deleteNote", this.note.guid);
     },
   },
 

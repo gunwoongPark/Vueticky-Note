@@ -20,7 +20,6 @@
             sm="6"
           >
             <Card
-              :index="index"
               :note="note"
               :date="date"
               @modifyNote="modifyNote"
@@ -113,7 +112,9 @@ export default {
       this.notes.splice(index, 0, tempObj);
     },
 
-    deleteNote(index) {
+    deleteNote(guid) {
+      const index = this.notes.findIndex((note) => note.guid === guid);
+
       this.notes.splice(index, 1);
     },
 
