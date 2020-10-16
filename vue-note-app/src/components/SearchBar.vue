@@ -1,6 +1,6 @@
 <template>
 <div>
-    <input type="text" class="form-control form-control-lg" placeholder="Type memo..." v-model="text" @input="submitText">
+    <input type="text" class="form-control form-control-lg bar" placeholder="Type note..." v-model="text" @input="submitText">
 </div>
 </template>
 

@@ -20,7 +20,7 @@ export default {
 
     methods: {
         submitText(text) {
-            this.$emit("searchMemo", text);
+            this.$emit("searchNote", text);
         }
     },
 
