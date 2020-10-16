@@ -41,7 +41,7 @@ export default {
             this.note.theme = "#FFFFFFFF";
         },
 
-        newNote(title, text, theme, time, date) {
+        newNote(title, text, theme, time, date, isImportant) {
             this.dialog = false;
             this.$emit(
                 "noteAdded",
@@ -52,7 +52,8 @@ export default {
                 date,
                 cryptoRandomString({
                     length: 10
-                })
+                }),
+                isImportant
             );
         },
     },

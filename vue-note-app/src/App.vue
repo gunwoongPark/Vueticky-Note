@@ -8,6 +8,11 @@
         <WriteBtn @noteAdded="newNote" :date="date" />
 
         <div class="noteContainer">
+            <v-row v-masonry item-selector=".imNoteList">
+                <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <Card :note="imNote" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                </v-col>
+            </v-row>
             <v-row v-masonry item-selector=".noteList">
                 <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
                     <Card :note="note" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
@@ -36,6 +41,7 @@ export default {
         return {
             notes: [],
             todayNotes: [],
+            importantNotes: [],
             mouseHover: false,
             date: "",
         };
@@ -58,6 +64,7 @@ export default {
                 var newNotes = this.notes;
                 localStorage.setItem("notes", JSON.stringify(newNotes));
                 this.todayNotes = this.notes.filter((note) => note.date === this.date);
+                this.importantNotes = this.notes.filter((note) => note.important === true);
             },
         },
 
@@ -71,7 +78,7 @@ export default {
     },
 
     methods: {
-        newNote(title, text, theme, time, date, guid) {
+        newNote(title, text, theme, time, date, guid, isImportant) {
             this.notes.push({
                 title: title,
                 text: text,
@@ -79,10 +86,12 @@ export default {
                 time: time,
                 date: date,
                 guid: guid,
+                important: isImportant
             });
         },
 
-        modifyNote(title, text, theme, time, date, guid) {
+        modifyNote(title, text, theme, time, date, originDate, guid, important) {
+
             const index = this.notes.findIndex((note) => note.guid === guid);
 
             let tempObj = {};
@@ -91,7 +100,8 @@ export default {
             tempObj.theme = theme;
             tempObj.time = `edit ${date} ${time}`;
             tempObj.guid = guid;
-            tempObj.date = this.date;
+            tempObj.date = originDate;
+            tempObj.important = important;
 
             this.notes.splice(index, 1);
             this.notes.splice(index, 0, tempObj);

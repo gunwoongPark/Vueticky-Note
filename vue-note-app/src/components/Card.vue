@@ -3,7 +3,8 @@
     <v-dialog v-model="dialog" width="550">
         <template v-slot:activator="{ on, attrs }">
             <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
-                <div class="footerContainer">
+                <div class="Container">
+                    <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
                     <v-spacer></v-spacer>
                     <div class="iconContainer">
                         <v-icon class="deleteIcon" @click.prevent="deleteNote">mdi-close-circle</v-icon>
@@ -54,6 +55,7 @@ export default {
                     this.note.title = this.tempNote.title;
                     this.note.text = this.tempNote.text;
                     this.note.theme = this.tempNote.theme;
+                    this.note.important = this.tempNote.important;
                 }
             },
         },
@@ -68,10 +70,10 @@ export default {
             e.target.firstChild.lastChild.style.visibility = "hidden";
         },
 
-        modifyNote(title, text, theme, time, date) {
+        modifyNote(title, text, theme, time, date, originDate, important) {
             this.isSubmit = true;
             this.dialog = false;
-            this.$emit("modifyNote", title, text, theme, time, date, this.note.guid);
+            this.$emit("modifyNote", title, text, theme, time, date, originDate, this.note.guid, important);
 
         },
 
@@ -79,6 +81,7 @@ export default {
             this.tempNote.title = this.note.title;
             this.tempNote.text = this.note.text;
             this.tempNote.theme = this.note.theme;
+            this.tempNote.important = this.note.important
 
             this.isSubmit = false;
         },
@@ -99,7 +102,7 @@ export default {
     margin-top: -25px;
 }
 
-.footerContainer {
+.Container {
     display: flex;
 }
 
