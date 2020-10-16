@@ -2,7 +2,7 @@
 <div class="header">
     <img src="../assets/50Vemo.png" />
     <p>Vemo</p>
-    <SearchBar />
+    <SearchBar @submitText="submitText" />
     <v-spacer></v-spacer>
     <p>{{ this.date }}</p>
 </div>
@@ -18,6 +18,12 @@ export default {
         },
     },
 
+    methods: {
+        submitText(text) {
+            this.$emit("searchMemo", text);
+        }
+    },
+
     components: {
         SearchBar
     }
@@ -28,12 +34,9 @@ export default {
 .header {
     display: flex;
     align-items: center;
-    justify-content: center;
     background: #000;
     color: #fff;
-    margin-bottom: 50px;
     position: fixed;
-    top: 0;
     left: 0;
     right: 0;
 }

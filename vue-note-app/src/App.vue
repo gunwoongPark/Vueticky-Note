@@ -1,7 +1,7 @@
 <template>
 <v-app>
     <v-main>
-        <Header style="z-index: 10" :date="date" />
+        <Header style="z-index: 10" :date="date" @searchMemo="searchMemo" />
 
         <CalendarBtn @selectDate="selectDate" />
 
@@ -105,6 +105,16 @@ export default {
         selectDate(picker) {
             if (this.date !== picker) this.date = picker;
         },
+
+        searchMemo(memo) {
+            let notes = JSON.parse(localStorage.getItem("notes"));
+            if (memo === "")
+                this.todayNotes = notes.filter(note => note.date === this.date);
+            else {
+                let todayNotes = notes.filter(note => note.date === this.date);
+                this.todayNotes = todayNotes.filter(note => memo === note.title || memo === note.text);
+            }
+        }
     },
 };
 </script>
