@@ -17,6 +17,7 @@
 
         <v-card-actions>
             <Color :theme="note.theme" @selectedColor="initColor" />
+            <v-icon class="starIcon" :class="{important: note.important}" @click="addImportant">mdi-star</v-icon>
             <v-spacer></v-spacer>
             <v-btn color="black" text @click="modifyNote"> modify </v-btn>
         </v-card-actions>
@@ -45,6 +46,8 @@ export default {
                 return;
             }
 
+            const originDate = this.note.date;
+
             const dateObj = new Date();
 
             const year = dateObj.getFullYear();
@@ -68,9 +71,15 @@ export default {
                 this.note.text,
                 this.note.theme,
                 time,
-                date
+                date,
+                originDate,
+                this.note.important
             );
         },
+        addImportant() {
+            this.note.important = !this.note.important
+        },
+
     },
 
     components: {
@@ -102,5 +111,9 @@ textarea:focus {
     color: rgb(102, 102, 102);
     font-size: 15px;
     margin-bottom: -10px;
+}
+
+.important {
+    color: yellow;
 }
 </style>

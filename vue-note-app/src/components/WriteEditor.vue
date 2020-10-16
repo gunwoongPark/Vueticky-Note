@@ -1,7 +1,7 @@
 <template>
 <div>
-    <v-card class="dialogBox">
-        <v-card-title class="headline lighten-2" :style="{ backgroundColor: note.theme }">
+    <v-card class="dialogBox" v-click-outside="onClickOutside">
+        <v-card-title class="headline lighten-2">
             <textarea v-model="note.title" cols="65" placeholder="Title"></textarea>
             <v-spacer></v-spacer>
         </v-card-title>
@@ -16,6 +16,7 @@
 
         <v-card-actions>
             <Color :theme="note.theme" @selectedColor="initColor" />
+            <v-icon class="starIcon" :class="{important: isImportant}" @click="addImportant">mdi-star</v-icon>
             <v-spacer></v-spacer>
             <v-btn color="black" text @click="createNew"> register </v-btn>
         </v-card-actions>
@@ -36,6 +37,12 @@ export default {
             type: String,
             required: true,
         },
+    },
+
+    data() {
+        return {
+            isImportant: false,
+        }
     },
 
     methods: {
@@ -67,9 +74,20 @@ export default {
                 this.note.text,
                 this.note.theme,
                 time,
-                date
+                date,
+                this.isImportant
             );
+
+            this.isImportant = false;
         },
+
+        addImportant() {
+            this.isImportant = !this.isImportant;
+        },
+
+        onClickOutside() {
+            this.isImportant = false;
+        }
     },
 
     components: {
@@ -95,5 +113,9 @@ textarea:focus {
 
 .dialogBox {
     overflow: hidden;
+}
+
+.important {
+    color: yellow
 }
 </style>
