@@ -13,6 +13,7 @@
                     <Card :note="imNote" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                 </v-col>
             </v-row>
+            <hr />
             <v-row v-masonry item-selector=".noteList">
                 <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
                     <Card :note="note" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
