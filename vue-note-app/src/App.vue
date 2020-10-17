@@ -147,4 +147,8 @@ export default {
 
     height: 10000px;
 }
+
+hr {
+    border: dashed 2px lightgray;
+}
 </style>
