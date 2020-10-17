@@ -10,8 +10,6 @@
         <v-spacer></v-spacer>
       </v-card-title>
 
-      <v-divider></v-divider>
-
       <v-card-text>
         <textarea
           v-model="note.text"
