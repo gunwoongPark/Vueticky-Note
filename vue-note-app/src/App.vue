@@ -7,6 +7,8 @@
 
         <WriteBtn @noteAdded="newNote" :date="date" />
 
+        <TopBtn />
+
         <div class="noteContainer">
             <v-row v-masonry item-selector=".imNoteList">
                 <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
@@ -29,6 +31,7 @@ import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
+import TopBtn from "./components/TopBtn"
 
 export default {
     components: {
@@ -36,6 +39,7 @@ export default {
         WriteBtn,
         CalendarBtn,
         Card,
+        TopBtn
     },
 
     data() {
