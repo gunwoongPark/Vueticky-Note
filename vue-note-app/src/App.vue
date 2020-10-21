@@ -16,23 +16,38 @@
         <TopBtn />
 
         <div class="noteContainer">
-            <v-row v-masonry item-selector=".imNoteList">
-                <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="imNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
-                </v-col>
-            </v-row>
+            <div class="importantNotesContainer">
+                <v-row>
+                    <p>Important Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".imNoteList">
+                    <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="imNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
             <hr />
-            <v-row v-if="!isTagMode" v-masonry item-selector=".noteList">
-                <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="note" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
-                </v-col>
-            </v-row>
+            <div v-if="!isTagMode" class="originNotesContainer">
+                <v-row>
+                    <p>Normal Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".noteList">
+                    <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="note" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
 
-            <v-row v-else v-masonry item-selector=".tagNoteList">
-                <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
-                </v-col>
-            </v-row>
+            <div v-else class="tagNotesContainer">
+                <v-row>
+                    <p>Tag : {{tag}}</p>
+                </v-row>
+                <v-row v-masonry item-selector=".tagNoteList">
+                    <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
         </div>
     </v-main>
 </v-app>
@@ -66,6 +81,7 @@ export default {
             tags: [],
             isTagMode: false,
             tagNotes: [],
+            tag: "",
         };
     },
 
@@ -172,6 +188,7 @@ export default {
         },
 
         selectTag(tag) {
+            this.tag = tag;
             this.isTagMode = true;
             this.tagNotes = this.todayNotes.filter(note => note.tags.includes(tag));
         },
@@ -208,5 +225,11 @@ hr {
     right: 5%;
     bottom: 45%;
     z-index: 10;
+}
+
+p {
+    font-family: "Sansita Swashed", cursive;
+    font-size: 20px;
+    color: #2196f3;
 }
 </style>
