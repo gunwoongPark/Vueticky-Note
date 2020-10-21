@@ -12,9 +12,17 @@
             <v-card-text class="mt-5">
                 <p>Registered Categories</p>
 
-                <v-chip class="category" v-for="(tag, index) in tags" :key="`category-${index}`" close @click:close="deleteTag(index)">
-                    {{ tag }}
-                </v-chip>
+                <div v-if="tags.length">
+                    <v-chip class="category" v-for="(tag, index) in tags" :key="`category-${index}`" close @click:close="deleteTag(index)">
+                        {{ tag }}
+                    </v-chip>
+                </div>
+
+                <div v-else>
+                    <p>
+                        There are no saved categories...
+                    </p>
+                </div>
 
                 <v-divider></v-divider>
 
