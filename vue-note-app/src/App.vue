@@ -3,6 +3,8 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
+        <CategoryBtn />
+
         <CalendarBtn @selectDate="selectDate" />
 
         <WriteBtn @noteAdded="newNote" :date="date" />
@@ -32,6 +34,7 @@ import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn"
+import CategoryBtn from "./components/CategoryBtn"
 
 export default {
     components: {
@@ -39,7 +42,8 @@ export default {
         WriteBtn,
         CalendarBtn,
         Card,
-        TopBtn
+        TopBtn,
+        CategoryBtn
     },
 
     data() {
