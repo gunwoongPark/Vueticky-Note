@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-dialog v-model="dialog" width="550">
+    <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
             <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
                 <div class="Container">

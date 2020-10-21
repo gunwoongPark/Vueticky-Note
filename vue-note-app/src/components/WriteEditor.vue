@@ -37,19 +37,18 @@ export default {
             type: String,
             required: true,
         },
+
+        tags: {
+            type: Array,
+            required: true,
+        }
     },
 
     data() {
         return {
-            tags: [],
             selectedTags: [],
             isImportant: false,
         }
-    },
-
-    mounted() {
-        if (localStorage.getItem('category'))
-            this.tags = JSON.parse(localStorage.getItem("category"));
     },
 
     methods: {
@@ -83,7 +82,7 @@ export default {
                 time,
                 date,
                 this.isImportant,
-                this.tags
+                this.selectedTags
             );
 
             this.isImportant = false;
@@ -95,6 +94,7 @@ export default {
 
         onClickOutside() {
             this.isImportant = false;
+            this.selectedTags = [];
         },
 
     },

@@ -3,11 +3,11 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <CategoryBtn @initTags="initTags" />
+        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
 
         <CalendarBtn @selectDate="selectDate" />
 
-        <WriteBtn @noteAdded="newNote" :date="date" />
+        <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
 
         <TopBtn />
 
@@ -66,6 +66,10 @@ export default {
 
         if (localStorage.getItem("notes"))
             this.notes = JSON.parse(localStorage.getItem("notes"));
+
+        if (localStorage.getItem("tags"))
+            this.tags = JSON.parse(localStorage.getItem("tags"))
+
     },
 
     watch: {
@@ -84,6 +88,13 @@ export default {
             },
             deep: true,
         },
+
+        tags: {
+            handler() {
+                var newTags = this.tags;
+                localStorage.setItem("tags", JSON.stringify(newTags));
+            }
+        }
     },
 
     methods: {
@@ -140,9 +151,13 @@ export default {
         },
 
         initTags(tags) {
-            this.tags = tags
-            console.log(this.tags);
+            this.tags = tags;
+        },
+
+        deleteTag(index) {
+            this.tags.splice(index, 1);
         }
+
     },
 };
 </script>

@@ -53,19 +53,13 @@ export default {
 
     mounted() {
         if (localStorage.getItem("tags"))
-            this.tags = JSON.parse(localStorage.getItem('tags'));
+            this.tags = JSON.parse(localStorage.getItem("tags"));
     },
 
     watch: {
-        tags: {
-            handler() {
-                var newTags = this.tags;
-                localStorage.setItem("tags", JSON.stringify(newTags));
-            }
-        },
         dialog: {
             handler() {
-                this.$emit('initTags', this.tags);
+                this.$emit("initTags", this.tags);
             }
         }
     },
@@ -76,7 +70,7 @@ export default {
         },
 
         deleteTag(index) {
-            this.tags.splice(index, 1);
+            this.$emit("deleteTag", index);
         },
 
         registerTag() {
