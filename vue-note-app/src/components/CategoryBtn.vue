@@ -2,25 +2,25 @@
 <div>
     <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" class="mx-2 categoryBtn" fab dark color="blue" @click="initData">
+            <v-btn v-bind="attrs" v-on="on" class="mx-2 tagBtn" fab dark color="blue" @click="initData">
                 <v-icon dark> mdi-tag-multiple </v-icon>
             </v-btn>
         </template>
 
         <v-card>
-            <v-card-title class="cardTitle">Category</v-card-title>
+            <v-card-title class="cardTitle">Tag</v-card-title>
             <v-card-text class="mt-5">
-                <p>Registered Categories</p>
+                <p>Registered tags</p>
 
                 <div v-if="tags.length">
-                    <v-chip class="category" v-for="(tag, index) in tags" :key="`category-${index}`" close @click:close="deleteTag(index)">
+                    <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)">
                         {{ tag }}
                     </v-chip>
                 </div>
 
                 <div v-else>
                     <p>
-                        There are no saved categories...
+                        There are no saved tags...
                     </p>
                 </div>
 
@@ -28,10 +28,10 @@
 
                 <v-row class="inputContainer">
                     <v-col cols="12" lg="8" md="8" sm="12">
-                        <v-text-field color="blue" placeholder="Type your category..." hide-details prepend-icon="mdi-tag" single-line type="text" v-model="text"></v-text-field>
+                        <v-text-field color="blue" placeholder="Type your tag..." hide-details prepend-icon="mdi-tag" single-line type="text" v-model="text" @keyup.enter="registerTag"></v-text-field>
                     </v-col>
                     <v-col cols="12" lg="4" md="4" sm="12" style="text-align:center;">
-                        <v-btn text @click="registerCategory">register</v-btn>
+                        <v-btn text @click="registerTag">register</v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -50,16 +50,22 @@ export default {
             text: ""
         }
     },
+
     mounted() {
-        if (localStorage.getItem("category"))
-            this.tags = JSON.parse(localStorage.getItem('category'));
+        if (localStorage.getItem("tags"))
+            this.tags = JSON.parse(localStorage.getItem('tags'));
     },
 
     watch: {
         tags: {
             handler() {
                 var newTags = this.tags;
-                localStorage.setItem("category", JSON.stringify(newTags));
+                localStorage.setItem("tags", JSON.stringify(newTags));
+            }
+        },
+        dialog: {
+            handler() {
+                this.$emit('initTags', this.tags);
             }
         }
     },
@@ -73,9 +79,9 @@ export default {
             this.tags.splice(index, 1);
         },
 
-        registerCategory() {
+        registerTag() {
             if (this.text === "") {
-                alert("카테고리를 입력해주세요");
+                alert("태그명을 입력해주세요");
                 return;
             }
             this.tags.push(this.text);
@@ -87,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-.categoryBtn {
+.tagBtn {
     position: fixed;
     right: 5%;
     bottom: 35%;
@@ -104,7 +110,7 @@ export default {
     align-items: center;
 }
 
-.category {
+.tag {
     margin: 2px;
 }
 </style>

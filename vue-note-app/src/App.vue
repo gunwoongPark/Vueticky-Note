@@ -3,7 +3,7 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <CategoryBtn />
+        <CategoryBtn @initTags="initTags" />
 
         <CalendarBtn @selectDate="selectDate" />
 
@@ -53,6 +53,7 @@ export default {
             importantNotes: [],
             mouseHover: false,
             date: "",
+            tags: [],
         };
     },
 
@@ -83,11 +84,10 @@ export default {
             },
             deep: true,
         },
-
     },
 
     methods: {
-        newNote(title, text, theme, time, date, guid, isImportant) {
+        newNote(title, text, theme, time, date, guid, isImportant, tags) {
             this.notes.push({
                 title: title,
                 text: text,
@@ -95,7 +95,8 @@ export default {
                 time: time,
                 date: date,
                 guid: guid,
-                important: isImportant
+                important: isImportant,
+                tags: tags
             });
         },
 
@@ -136,6 +137,11 @@ export default {
                 this.todayNotes = todayNotes.filter(note => note.title.includes(memo) || note.text.includes(memo));
 
             }
+        },
+
+        initTags(tags) {
+            this.tags = tags
+            console.log(this.tags);
         }
     },
 };
