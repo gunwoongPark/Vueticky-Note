@@ -13,9 +13,11 @@
                 <p>Registered tags</p>
 
                 <div v-if="tags.length">
-                    <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)">
-                        {{ tag }}
-                    </v-chip>
+                    <v-chip-group column>
+                        <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)" @click="selectTag(index)">
+                            {{ tag }}
+                        </v-chip>
+                    </v-chip-group>
                 </div>
 
                 <div v-else>
@@ -80,6 +82,11 @@ export default {
             }
             this.tags.push(this.text);
             this.text = "";
+        },
+
+        selectTag(index) {
+            this.$emit("selectTag", this.tags[index]);
+            this.dialog = false;
         }
     }
 

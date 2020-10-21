@@ -20,7 +20,7 @@
                 </div>
             </v-card>
         </template>
-        <ModifyEditor :note="note" @noteModified="modifyNote" />
+        <ModifyEditor :note="note" :tags="tags" @noteModified="modifyNote" />
     </v-dialog>
 </div>
 </template>
@@ -37,6 +37,10 @@ export default {
             type: String,
             required: true,
         },
+        tags: {
+            type: Array,
+            required: true,
+        }
     },
 
     data() {
@@ -69,10 +73,10 @@ export default {
             e.target.firstChild.lastChild.style.visibility = "hidden";
         },
 
-        modifyNote(title, text, theme, time, date, originDate, important) {
+        modifyNote(title, text, theme, time, date, originDate, important, tags) {
             this.isSubmit = true;
             this.dialog = false;
-            this.$emit("modifyNote", title, text, theme, time, date, originDate, this.note.guid, important);
+            this.$emit("modifyNote", title, text, theme, time, date, originDate, this.note.guid, important, tags);
 
         },
 

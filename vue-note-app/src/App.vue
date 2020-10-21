@@ -3,7 +3,7 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
+        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
 
         <CalendarBtn @selectDate="selectDate" />
 
@@ -14,13 +14,19 @@
         <div class="noteContainer">
             <v-row v-masonry item-selector=".imNoteList">
                 <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="imNote" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    <Card :note="imNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                 </v-col>
             </v-row>
             <hr />
-            <v-row v-masonry item-selector=".noteList">
+            <v-row v-if="!isTagMode" v-masonry item-selector=".noteList">
                 <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="note" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    <Card :note="note" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                </v-col>
+            </v-row>
+
+            <v-row v-else v-masonry item-selector=".tagNoteList">
+                <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                 </v-col>
             </v-row>
         </div>
@@ -54,6 +60,8 @@ export default {
             mouseHover: false,
             date: "",
             tags: [],
+            isTagMode: false,
+            tagNotes: [],
         };
     },
 
@@ -111,7 +119,7 @@ export default {
             });
         },
 
-        modifyNote(title, text, theme, time, date, originDate, guid, important) {
+        modifyNote(title, text, theme, time, date, originDate, guid, important, tags) {
 
             const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -123,6 +131,7 @@ export default {
             tempObj.guid = guid;
             tempObj.date = originDate;
             tempObj.important = important;
+            tempObj.tags = tags;
 
             this.notes.splice(index, 1);
             this.notes.splice(index, 0, tempObj);
@@ -156,6 +165,11 @@ export default {
 
         deleteTag(index) {
             this.tags.splice(index, 1);
+        },
+
+        selectTag(tag) {
+            this.isTagMode = true;
+            this.tagNotes = this.todayNotes.filter(note => note.tags.includes(tag));
         }
 
     },
