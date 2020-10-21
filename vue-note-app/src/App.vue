@@ -1,6 +1,10 @@
 <template>
 <v-app>
     <v-main>
+        <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
+            <v-icon dark> mdi-reload </v-icon>
+        </v-btn>
+
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
         <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
@@ -170,6 +174,10 @@ export default {
         selectTag(tag) {
             this.isTagMode = true;
             this.tagNotes = this.todayNotes.filter(note => note.tags.includes(tag));
+        },
+
+        reloadOrigin() {
+            this.isTagMode = false;
         }
 
     },
@@ -193,5 +201,12 @@ export default {
 
 hr {
     border: dashed 2px lightgray;
+}
+
+.reloadBtn {
+    position: fixed;
+    right: 5%;
+    bottom: 45%;
+    z-index: 10;
 }
 </style>
