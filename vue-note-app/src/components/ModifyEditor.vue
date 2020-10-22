@@ -181,7 +181,7 @@ textarea:focus {
 }
 
 .important {
-  color: yellow;
+  color: red;
 }
 
 .newline {
