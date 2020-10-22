@@ -106,6 +106,7 @@ textarea {
     padding: 10px;
     resize: none;
     border: none;
+    font-family: nanum; /* font */
 }
 
 textarea:hover {
