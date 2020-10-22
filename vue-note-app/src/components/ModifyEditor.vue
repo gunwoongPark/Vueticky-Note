@@ -6,6 +6,16 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
+          v-if="this.Brightness"
+          style="color: black"
+          v-model="note.title"
+          cols="100"
+          placeholder="Title"
+        ></textarea>
+
+        <textarea
+          v-else
+          style="color: white"
           v-model="note.title"
           cols="100"
           placeholder="Title"

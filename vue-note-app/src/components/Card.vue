@@ -18,10 +18,28 @@
             </div>
           </div>
           <div v-bind="attrs" v-on="on" @click.prevent="initData">
-            <v-card-title class="cardTitle noteTitle">
+            <v-card-title
+              v-if="Brightness"
+              style="color: black"
+              class="cardTitle noteTitle"
+            >
               <p>{{ note.title }}</p>
             </v-card-title>
-            <v-card-text class="noteText">
+            <v-card-title
+              v-else
+              style="color: white"
+              class="cardTitle noteTitle"
+            >
+              <p>{{ note.title }}</p>
+            </v-card-title>
+            <v-card-text
+              v-if="Brightness"
+              style="color: black"
+              class="noteText"
+            >
+              <p>{{ note.text }}</p>
+            </v-card-text>
+            <v-card-text v-else style="color: white" class="noteText">
               <p>{{ note.text }}</p>
             </v-card-text>
           </div>
@@ -55,9 +73,12 @@ export default {
       dialog: false,
       isSubmit: false,
       tempNote: {},
+      Brightness: true
     };
   },
-
+  mounted () {
+    this.setBrightness(this.note.theme)
+  },
   watch: {
     dialog: {
       handler () {
@@ -84,7 +105,7 @@ export default {
       this.isSubmit = true;
       this.dialog = false;
       this.$emit("modifyNote", title, text, theme, time, date, originDate, this.note.guid, important, tags);
-
+      this.setBrightness(theme)
     },
 
     initData () {
@@ -99,6 +120,20 @@ export default {
     deleteNote () {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
+    },
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
+
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+
+      (v < 120) ? this.Brightness = false : this.Brightness = true;
     },
   },
 
