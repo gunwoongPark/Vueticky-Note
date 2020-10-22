@@ -66,13 +66,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-      selectedTags: [],
-      //   isImportant: this.note.isImportant,
-    };
-  },
-
   methods: {
     initColor(picker) {
       this.note.theme = picker;
@@ -111,7 +104,7 @@ export default {
     },
 
     addImportant() {
-      this.note.isImportant = !this.noteisImportant;
+      this.note.isImportant = !this.note.isImportant;
     },
   },
 
