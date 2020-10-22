@@ -1,12 +1,12 @@
 <template>
 <div>
-    <v-dialog v-model="dialog" width="550">
+    <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" class="mx-2 plusBtn" fab dark color="blue" style="z-index: 10" @click="initData">
                 <v-icon dark> mdi-plus </v-icon>
             </v-btn>
         </template>
-        <WriteEditor :date="date" :note="note" @noteAdded="newNote" />
+        <WriteEditor :date="date" :note="note" @noteAdded="newNote" :tags="tags" />
     </v-dialog>
 </div>
 </template>
@@ -20,6 +20,10 @@ export default {
             type: String,
             required: true,
         },
+        tags: {
+            type: Array,
+            required: true,
+        }
     },
 
     data() {
@@ -41,7 +45,7 @@ export default {
             this.note.theme = "rgb(240,240,240)";
         },
 
-        newNote(title, text, theme, time, date, isImportant) {
+        newNote(title, text, theme, time, date, isImportant, tags) {
             this.dialog = false;
             this.$emit(
                 "noteAdded",
@@ -53,7 +57,8 @@ export default {
                 cryptoRandomString({
                     length: 10
                 }),
-                isImportant
+                isImportant,
+                tags
             );
         },
     },

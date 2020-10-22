@@ -1,26 +1,53 @@
 <template>
 <v-app>
     <v-main>
+        <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
+            <v-icon dark> mdi-reload </v-icon>
+        </v-btn>
+
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
+
+        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
 
         <CalendarBtn @selectDate="selectDate" />
 
-        <WriteBtn @noteAdded="newNote" :date="date" />
+        <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
 
         <TopBtn />
 
         <div class="noteContainer">
-            <v-row v-masonry item-selector=".imNoteList">
-                <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="imNote" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
-                </v-col>
-            </v-row>
+            <div class="importantNotesContainer">
+                <v-row>
+                    <p>Important Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".imNoteList">
+                    <v-col class="imNoteList" v-for="(imNote,index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="imNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
             <hr />
-            <v-row v-masonry item-selector=".noteList">
-                <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
-                    <Card :note="note" :date="date" @modifyNote="modifyNote" @deleteNote="deleteNote" />
-                </v-col>
-            </v-row>
+            <div v-if="!isTagMode" class="originNotesContainer">
+                <v-row>
+                    <p>Normal Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".noteList">
+                    <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="note" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
+
+            <div v-else class="tagNotesContainer">
+                <v-row>
+                    <p>Tag : {{tag}}</p>
+                </v-row>
+                <v-row v-masonry item-selector=".tagNoteList">
+                    <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                        <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
         </div>
     </v-main>
 </v-app>
@@ -32,6 +59,7 @@ import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn"
+import CategoryBtn from "./components/CategoryBtn"
 
 export default {
     components: {
@@ -39,7 +67,8 @@ export default {
         WriteBtn,
         CalendarBtn,
         Card,
-        TopBtn
+        TopBtn,
+        CategoryBtn
     },
 
     data() {
@@ -49,6 +78,10 @@ export default {
             importantNotes: [],
             mouseHover: false,
             date: "",
+            tags: [],
+            isTagMode: false,
+            tagNotes: [],
+            tag: "",
         };
     },
 
@@ -61,6 +94,10 @@ export default {
 
         if (localStorage.getItem("notes"))
             this.notes = JSON.parse(localStorage.getItem("notes"));
+
+        if (localStorage.getItem("tags"))
+            this.tags = JSON.parse(localStorage.getItem("tags"))
+
     },
 
     watch: {
@@ -80,10 +117,16 @@ export default {
             deep: true,
         },
 
+        tags: {
+            handler() {
+                var newTags = this.tags;
+                localStorage.setItem("tags", JSON.stringify(newTags));
+            }
+        }
     },
 
     methods: {
-        newNote(title, text, theme, time, date, guid, isImportant) {
+        newNote(title, text, theme, time, date, guid, isImportant, tags) {
             this.notes.push({
                 title: title,
                 text: text,
@@ -91,11 +134,12 @@ export default {
                 time: time,
                 date: date,
                 guid: guid,
-                important: isImportant
+                important: isImportant,
+                tags: tags
             });
         },
 
-        modifyNote(title, text, theme, time, date, originDate, guid, important) {
+        modifyNote(title, text, theme, time, date, originDate, guid, important, tags) {
 
             const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -107,6 +151,7 @@ export default {
             tempObj.guid = guid;
             tempObj.date = originDate;
             tempObj.important = important;
+            tempObj.tags = tags;
 
             this.notes.splice(index, 1);
             this.notes.splice(index, 0, tempObj);
@@ -132,7 +177,26 @@ export default {
                 this.todayNotes = todayNotes.filter(note => note.title.includes(memo) || note.text.includes(memo));
 
             }
+        },
+
+        initTags(tags) {
+            this.tags = tags;
+        },
+
+        deleteTag(index) {
+            this.tags.splice(index, 1);
+        },
+
+        selectTag(tag) {
+            this.tag = tag;
+            this.isTagMode = true;
+            this.tagNotes = this.todayNotes.filter(note => note.tags.includes(tag));
+        },
+
+        reloadOrigin() {
+            this.isTagMode = false;
         }
+
     },
 };
 </script>
@@ -154,5 +218,18 @@ export default {
 
 hr {
     border: dashed 2px lightgray;
+}
+
+.reloadBtn {
+    position: fixed;
+    right: 5%;
+    bottom: 45%;
+    z-index: 10;
+}
+
+p {
+    font-family: "Sansita Swashed", cursive;
+    font-size: 20px;
+    color: #2196f3;
 }
 </style>
