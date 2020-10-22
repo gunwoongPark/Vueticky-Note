@@ -11,7 +11,12 @@
           placeholder="Title"
         ></textarea>
         <v-spacer></v-spacer>
-        <div class="time">{{ note.time }}</div>
+        <div v-if="this.Brightness" class="time" style="color: rgb(95, 95, 95)">
+          {{ note.time }}
+        </div>
+        <div v-else class="time" style="color: rgb(220, 220, 220)">
+          {{ note.time }}
+        </div>
       </v-card-title>
 
       <v-card-text>
@@ -67,12 +72,36 @@ export default {
   data () {
     return {
       selectedItem: this.note.tags,
+      Brightness: true
+
     }
+
+
+  },
+  mounted () {
+    this.setBrightness(this.note.theme)
+
   },
 
   methods: {
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
+
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+
+      (v < 120) ? this.Brightness = false : this.Brightness = true;
+    },
     initColor (picker) {
       this.note.theme = picker;
+      this.setBrightness(this.note.theme)
+
     },
 
     modifyNote () {
@@ -147,7 +176,6 @@ textarea:focus {
 }
 
 .time {
-  color: rgb(102, 102, 102);
   font-size: 15px;
   margin-bottom: -10px;
 }
