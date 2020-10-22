@@ -2,7 +2,7 @@
   <div>
     <v-text-field
       class="searchBar"
-      placeholder="Type note..."
+      placeholder="Search note..."
       hide-details
       prepend-icon="mdi-magnify"
       single-line
