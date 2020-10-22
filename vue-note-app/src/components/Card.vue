@@ -2,7 +2,13 @@
 <div>
     <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
-            <v-card @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
+            <v-card 
+              id ="pattern"
+              @mouseenter="mouseEnter" 
+              @mouseleave="mouseLeave" 
+              class="note" 
+              :style="{ 'background-color': note.theme }"
+              >
                 <div class="Container">
                     <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
                     <v-spacer></v-spacer>
@@ -104,6 +110,11 @@ export default {
 <style scoped>
 .cardTitle {
     margin-top: -25px;
+}
+
+#pattern {
+  background:repeating-linear-gradient(-45deg,#444,#444 10px,#888 0, #888 20px);
+  background-blend-mode: overlay;
 }
 
 .Container {

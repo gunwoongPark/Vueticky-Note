@@ -214,6 +214,7 @@ export default {
     margin-right: 25px;
 
     height: 10000px;
+    font-family: nanum; /* font */
 }
 
 hr {
@@ -232,4 +233,11 @@ p {
     font-size: 20px;
     color: #2196f3;
 }
+/* ---- CARD ---- */
+@font-face { /* font */
+    font-family: nanum;
+    src: url('./assets/NanumBarunpenB.ttf');
+}
+/* -------------- */
+
 </style>
