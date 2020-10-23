@@ -59,7 +59,7 @@ export default {
       this.note.text = "";
       this.note.theme = "rgb(240,240,240)";
       this.note.Brightness = "true"
-      console.log('hello')
+
     },
 
     newNote (title, text, theme, time, date, isImportant, tags) {

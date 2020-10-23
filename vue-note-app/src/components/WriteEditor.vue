@@ -143,7 +143,7 @@ export default {
       let decB = parseInt(hexB, 16);
 
       let v = (decR + decG + decB) / 3;
-      console.log(v);
+      //console.log(v);
 
       (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
     },

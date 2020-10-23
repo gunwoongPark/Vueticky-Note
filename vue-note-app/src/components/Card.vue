@@ -89,6 +89,7 @@ export default {
     };
   },
   mounted () {
+    console.log('hello')
     this.setBrightness(this.note.theme)
   },
   watch: {
@@ -132,7 +133,9 @@ export default {
     deleteNote () {
       //   if (confirm("정말 삭제하시겠습니까?"))
       this.$emit("deleteNote", this.note.guid);
+      this.Brightness = !this.Brightness; //앞의 노트를 삭제했을 때 삭제된 노트의 명도를 따라가는 Bug 수정
     },
+
     setBrightness (color) {
       let hexR = color.substring(1, 3);
       let hexG = color.substring(3, 5);
