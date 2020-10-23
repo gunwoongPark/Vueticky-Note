@@ -31,7 +31,7 @@
               <p>{{ note.title }}</p>
             </v-card-title>
             <v-card-text class="noteText">
-              <p>{{ note.text }}</p>
+              <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
           </div>
         </v-card>

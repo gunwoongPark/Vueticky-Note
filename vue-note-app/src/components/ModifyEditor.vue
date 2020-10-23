@@ -15,9 +15,28 @@
       </v-card-title>
 
       <v-card-text>
-        <Editor mode="viewer" v-model="note.text" />
-        <!-- <textarea placeholder="Take a note..." v-model="note.text" rows="17" style="width: 100%">
-        </textarea> -->
+        <v-row>
+          <v-col cols="6">
+            <v-sheet class="originText" color="white" elevation="5">
+              <textarea
+                placeholder="Take a note..."
+                v-model="note.text"
+                rows="17"
+                style="width: 100%"
+              >
+              </textarea>
+            </v-sheet>
+          </v-col>
+          <v-col cols="6">
+            <v-sheet
+              color="white"
+              elevation="5"
+              style="height: 401px; overflow: auto"
+            >
+              <Editor mode="viewer" v-model="note.text" />
+            </v-sheet>
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -121,7 +140,6 @@ textarea {
   padding: 10px;
   resize: none;
   border: none;
-  font-family: nanum;
   /* font */
 }
 
