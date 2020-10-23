@@ -6,7 +6,7 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
-          v-if="this.Brightness"
+          v-if="note.Brightness"
           style="color: black"
           v-model="note.title"
           cols="65"
@@ -27,7 +27,7 @@
         <textarea
           v-model="note.text"
           placeholder="Take a note..."
-          cols="65"
+          cols="150"
           rows="17"
         ></textarea>
       </v-card-text>
@@ -83,7 +83,7 @@ export default {
     return {
       selectedTags: [],
       isImportant: false,
-      Brightness: true
+
     }
   },
 
@@ -143,9 +143,9 @@ export default {
       let decB = parseInt(hexB, 16);
 
       let v = (decR + decG + decB) / 3;
-      //console.log(v);
+      console.log(v);
 
-      (v < 120) ? this.Brightness = false : this.Brightness = true;
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
     },
 
   },

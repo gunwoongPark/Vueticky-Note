@@ -12,7 +12,19 @@
             <v-icon v-if="note.important" class="starIcon">mdi-bookmark</v-icon>
             <v-spacer></v-spacer>
             <div class="iconContainer">
-              <v-icon class="deleteIcon" @click.prevent="deleteNote"
+              <v-icon
+                v-if="Brightness"
+                style="color: black"
+                class="deleteIcon"
+                @click.prevent="deleteNote"
+                >mdi-close-circle</v-icon
+              >
+
+              <v-icon
+                v-else
+                style="color: white"
+                class="deleteIcon"
+                @click.prevent="deleteNote"
                 >mdi-close-circle</v-icon
               >
             </div>
@@ -118,8 +130,8 @@ export default {
     },
 
     deleteNote () {
-      if (confirm("정말 삭제하시겠습니까?"))
-        this.$emit("deleteNote", this.note.guid);
+      //   if (confirm("정말 삭제하시겠습니까?"))
+      this.$emit("deleteNote", this.note.guid);
     },
     setBrightness (color) {
       let hexR = color.substring(1, 3);

@@ -6,7 +6,7 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
-          v-if="this.Brightness"
+          v-if="Brightness"
           style="color: black"
           v-model="note.title"
           cols="100"
@@ -21,7 +21,7 @@
           placeholder="Title"
         ></textarea>
         <v-spacer></v-spacer>
-        <div v-if="this.Brightness" class="time" style="color: rgb(95, 95, 95)">
+        <div v-if="Brightness" class="time" style="color: rgb(95, 95, 95)">
           {{ note.time }}
         </div>
         <div v-else class="time" style="color: rgb(220, 220, 220)">
@@ -33,7 +33,7 @@
         <textarea
           v-model="note.text"
           placeholder="Take a note..."
-          cols="65"
+          cols="150"
           rows="17"
         ></textarea>
       </v-card-text>
@@ -89,6 +89,7 @@ export default {
 
   },
   mounted () {
+
     this.setBrightness(this.note.theme)
 
   },
