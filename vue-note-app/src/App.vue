@@ -223,7 +223,6 @@ export default {
     margin-left: 25px;
     margin-right: 25px;
 
-    height: 10000px;
     font-family: nanum;
     /* font */
 }
