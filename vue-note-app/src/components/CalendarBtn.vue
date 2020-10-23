@@ -48,7 +48,7 @@ export default {
 .calendarBtn {
     position: fixed;
     right: 5%;
-    bottom: 25%;
+    bottom: 35%;
     z-index: 10;
 }
 </style>

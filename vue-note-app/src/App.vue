@@ -1,17 +1,25 @@
 <template>
 <v-app>
     <v-main>
-        <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
-            <v-icon dark> mdi-reload </v-icon>
-        </v-btn>
 
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
+        <div v-if="btnsToggle" class="btnContainer">
+            <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
+                <v-icon dark> mdi-reload </v-icon>
+            </v-btn>
 
-        <CalendarBtn @selectDate="selectDate" />
+            <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
 
-        <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
+            <CalendarBtn @selectDate="selectDate" />
+
+            <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
+        </div>
+
+        <v-btn class="menuBtn mx-2" fab dark color="blue" @click="btnsOn">
+            <v-icon v-if="btnsToggle" class="folderOpenIcon" dark>mdi-folder-open</v-icon>
+            <v-icon v-else class="folderIcon" dark>mdi-folder</v-icon>
+        </v-btn>
 
         <TopBtn />
 
@@ -82,6 +90,8 @@ export default {
             isTagMode: false,
             tagNotes: [],
             tag: "",
+
+            btnsToggle: false,
         };
     },
 
@@ -207,15 +217,27 @@ export default {
         reloadOrigin() {
             this.isTagMode = false;
         },
+
+        btnsOn() {
+            this.btnsToggle = !this.btnsToggle
+        }
     },
 };
 </script>
 
 <style scoped>
-.calendarBtn {
+.reloadBtn {
+    position: fixed;
+    right: 5%;
+    bottom: 55%;
+    z-index: 10;
+}
+
+.menuBtn {
     position: fixed;
     right: 5%;
     bottom: 15%;
+    z-index: 10;
 }
 
 .noteContainer {
@@ -229,13 +251,6 @@ export default {
 
 hr {
     border: dashed 2px lightgray;
-}
-
-.reloadBtn {
-    position: fixed;
-    right: 5%;
-    bottom: 45%;
-    z-index: 10;
 }
 
 p {

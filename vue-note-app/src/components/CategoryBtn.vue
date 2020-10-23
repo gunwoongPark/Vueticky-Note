@@ -97,7 +97,7 @@ export default {
 .tagBtn {
     position: fixed;
     right: 5%;
-    bottom: 35%;
+    bottom: 45%;
     z-index: 10;
 }
 
