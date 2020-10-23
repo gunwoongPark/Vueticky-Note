@@ -62,13 +62,14 @@ export default {
 
     },
 
-    newNote (title, text, theme, time, date, isImportant, tags) {
+    newNote (title, text, theme, Brightness, time, date, isImportant, tags) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
         title,
         text,
         theme,
+        Brightness,
         time,
         date,
         cryptoRandomString({

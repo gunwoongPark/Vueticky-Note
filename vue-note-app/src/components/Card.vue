@@ -13,7 +13,7 @@
             <v-spacer></v-spacer>
             <div class="iconContainer">
               <v-icon
-                v-if="Brightness"
+                v-if="note.Brightness"
                 style="color: black"
                 class="deleteIcon"
                 @click.prevent="deleteNote"
@@ -31,7 +31,7 @@
           </div>
           <div v-bind="attrs" v-on="on" @click.prevent="initData">
             <v-card-title
-              v-if="Brightness"
+              v-if="note.Brightness"
               style="color: black"
               class="cardTitle noteTitle"
             >
@@ -45,7 +45,7 @@
               <p>{{ note.title }}</p>
             </v-card-title>
             <v-card-text
-              v-if="Brightness"
+              v-if="note.Brightness"
               style="color: black"
               class="noteText"
             >
@@ -85,7 +85,7 @@ export default {
       dialog: false,
       isSubmit: false,
       tempNote: {},
-      Brightness: true
+
     };
   },
   mounted () {
@@ -133,7 +133,7 @@ export default {
     deleteNote () {
       //   if (confirm("정말 삭제하시겠습니까?"))
       this.$emit("deleteNote", this.note.guid);
-      this.Brightness = !this.Brightness; //앞의 노트를 삭제했을 때 삭제된 노트의 명도를 따라가는 Bug 수정
+
     },
 
     setBrightness (color) {
@@ -148,7 +148,7 @@ export default {
       let v = (decR + decG + decB) / 3;
       //console.log(v);
 
-      (v < 120) ? this.Brightness = false : this.Brightness = true;
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
     },
   },
 

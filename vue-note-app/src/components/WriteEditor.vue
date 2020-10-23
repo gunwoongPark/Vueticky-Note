@@ -116,10 +116,12 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
+        this.note.Brightness,
         time,
         date,
         this.isImportant,
-        this.selectedTags
+        this.selectedTags,
+
       );
 
       this.isImportant = false;
