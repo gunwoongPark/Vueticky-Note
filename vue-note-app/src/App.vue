@@ -196,7 +196,7 @@ export default {
       });
     },
 
-    modifyNote (title, text, theme, time, date, originDate, guid, important, tags) {
+    modifyNote (title, text, theme, Brightness, time, date, originDate, guid, important, tags) {
 
       const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -204,6 +204,7 @@ export default {
       tempObj.title = title;
       tempObj.text = text;
       tempObj.theme = theme;
+      tempObj.Brightness = Brightness;
       tempObj.time = `edited ${date} ${time}`;
       tempObj.guid = guid;
       tempObj.date = originDate;

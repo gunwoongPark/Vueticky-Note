@@ -89,7 +89,7 @@ export default {
     };
   },
   mounted () {
-    console.log('hello')
+    //console.log('hello')
     this.setBrightness(this.note.theme)
   },
   watch: {
@@ -114,10 +114,10 @@ export default {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (title, text, theme, time, date, originDate, important, tags) {
+    modifyNote (title, text, theme, Brightness, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
-      this.$emit("modifyNote", title, text, theme, time, date, originDate, this.note.guid, important, tags);
+      this.$emit("modifyNote", title, text, theme, Brightness, time, date, originDate, this.note.guid, important, tags);
       this.setBrightness(theme)
     },
 

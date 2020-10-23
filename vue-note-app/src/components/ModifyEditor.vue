@@ -6,7 +6,7 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
-          v-if="Brightness"
+          v-if="note.Brightness"
           style="color: black"
           v-model="note.title"
           cols="100"
@@ -21,7 +21,7 @@
           placeholder="Title"
         ></textarea>
         <v-spacer></v-spacer>
-        <div v-if="Brightness" class="time" style="color: rgb(95, 95, 95)">
+        <div v-if="note.Brightness" class="time" style="color: rgb(95, 95, 95)">
           {{ note.time }}
         </div>
         <div v-else class="time" style="color: rgb(220, 220, 220)">
@@ -82,7 +82,7 @@ export default {
   data () {
     return {
       selectedItem: this.note.tags,
-      Brightness: true
+
 
     }
 
@@ -90,7 +90,7 @@ export default {
   },
   mounted () {
 
-    this.setBrightness(this.note.theme)
+    //this.setBrightness(this.note.theme)
 
   },
 
@@ -107,7 +107,7 @@ export default {
       let v = (decR + decG + decB) / 3;
       //console.log(v);
 
-      (v < 120) ? this.Brightness = false : this.Brightness = true;
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
     },
     initColor (picker) {
       this.note.theme = picker;
@@ -145,6 +145,7 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
+        this.note.Brightness,
         time,
         date,
         originDate,
