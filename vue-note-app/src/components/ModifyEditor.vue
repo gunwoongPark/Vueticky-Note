@@ -16,7 +16,8 @@
 
       <v-card-text>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12" md="6" lg="6" sm="12" xs="12">
+            Editor
             <v-sheet class="originText" color="white" elevation="5">
               <textarea
                 placeholder="Take a note..."
@@ -27,7 +28,9 @@
               </textarea>
             </v-sheet>
           </v-col>
-          <v-col cols="6">
+
+          <v-col cols="12" md="6" lg="6" sm="12" xs="12">
+            Previewer
             <v-sheet
               color="white"
               elevation="5"
