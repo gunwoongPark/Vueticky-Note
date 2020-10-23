@@ -16,7 +16,7 @@
         <v-card-actions>
             <Color :theme="note.theme" @selectedColor="initColor" />
             <v-icon class="starIcon" :class="{ important: note.important }" @click="addImportant">mdi-star</v-icon>
-            <v-select class="ml-2 mr-2" v-model="selectedTags" :menu-props="{ top: true, offsetY: true }" :items="tags" attach chips label="Tags" multiple></v-select>
+            <v-select class="ml-2 mr-2" v-model="note.tags" :menu-props="{ top: true, offsetY: true }" :items="tags" attach chips label="Tags" multiple></v-select>
             <v-spacer></v-spacer>
             <v-btn color="black" text @click="modifyNote"> modify </v-btn>
         </v-card-actions>
@@ -33,10 +33,6 @@ export default {
             required: true,
         },
         tags: {
-            type: Array,
-            required: true,
-        },
-        selectedTags: {
             type: Array,
             required: true,
         },
@@ -81,7 +77,7 @@ export default {
                 date,
                 originDate,
                 this.note.important,
-                this.selectedTags
+                this.note.tags
             );
         },
         addImportant() {

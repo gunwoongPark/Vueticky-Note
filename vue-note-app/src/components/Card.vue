@@ -26,7 +26,7 @@
                 </div>
             </v-card>
         </template>
-        <ModifyEditor :note="note" :tags="tags" :selectedTags="note.tags" @noteModified="modifyNote" />
+        <ModifyEditor :note="note" :tags="tags" @noteModified="modifyNote" />
     </v-dialog>
 </div>
 </template>
@@ -65,6 +65,8 @@ export default {
                     this.note.text = this.tempNote.text;
                     this.note.theme = this.tempNote.theme;
                     this.note.important = this.tempNote.important;
+                    this.note.tags = this.tempNote.tags;
+
                 }
             },
         },
@@ -101,6 +103,7 @@ export default {
             this.tempNote.text = this.note.text;
             this.tempNote.theme = this.note.theme;
             this.tempNote.important = this.note.important;
+            this.tempNote.tags = this.note.tags;
 
             this.isSubmit = false;
         },
