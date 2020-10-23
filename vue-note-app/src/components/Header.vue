@@ -64,18 +64,10 @@ export default {
     right: 0;
 }
 
-img {
-    margin-left: 20px;
-}
-
 p {
     font-size: 25px;
     margin: 25px;
     margin-left: 11%;
     font-family: "Sansita Swashed", cursive;
-}
-
-.headerContainer {
-    align-items: center;
 }
 </style>

@@ -92,6 +92,7 @@ export default {
             tag: "",
 
             btnsToggle: false,
+            isMobile: false,
         };
     },
 
@@ -241,7 +242,7 @@ export default {
 }
 
 .noteContainer {
-    margin-top: 100px;
+    margin-top: 140px;
     margin-left: 25px;
     margin-right: 25px;
 
