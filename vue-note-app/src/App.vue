@@ -202,12 +202,12 @@ export default {
     let intFrameWidth = window.innerWidth;
     // 최초 PC 뷰
     if (intFrameWidth <= 960) {
-      document.querySelector(".tagBar").style.marginTop = "210px";
+      //   document.querySelector(".tagBar").style.marginTop = "210px";
       document.querySelector(".noteContainer").style.marginTop = "250px";
     }
     // 최초 mobile 뷰
     else {
-      document.querySelector(".tagBar").style.marginTop = "140px";
+      //   document.querySelector(".tagBar").style.marginTop = "140px";
       document.querySelector(".noteContainer").style.marginTop = "180px";
     }
 
@@ -349,10 +349,10 @@ export default {
     handleResize() {
       let intFrameWidth = window.innerWidth;
       if (intFrameWidth <= 960) {
-        document.querySelector(".tagBar").style.marginTop = "210px";
+        // document.querySelector(".tagBar").style.marginTop = "210px";
         document.querySelector(".noteContainer").style.marginTop = "250px";
       } else {
-        document.querySelector(".tagBar").style.marginTop = "140px";
+        // document.querySelector(".tagBar").style.marginTop = "140px";
         document.querySelector(".noteContainer").style.marginTop = "180px";
       }
     },
