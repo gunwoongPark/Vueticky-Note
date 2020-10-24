@@ -135,10 +135,12 @@ export default {
             this.tags = JSON.parse(localStorage.getItem("tags"));
 
         let intFrameWidth = window.innerWidth;
-        if (intFrameWidth <= 960)
-            document.querySelector(".noteContainer").style.marginTop = "205px";
-        else {
+        if (intFrameWidth <= 960) {
             document.querySelector(".noteContainer").style.marginTop = "10px";
+            document.querySelector(".tagBar").style.marginTop = "210px;"
+        } else {
+            document.querySelector(".noteContainer").style.marginTop = "10px";
+            document.querySelector(".tagBar").style.marginTop = "140px;"
         }
 
         window.addEventListener("resize", this.handleResize);
@@ -281,10 +283,12 @@ export default {
 
         handleResize() {
             let intFrameWidth = window.innerWidth;
-            if (intFrameWidth <= 960)
-                document.querySelector(".noteContainer").style.marginTop = "205px";
-            else {
-                document.querySelector(".noteContainer").style.marginTop = "80px";
+            if (intFrameWidth <= 960) {
+                document.querySelector(".noteContainer").style.marginTop = "10px";
+                document.querySelector(".tagBar").style.marginTop = "210px;"
+            } else {
+                document.querySelector(".noteContainer").style.marginTop = "10px";
+                document.querySelector(".tagBar").style.marginTop = "140px;"
             }
         },
     },
@@ -326,7 +330,7 @@ p {
 }
 
 .tagBar {
-    margin-top: 140px;
+    margin-top: 210px;
     justify-content: center;
 }
 </style>
