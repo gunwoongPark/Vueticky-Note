@@ -2,7 +2,7 @@
 <div>
     <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
-            <v-card id="pattern" @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
+            <v-card id="cardborder" @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="note" :style="{ 'background-color': note.theme }">
                 <div class="Container">
                     <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
                     <v-spacer></v-spacer>
@@ -126,6 +126,10 @@ export default {
 <style scoped>
 .cardTitle {
     margin-top: -25px;
+}
+
+.note {
+   border-radius: 5px 50px 5px 50px;
 }
 
 .Container {

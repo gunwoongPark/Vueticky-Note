@@ -20,12 +20,14 @@
             <p>{{ this.date }}</p>
           </v-col>
         </v-row>
+        
         <v-row>
           <v-col>
             <SearchBar @submitText="submitText" />
           </v-col>
         </v-row>
       </div>
+      <div class="gr"/>
     </v-container>
   </div>
 </template>
@@ -53,6 +55,10 @@ export default {
 </script>
 
 <style scoped>
+.gr {
+    border: solid 1px lightgray;
+}
+
 .header {
   display: flex;
   background: rgba(255, 255, 255, 0.741);
@@ -69,3 +75,4 @@ p {
   font-family: "Sansita Swashed", cursive;
 }
 </style>
+

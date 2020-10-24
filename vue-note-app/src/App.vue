@@ -21,11 +21,13 @@
                     {{ tag }}
                 </v-btn>
             </v-slide-item>
+
         </v-slide-group>
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
             <div v-show="isNormal" class="importantNotesContainer">
+                <div class="gr"/>
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -289,12 +291,15 @@ export default {
 
 <style scoped>
 .noteContainer {
-
+    
     margin-left: 25px;
     margin-right: 25px;
-
     font-family: nanum;
     /* font */
+}
+
+.gr {
+    border: solid 1px lightgray;
 }
 
 hr {
