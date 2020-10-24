@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="myStyle">
     <v-main>
       <Header
         style="z-index: 10"
@@ -181,6 +181,9 @@ export default {
 
   data () {
     return {
+      myStyle: {
+        backgroundColor: "#E0F2F1"
+      },
       notes: [],
       todayNotes: [],
       importantNotes: [],

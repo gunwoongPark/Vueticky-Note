@@ -8,27 +8,29 @@
           /></v-col>
           <v-col cols="5">
             <SearchBar @submitText="submitText" />
+            <v-sheet max-width="680px" style="background-color: #e0f2f1"
+              ><v-slide-group class="tagBar" show-arrows>
+                <v-slide-item
+                  style="background-color: #00bfa5"
+                  class="tagItems"
+                  v-for="(tag, index) in tags"
+                  :key="`tag-${index}`"
+                >
+                  <v-btn
+                    class="mx-2"
+                    depressed
+                    rounded
+                    @click="selectTag(index)"
+                  >
+                    {{ tag }}
+                  </v-btn>
+                </v-slide-item>
+              </v-slide-group></v-sheet
+            >
           </v-col>
           <!-- <v-col style="text-align: left">
             <p>{{ this.date }}</p>
           </v-col> -->
-        </v-row>
-        <v-row>
-          <v-col style="margin-left: 33%; margin-top: -25px">
-            <v-slide-group class="tagBar" show-arrows>
-              <v-slide-item
-                style="background-color: #00bfa5"
-                class="tagItems"
-                v-for="(tag, index) in tags"
-                :key="`tag-${index}`"
-              >
-                <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
-                  {{ tag }}
-                </v-btn>
-              </v-slide-item>
-            </v-slide-group>
-            <div></div>
-          </v-col>
         </v-row>
       </div>
 
@@ -40,13 +42,7 @@
           <v-col cols="8">
             <SearchBar @submitText="submitText" />
           </v-col>
-          <!-- <v-col style="text-align: left">
-            <p>{{ this.date }}</p>
-          </v-col> -->
-        </v-row>
-
-        <v-row>
-          <v-col style="margin-left: 25%">
+          <v-sheet max-width="350" style="background-color: #e0f2f1">
             <v-slide-group class="tagBar" show-arrows>
               <v-slide-item
                 style="background-color: #00bfa5"
@@ -59,11 +55,12 @@
                 </v-btn>
               </v-slide-item>
             </v-slide-group>
-            <div></div>
-          </v-col>
+          </v-sheet>
+          <!-- <v-col style="text-align: left">
+            <p>{{ this.date }}</p>
+          </v-col> -->
         </v-row>
       </div>
-      <div class="gr" />
     </v-container>
   </div>
 </template>
@@ -102,7 +99,7 @@ export default {
 
 .header {
   display: flex;
-  background: rgba(255, 255, 255, 0.741);
+  background: #e0f2f1c2;
   color: #2196f3;
   position: fixed;
   left: 0;
