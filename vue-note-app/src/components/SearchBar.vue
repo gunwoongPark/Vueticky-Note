@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-text-field
+      color="rgb(158,215,147)"
       class="searchBar"
       outlined
       label="Type your note..."

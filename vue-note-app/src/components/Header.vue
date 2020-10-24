@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-container>
+  <div class="header">
+    <v-container fluid>
       <v-row class="searchContainer">
         <v-col cols="0" lg="3" md="2" sm="1"></v-col>
         <v-col cols="3" lg="1" md="2" sm="2">
@@ -19,7 +19,13 @@
               v-for="(tag, index) in tags"
               :key="`tag-${index}`"
             >
-              <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
+              <v-btn
+                class="mx-2"
+                color="rgb(158,215,147)"
+                depressed
+                rounded
+                @click="selectTag(index)"
+              >
                 {{ tag }}
               </v-btn>
             </v-slide-item>
@@ -63,9 +69,7 @@ export default {
 <style scoped>
 .header {
   display: flex;
-  background: rgba(255, 255, 255, 0.741);
-  color: #2196f3;
-  position: fixed;
+
   left: 0;
   right: 0;
 }
