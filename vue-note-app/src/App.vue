@@ -3,22 +3,15 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <div v-show="btnsToggle" class="btnContainer">
-            <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
-                <v-icon dark> mdi-reload </v-icon>
-            </v-btn>
-
-            <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
-
-            <CalendarBtn @selectDate="selectDate" />
-
-            <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
-        </div>
-
-        <v-btn class="menuBtn mx-2" fab dark color="blue" @click="btnsOn">
-            <v-icon v-if="btnsToggle" class="folderOpenIcon" dark>mdi-folder-open</v-icon>
-            <v-icon v-else class="folderIcon" dark>mdi-folder</v-icon>
+        <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
+            <v-icon dark> mdi-reload </v-icon>
         </v-btn>
+
+        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
+
+        <CalendarBtn @selectDate="selectDate" />
+
+        <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
 
         <TopBtn />
 
@@ -32,7 +25,7 @@
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
-            <div v-if="isNormal" class="importantNotesContainer">
+            <div v-show="isNormal" class="importantNotesContainer">
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -113,7 +106,6 @@ export default {
             tagNotes: [],
             tag: "",
 
-            btnsToggle: false,
             isMobile: false,
             isSearch: false,
             isNormal: true,
@@ -277,10 +269,6 @@ export default {
             this.isNormal = true;
         },
 
-        btnsOn() {
-            this.btnsToggle = !this.btnsToggle;
-        },
-
         handleResize() {
             let intFrameWidth = window.innerWidth;
             if (intFrameWidth <= 960) {
@@ -299,15 +287,8 @@ export default {
 <style scoped>
 .reloadBtn {
     position: fixed;
-    right: 5%;
-    bottom: 55%;
-    z-index: 10;
-}
-
-.menuBtn {
-    position: fixed;
-    right: 5%;
-    bottom: 15%;
+    right: 10%;
+    bottom: 45%;
     z-index: 10;
 }
 

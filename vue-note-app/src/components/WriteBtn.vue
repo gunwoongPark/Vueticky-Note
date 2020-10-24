@@ -76,8 +76,8 @@ export default {
 <style scoped>
 .plusBtn {
     position: fixed;
-    right: 5%;
-    bottom: 25%;
+    right: 10%;
+    bottom: 15%;
     z-index: 10;
 }
 </style>

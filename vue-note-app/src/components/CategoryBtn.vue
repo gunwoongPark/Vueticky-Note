@@ -96,8 +96,8 @@ export default {
 <style scoped>
 .tagBtn {
     position: fixed;
-    right: 5%;
-    bottom: 45%;
+    right: 10%;
+    bottom: 35%;
     z-index: 10;
 }
 
