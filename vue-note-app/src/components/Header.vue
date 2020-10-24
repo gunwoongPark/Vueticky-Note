@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container fluid>
+    <!-- <v-container fluid>
       <div class="PCView hidden-sm-and-down header">
         <v-row style="align-items: center">
           <v-col><img src="../assets/50VemoBlue.png" /></v-col>
@@ -39,6 +39,22 @@
             </v-btn>
           </v-slide-item>
         </v-slide-group>
+      </v-row>
+    </v-container> -->
+
+    <v-container>
+      <v-row class="searchContainer">
+        <v-col cols="0" lg="3" md="2" sm="1"></v-col>
+
+        <v-col cols="3" lg="1" md="2" sm="2">
+          <img src="../assets/Memo_icon.svg.png" />
+        </v-col>
+
+        <v-col cols="9" lg="5" md="6" sm="8">
+          <SearchBar @submitText="submitText"
+        /></v-col>
+
+        <v-col cols="0" lg="3" md="2" sm="1"></v-col>
       </v-row>
     </v-container>
   </div>
@@ -89,5 +105,10 @@ p {
   margin: 25px;
   margin-left: 11%;
   font-family: "Sansita Swashed", cursive;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
 }
 </style>
