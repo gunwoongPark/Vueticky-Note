@@ -14,7 +14,7 @@
 
                 <div v-if="tags.length">
                     <v-chip-group column>
-                        <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)" @click="selectTag(index)">
+                        <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)">
                             {{ tag }}
                         </v-chip>
                     </v-chip-group>
@@ -84,10 +84,10 @@ export default {
             this.text = "";
         },
 
-        selectTag(index) {
-            this.$emit("selectTag", this.tags[index]);
-            this.dialog = false;
-        }
+        // selectTag(index) {
+        //     this.$emit("selectTag", this.tags[index]);
+        //     this.dialog = false;
+        // }
     }
 
 }

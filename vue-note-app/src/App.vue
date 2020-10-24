@@ -8,7 +8,7 @@
                 <v-icon dark> mdi-reload </v-icon>
             </v-btn>
 
-            <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
+            <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
 
             <CalendarBtn @selectDate="selectDate" />
 
@@ -21,6 +21,14 @@
         </v-btn>
 
         <TopBtn />
+
+        <v-slide-group class="tagBar" show-arrows>
+            <v-slide-item class="tagItems" v-for="(tag, index) in tags" :key="`tag-${index}`">
+                <v-btn class="mx-2" active-class="blue white--text" depressed rounded @click="selectTag(index)">
+                    {{ tag }}
+                </v-btn>
+            </v-slide-item>
+        </v-slide-group>
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
@@ -115,7 +123,7 @@ export default {
         if (intFrameWidth <= 960)
             document.querySelector(".noteContainer").style.marginTop = "205px";
         else {
-            document.querySelector(".noteContainer").style.marginTop = "140px";
+            document.querySelector(".noteContainer").style.marginTop = "10px";
         }
 
         window.addEventListener("resize", this.handleResize);
@@ -233,10 +241,10 @@ export default {
             this.tags.splice(index, 1);
         },
 
-        selectTag(tag) {
-            this.tag = tag;
+        selectTag(index) {
+            this.tag = this.tags[index];
             this.isTagMode = true;
-            this.tagNotes = this.todayNotes.filter((note) => note.tags.includes(tag));
+            this.tagNotes = this.todayNotes.filter((note) => note.tags.includes(this.tags[index]));
         },
 
         reloadOrigin() {
@@ -252,7 +260,7 @@ export default {
             if (intFrameWidth <= 960)
                 document.querySelector(".noteContainer").style.marginTop = "205px";
             else {
-                document.querySelector(".noteContainer").style.marginTop = "140px";
+                document.querySelector(".noteContainer").style.marginTop = "80px";
             }
         },
     },
@@ -275,7 +283,7 @@ export default {
 }
 
 .noteContainer {
-    margin-top: 140px;
+
     margin-left: 25px;
     margin-right: 25px;
 
@@ -291,5 +299,10 @@ p {
     font-family: "Sansita Swashed", cursive;
     font-size: 20px;
     color: #2196f3;
+}
+
+.tagBar {
+    margin-top: 140px;
+    justify-content: center;
 }
 </style>
