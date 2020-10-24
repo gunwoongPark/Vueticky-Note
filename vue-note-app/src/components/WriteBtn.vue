@@ -2,7 +2,7 @@
 <div>
     <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" class="mx-2 plusBtn" fab dark color="blue" style="z-index: 10" @click="initData">
+            <v-btn v-bind="attrs" v-on="on" class="mx-2 writeBtn" fab dark color="blue" style="z-index: 10" @click="initData">
                 <v-icon dark> mdi-plus </v-icon>
             </v-btn>
         </template>
@@ -74,10 +74,10 @@ export default {
 </script>
 
 <style scoped>
-.plusBtn {
-    position: fixed;
+.writeBtn {
     right: 5%;
-    bottom: 25%;
+    position: fixed;
+    bottom: 15%;
     z-index: 10;
 }
 </style>

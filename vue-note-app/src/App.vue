@@ -3,28 +3,29 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <div v-if="btnsToggle" class="btnContainer">
-            <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
-                <v-icon dark> mdi-reload </v-icon>
-            </v-btn>
-
-            <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" @selectTag="selectTag" />
-
-            <CalendarBtn @selectDate="selectDate" />
-
-            <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
-        </div>
-
-        <v-btn class="menuBtn mx-2" fab dark color="blue" @click="btnsOn">
-            <v-icon v-if="btnsToggle" class="folderOpenIcon" dark>mdi-folder-open</v-icon>
-            <v-icon v-else class="folderIcon" dark>mdi-folder</v-icon>
+        <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
+            <v-icon dark> mdi-reload </v-icon>
         </v-btn>
 
-        <TopBtn />
+        <CategoryBtn class="categoryBtn" @initTags="initTags" @deleteTag="deleteTag" />
+
+        <CalendarBtn class="calendarBtn" @selectDate="selectDate" />
+
+        <WriteBtn class="writeBtn" @noteAdded="newNote" :date="date" :tags="tags" />
+
+        <TopBtn class="topBtn" />
+
+        <v-slide-group class="tagBar" show-arrows>
+            <v-slide-item class="tagItems" v-for="(tag, index) in tags" :key="`tag-${index}`">
+                <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
+                    {{ tag }}
+                </v-btn>
+            </v-slide-item>
+        </v-slide-group>
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
-            <div v-show="!isSearch" class="importantNotesContainer">
+            <div v-show="isNormal" class="importantNotesContainer">
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -34,11 +35,12 @@
                     </v-col>
                 </v-row>
             </div>
-            <hr v-if="!isSearch" />
-            <div v-if="!isTagMode" class="originNotesContainer">
+
+            <hr v-if="isNormal" />
+
+            <div v-if="isNormal" class="normalNotesContainer">
                 <v-row>
-                    <p v-if="isSearch">Search Notes :</p>
-                    <p v-else>Normal Notes :</p>
+                    <p>Normal Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".noteList">
                     <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
@@ -47,13 +49,24 @@
                 </v-row>
             </div>
 
-            <div v-else class="tagNotesContainer">
+            <div v-if="isTagMode" class="tagNotesContainer">
                 <v-row>
                     <p>Tag : {{ tag }}</p>
                 </v-row>
                 <v-row v-masonry item-selector=".tagNoteList">
                     <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
                         <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
+
+            <div v-if="isSearch" class="searchNotesContainer">
+                <v-row>
+                    <p>Search Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".searchNoteList">
+                    <v-col class="searchNoteList" v-for="(searchNote, index) in searchNotes" :key="`searchNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
+                        <Card :note="searchNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                     </v-col>
                 </v-row>
             </div>
@@ -85,6 +98,7 @@ export default {
             notes: [],
             todayNotes: [],
             importantNotes: [],
+            searchNotes: [],
             mouseHover: false,
             date: "",
             tags: [],
@@ -92,9 +106,10 @@ export default {
             tagNotes: [],
             tag: "",
 
-            btnsToggle: false,
             isMobile: false,
             isSearch: false,
+            isNormal: true,
+
         };
     },
 
@@ -112,10 +127,15 @@ export default {
             this.tags = JSON.parse(localStorage.getItem("tags"));
 
         let intFrameWidth = window.innerWidth;
-        if (intFrameWidth <= 960)
-            document.querySelector(".noteContainer").style.marginTop = "205px";
+        // 최초 PC 뷰
+        if (intFrameWidth <= 960) {
+            document.querySelector(".tagBar").style.marginTop = "210px";
+            document.querySelector(".noteContainer").style.marginTop = "250px";
+        }
+        // 최초 mobile 뷰
         else {
-            document.querySelector(".noteContainer").style.marginTop = "140px";
+            document.querySelector(".tagBar").style.marginTop = "140px";
+            document.querySelector(".noteContainer").style.marginTop = "180px";
         }
 
         window.addEventListener("resize", this.handleResize);
@@ -211,15 +231,19 @@ export default {
         },
 
         searchNote(memo) {
+            this.isNormal = false;
+            this.isTagMode = false;
             this.isSearch = true;
             let notes = JSON.parse(localStorage.getItem("notes"));
             if (memo === "") {
                 this.isSearch = false;
+                this.isTagMode = false;
+                this.isNormal = true;
                 this.todayNotes = notes.filter((note) => note.date === this.date);
             } else {
                 let todayNotes = notes.filter((note) => note.date === this.date);
 
-                this.todayNotes = todayNotes.filter(
+                this.searchNotes = todayNotes.filter(
                     (note) => note.title.includes(memo) || note.text.includes(memo)
                 );
             }
@@ -233,49 +257,39 @@ export default {
             this.tags.splice(index, 1);
         },
 
-        selectTag(tag) {
-            this.tag = tag;
+        selectTag(index) {
+            this.isNormal = false;
+            this.isSearch = false;
             this.isTagMode = true;
-            this.tagNotes = this.todayNotes.filter((note) => note.tags.includes(tag));
+
+            this.tag = this.tags[index];
+            this.tagNotes = this.todayNotes.filter((note) => note.tags.includes(this.tags[index]));
         },
 
         reloadOrigin() {
             this.isTagMode = false;
-        },
-
-        btnsOn() {
-            this.btnsToggle = !this.btnsToggle;
+            this.isSearch = false;
+            this.isNormal = true;
         },
 
         handleResize() {
             let intFrameWidth = window.innerWidth;
-            if (intFrameWidth <= 960)
-                document.querySelector(".noteContainer").style.marginTop = "205px";
-            else {
-                document.querySelector(".noteContainer").style.marginTop = "140px";
+            if (intFrameWidth <= 960) {
+                document.querySelector(".tagBar").style.marginTop = "210px";
+                document.querySelector(".noteContainer").style.marginTop = "250px";
+            } else {
+                document.querySelector(".tagBar").style.marginTop = "140px";
+                document.querySelector(".noteContainer").style.marginTop = "180px";
             }
+
         },
     },
 };
 </script>
 
 <style scoped>
-.reloadBtn {
-    position: fixed;
-    right: 5%;
-    bottom: 55%;
-    z-index: 10;
-}
-
-.menuBtn {
-    position: fixed;
-    right: 5%;
-    bottom: 15%;
-    z-index: 10;
-}
-
 .noteContainer {
-    margin-top: 140px;
+
     margin-left: 25px;
     margin-right: 25px;
 
@@ -291,5 +305,19 @@ p {
     font-family: "Sansita Swashed", cursive;
     font-size: 20px;
     color: #2196f3;
+}
+
+.tagBar {
+    position: fixed;
+
+    justify-content: center;
+    z-index: 10;
+}
+
+.reloadBtn {
+    right: 5%;
+    position: fixed;
+    bottom: 45%;
+    z-index: 10;
 }
 </style>

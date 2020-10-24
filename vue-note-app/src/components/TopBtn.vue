@@ -22,8 +22,8 @@ export default {
 
 <style scoped>
 .topBtn {
-    position: fixed;
     right: 5%;
+    position: fixed;
     bottom: 5%;
     z-index: 10;
 }
