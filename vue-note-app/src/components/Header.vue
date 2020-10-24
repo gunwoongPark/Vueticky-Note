@@ -84,6 +84,9 @@ export default {
     submitText (text) {
       this.$emit("searchNote", text);
     },
+    selectTag (idx) {
+      this.$emit("tagSelected", idx);
+    }
   },
 
   components: {

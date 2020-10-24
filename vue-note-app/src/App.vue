@@ -6,6 +6,7 @@
         :date="date"
         :tags="tags"
         @searchNote="searchNote"
+        @tagSelected="selectTag"
       />
 
       <v-btn
@@ -13,7 +14,7 @@
         class="mx-2 reloadBtn"
         fab
         dark
-        color="blue"
+        color="#EF6C00"
         @click="reloadOrigin"
       >
         <v-icon dark> mdi-reload </v-icon>
@@ -35,19 +36,6 @@
       />
 
       <TopBtn class="topBtn" />
-
-      <!-- <v-slide-group class="tagBar" show-arrows>
-        <v-slide-item
-          style="background-color: #00bfa5"
-          class="tagItems"
-          v-for="(tag, index) in tags"
-          :key="`tag-${index}`"
-        >
-          <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
-            {{ tag }}
-          </v-btn>
-        </v-slide-item>
-      </v-slide-group> -->
 
       <div class="noteContainer">
         <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
@@ -182,7 +170,8 @@ export default {
   data () {
     return {
       myStyle: {
-        backgroundColor: "#E0F2F1"
+        backgroundColor: "#E0F2F1",
+
       },
       notes: [],
       todayNotes: [],
@@ -215,19 +204,7 @@ export default {
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
 
-    // let intFrameWidth = window.innerWidth;
-    // //최초 mobile 뷰
-    // if (intFrameWidth <= 960) {
-    //   //  document.querySelector(".tagBar").style.marginTop = "95px";
 
-    //   document.querySelector(".noteContainer").style.marginTop = "0px";
-    // }
-    // // 최초 pc 뷰
-    // else {
-    //   //document.querySelector(".tagBar").style.marginTop = "95px";
-
-    //   document.querySelector(".noteContainer").style.marginTop = "200px";
-    // }
 
     window.addEventListener("resize", this.handleResize);
   },
@@ -363,17 +340,7 @@ export default {
       this.isNormal = true;
     },
 
-    // handleResize () {
-    //   let intFrameWidth = window.innerWidth;
-    //   if (intFrameWidth <= 960) {
-    //     document.querySelector(".tagBar").style.marginTop = "95px";
-    //     document.querySelector(".noteContainer").style.marginTop = "0px";
-    //   } else {
-    //     document.querySelector(".tagBar").style.marginTop = "95px";
-    //     document.querySelector(".noteContainer").style.marginTop = "0px";
-    //   }
 
-    // },
   },
 };
 </script>
@@ -384,6 +351,7 @@ export default {
   margin-right: 25px;
   margin-top: 200px;
   font-family: nanum;
+
   /* font */
 }
 
