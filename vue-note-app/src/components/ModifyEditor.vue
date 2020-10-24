@@ -13,7 +13,7 @@
                     Editor:
                     <v-sheet class="originText mb-5" color="white" elevation="5">
                         <v-container fluid>
-                            <textarea placeholder="Take a note..." v-model="note.text" rows="16" style="width: 100%"></textarea>
+                            <textarea placeholder="Take a note..." @input="bindKor" :value="note.text" rows="16" style="width: 100%"></textarea>
                         </v-container>
                     </v-sheet>
                     <a href="https://heropy.blog/2017/09/30/markdown/" target="_blank">How to Use MarkDown</a>
@@ -103,6 +103,10 @@ export default {
         addImportant() {
             this.note.important = !this.note.important;
         },
+
+        bindKor(event) {
+            this.note.text = event.target.value;
+        }
     },
 
     components: {
