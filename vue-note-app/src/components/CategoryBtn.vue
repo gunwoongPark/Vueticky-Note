@@ -13,11 +13,11 @@
                 <p>Registered tags</p>
 
                 <div v-if="tags.length">
-                    <v-chip-group column>
-                        <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)">
-                            {{ tag }}
-                        </v-chip>
-                    </v-chip-group>
+
+                    <v-chip class="tag" v-for="(tag, index) in tags" :key="`tag-${index}`" close @click:close="deleteTag(index)">
+                        {{ tag }}
+                    </v-chip>
+
                 </div>
 
                 <div v-else>
@@ -94,13 +94,6 @@ export default {
 </script>
 
 <style scoped>
-.tagBtn {
-    position: fixed;
-    right: 10%;
-    bottom: 35%;
-    z-index: 10;
-}
-
 .cardTitle {
     background: #2196f3;
     color: white;
@@ -113,5 +106,12 @@ export default {
 
 .tag {
     margin: 2px;
+}
+
+.categoryBtn {
+    right: 5%;
+    position: fixed;
+    bottom: 35%;
+    z-index: 10;
 }
 </style>

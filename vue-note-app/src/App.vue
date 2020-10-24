@@ -7,13 +7,13 @@
             <v-icon dark> mdi-reload </v-icon>
         </v-btn>
 
-        <CategoryBtn @initTags="initTags" @deleteTag="deleteTag" />
+        <CategoryBtn class="categoryBtn" @initTags="initTags" @deleteTag="deleteTag" />
 
-        <CalendarBtn @selectDate="selectDate" />
+        <CalendarBtn class="calendarBtn" @selectDate="selectDate" />
 
-        <WriteBtn @noteAdded="newNote" :date="date" :tags="tags" />
+        <WriteBtn class="writeBtn" @noteAdded="newNote" :date="date" :tags="tags" />
 
-        <TopBtn />
+        <TopBtn class="topBtn" />
 
         <v-slide-group class="tagBar" show-arrows>
             <v-slide-item class="tagItems" v-for="(tag, index) in tags" :key="`tag-${index}`">
@@ -127,10 +127,13 @@ export default {
             this.tags = JSON.parse(localStorage.getItem("tags"));
 
         let intFrameWidth = window.innerWidth;
+        // 최초 PC 뷰
         if (intFrameWidth <= 960) {
             document.querySelector(".tagBar").style.marginTop = "210px";
             document.querySelector(".noteContainer").style.marginTop = "250px";
-        } else {
+        }
+        // 최초 mobile 뷰
+        else {
             document.querySelector(".tagBar").style.marginTop = "140px";
             document.querySelector(".noteContainer").style.marginTop = "180px";
         }
@@ -285,13 +288,6 @@ export default {
 </script>
 
 <style scoped>
-.reloadBtn {
-    position: fixed;
-    right: 10%;
-    bottom: 45%;
-    z-index: 10;
-}
-
 .noteContainer {
 
     margin-left: 25px;
@@ -315,6 +311,13 @@ p {
     position: fixed;
 
     justify-content: center;
+    z-index: 10;
+}
+
+.reloadBtn {
+    right: 5%;
+    position: fixed;
+    bottom: 45%;
     z-index: 10;
 }
 </style>

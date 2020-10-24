@@ -46,8 +46,8 @@ export default {
 
 <style scoped>
 .calendarBtn {
+    right: 5%;
     position: fixed;
-    right: 10%;
     bottom: 25%;
     z-index: 10;
 }
