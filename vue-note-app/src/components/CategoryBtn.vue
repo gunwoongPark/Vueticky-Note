@@ -113,7 +113,7 @@ export default {
 
 <style scoped>
 .cardTitle {
-  background: #2196f3;
+  background: #4db6ac;
   color: white;
 }
 

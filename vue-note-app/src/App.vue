@@ -3,7 +3,6 @@
     <v-main>
       <Header
         style="z-index: 10"
-        :date="date"
         :tags="tags"
         @searchNote="searchNote"
         @tagSelected="selectTag"
@@ -69,7 +68,7 @@
 
         <div v-if="isNormal" class="normalNotesContainer">
           <v-row>
-            <p>Normal Notes :</p>
+            <p>{{ this.date }}</p>
           </v-row>
           <v-row v-masonry item-selector=".noteList">
             <v-col

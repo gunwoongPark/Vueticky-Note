@@ -28,9 +28,6 @@
               </v-slide-group></v-sheet
             >
           </v-col>
-          <!-- <v-col style="text-align: left">
-            <p>{{ this.date }}</p>
-          </v-col> -->
         </v-row>
       </div>
 
@@ -56,9 +53,6 @@
               </v-slide-item>
             </v-slide-group>
           </v-sheet>
-          <!-- <v-col style="text-align: left">
-            <p>{{ this.date }}</p>
-          </v-col> -->
         </v-row>
       </div>
     </v-container>
@@ -69,11 +63,7 @@
 import SearchBar from "./SearchBar";
 export default {
   props: {
-    date: {
-      type: String,
-      required: true,
 
-    },
     tags: {
       type: Array,
       required: true,

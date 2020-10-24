@@ -16,7 +16,7 @@
 
       <v-card>
         <v-date-picker
-          color="blue"
+          color="#4DB6AC"
           full-width
           v-model="picker"
           year-icon="mdi-calendar-blank"
