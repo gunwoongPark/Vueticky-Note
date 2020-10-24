@@ -11,7 +11,7 @@
             <v-row>
                 <v-col cols="12" md="6" lg="6" sm="12" xs="12">
                     Editor:
-                    <v-sheet class="originText mb-5" color="white" elevation="5">
+                    <v-sheet class="mb-2 mt-2" color="white" elevation="5">
                         <v-container fluid>
                             <textarea placeholder="Take a note..." @input="bindKor" :value="note.text" rows="16" style="width: 100%"></textarea>
                         </v-container>
@@ -21,7 +21,7 @@
 
                 <v-col cols="12" md="6" lg="6" sm="12" xs="12">
                     Previewer:
-                    <v-sheet color="white" elevation="5" style="height: 403px; overflow: auto">
+                    <v-sheet class="mt-2" color="white" elevation="5" style="height: 403px; overflow: auto">
                         <Editor mode="viewer" v-model="note.text" />
                     </v-sheet>
                 </v-col>
