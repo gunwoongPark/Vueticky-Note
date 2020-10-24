@@ -45,10 +45,9 @@
 
             <hr v-if="isNormal" />
 
-            <div v-if="!isTagMode">
+            <div v-if="isNormal" class="normalNotesContainer">
                 <v-row>
-                    <p v-if="isSearch">Search Notes :</p>
-                    <p v-if="isNormal">Normal Notes :</p>
+                    <p>Normal Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".noteList">
                     <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
@@ -64,6 +63,17 @@
                 <v-row v-masonry item-selector=".tagNoteList">
                     <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
                         <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
+                    </v-col>
+                </v-row>
+            </div>
+
+            <div v-if="isSearch" class="searchNotesContainer">
+                <v-row>
+                    <p>Search Notes :</p>
+                </v-row>
+                <v-row v-masonry item-selector=".searchNoteList">
+                    <v-col class="searchNoteList" v-for="(searchNote, index) in searchNotes" :key="`searchNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
+                        <Card :note="searchNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                     </v-col>
                 </v-row>
             </div>
@@ -236,7 +246,7 @@ export default {
             } else {
                 let todayNotes = notes.filter((note) => note.date === this.date);
 
-                this.todayNotes = todayNotes.filter(
+                this.searchNotes = todayNotes.filter(
                     (note) => note.title.includes(memo) || note.text.includes(memo)
                 );
             }
