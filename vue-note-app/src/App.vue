@@ -131,12 +131,16 @@ export default {
                 this.importantNotes = this.notes.filter(
                     (note) => note.important === true
                 );
+
+                this.$nextTick(() => this.$redrawVueMasonry());
             },
         },
 
         date: {
             handler() {
                 this.todayNotes = this.notes.filter((note) => note.date === this.date);
+
+                this.$nextTick(() => this.$redrawVueMasonry());
             },
             deep: true,
         },
@@ -145,6 +149,8 @@ export default {
             handler() {
                 var newTags = this.tags;
                 localStorage.setItem("tags", JSON.stringify(newTags));
+
+                this.$nextTick(() => this.$redrawVueMasonry());
             },
         },
     },
