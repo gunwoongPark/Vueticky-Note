@@ -28,7 +28,7 @@
                     <p>Important Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".imNoteList">
-                    <v-col class="imNoteList" v-for="(imNote, index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <v-col class="imNoteList" v-for="(imNote, index) in importantNotes" :key="`imNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
                         <Card :note="imNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                     </v-col>
                 </v-row>
@@ -39,7 +39,7 @@
                     <p>Normal Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".noteList">
-                    <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
                         <Card :note="note" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                     </v-col>
                 </v-row>
@@ -50,7 +50,7 @@
                     <p>Tag : {{ tag }}</p>
                 </v-row>
                 <v-row v-masonry item-selector=".tagNoteList">
-                    <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="2" md="3" sm="6">
+                    <v-col class="tagNoteList" v-for="(tagNote, index) in tagNotes" :key="`tagNote-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
                         <Card :note="tagNote" :date="date" :tags="tags" @modifyNote="modifyNote" @deleteNote="deleteNote" />
                     </v-col>
                 </v-row>
