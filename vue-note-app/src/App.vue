@@ -23,7 +23,8 @@
         <TopBtn />
 
         <div class="noteContainer">
-            <div class="importantNotesContainer">
+            <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
+            <div v-show="!isSearch" class="importantNotesContainer">
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -33,10 +34,11 @@
                     </v-col>
                 </v-row>
             </div>
-            <hr />
+            <hr v-if="!isSearch" />
             <div v-if="!isTagMode" class="originNotesContainer">
                 <v-row>
-                    <p>Normal Notes :</p>
+                    <p v-if="isSearch">Search Notes :</p>
+                    <p v-else>Normal Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".noteList">
                     <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
@@ -92,6 +94,7 @@ export default {
 
             btnsToggle: false,
             isMobile: false,
+            isSearch: false,
         };
     },
 
@@ -153,6 +156,7 @@ export default {
                 this.$nextTick(() => this.$redrawVueMasonry());
             },
         },
+
     },
 
     methods: {
@@ -207,10 +211,12 @@ export default {
         },
 
         searchNote(memo) {
+            this.isSearch = true;
             let notes = JSON.parse(localStorage.getItem("notes"));
-            if (memo === "")
+            if (memo === "") {
+                this.isSearch = false;
                 this.todayNotes = notes.filter((note) => note.date === this.date);
-            else {
+            } else {
                 let todayNotes = notes.filter((note) => note.date === this.date);
 
                 this.todayNotes = todayNotes.filter(
