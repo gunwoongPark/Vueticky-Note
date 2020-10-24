@@ -178,7 +178,7 @@ textarea:focus {
 }
 
 .important {
-  color: yellow;
+  color: red;
 }
 .Vdivider {
   margin-top: -10px;
