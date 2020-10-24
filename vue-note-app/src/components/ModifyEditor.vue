@@ -17,7 +17,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" md="6" lg="6" sm="12" xs="12">
-            Editor:
+            MarkDown Editor:
             <v-sheet class="mb-2 mt-2" color="white" elevation="5">
               <v-container fluid>
                 <textarea
@@ -29,9 +29,6 @@
                 ></textarea>
               </v-container>
             </v-sheet>
-            <a href="https://heropy.blog/2017/09/30/markdown/" target="_blank"
-              >How to Use MarkDown</a
-            >
           </v-col>
 
           <v-col
