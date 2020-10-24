@@ -14,7 +14,7 @@
         class="mx-2 reloadBtn"
         fab
         dark
-        color="blue"
+        color="teal lighten-2"
         @click="reloadOrigin"
       >
         <v-icon dark> mdi-reload </v-icon>
@@ -38,6 +38,7 @@
       <TopBtn class="topBtn" />
 
       <div class="noteContainer">
+        <hr />
         <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
         <div v-show="isNormal" class="importantNotesContainer">
           <v-row>
@@ -372,7 +373,7 @@ hr {
 p {
   font-family: "Sansita Swashed", cursive;
   font-size: 20px;
-  color: #2196f3;
+  color: gray;
 }
 
 .reloadBtn {
