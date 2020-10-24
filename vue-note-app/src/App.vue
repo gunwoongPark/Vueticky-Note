@@ -14,7 +14,7 @@
         class="mx-2 reloadBtn"
         fab
         dark
-        color="teal lighten-2"
+        color="teal lighten-3"
         @click="reloadOrigin"
       >
         <v-icon dark> mdi-reload </v-icon>
@@ -51,8 +51,8 @@
               :key="`imNote-${index}`"
               v-masonry-tile
               cols="12"
-              lg="3"
-              md="4"
+              lg="2"
+              md="3"
               sm="6"
             >
               <Card
@@ -79,8 +79,8 @@
               :key="`note-${index}`"
               v-masonry-tile
               cols="12"
-              lg="3"
-              md="4"
+              lg="2"
+              md="3"
               sm="6"
             >
               <Card
@@ -105,8 +105,8 @@
               :key="`tagNote-${index}`"
               v-masonry-tile
               cols="12"
-              lg="3"
-              md="4"
+              lg="2"
+              md="3"
               sm="6"
             >
               <Card
@@ -131,8 +131,8 @@
               :key="`searchNote-${index}`"
               v-masonry-tile
               cols="12"
-              lg="3"
-              md="4"
+              lg="2"
+              md="3"
               sm="6"
             >
               <Card
@@ -371,7 +371,6 @@ hr {
 }
 
 p {
-  font-family: "Sansita Swashed", cursive;
   font-size: 20px;
   color: gray;
 }

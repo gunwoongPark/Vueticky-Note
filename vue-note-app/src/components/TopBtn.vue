@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn class="topBtn mx-2" color="teal darken-3" @click="goTop" fab dark>
+    <v-btn class="topBtn mx-2" color="teal darken-4" @click="goTop" fab dark>
       <v-icon>mdi-arrow-up-thick</v-icon>
     </v-btn>
   </div>

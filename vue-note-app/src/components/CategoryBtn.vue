@@ -16,9 +16,7 @@
       </template>
 
       <v-card>
-        <v-card-title class="cardTitle" style="background: #009688"
-          >Tag</v-card-title
-        >
+        <v-card-title class="cardTitle">Tag</v-card-title>
         <v-card-text class="mt-5">
           <p>Registered tags</p>
 
@@ -100,21 +98,17 @@ export default {
         alert("태그명을 입력해주세요");
         return;
       }
+
       this.tags.push(this.text);
       this.text = "";
     },
-
-    // selectTag(index) {
-    //     this.$emit("selectTag", this.tags[index]);
-    //     this.dialog = false;
-    // }
   },
 };
 </script>
 
 <style scoped>
 .cardTitle {
-  background: #2196f3;
+  background: #009688;
   color: white;
 }
 

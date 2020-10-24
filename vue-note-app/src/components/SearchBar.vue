@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-text-field
-      color="rgb(158,215,147)"
+      color="teal"
       class="searchBar"
       outlined
       label="Type your note..."
@@ -9,6 +9,7 @@
       v-model="text"
       hide-details
       type="text"
+      @input="submitText"
     ></v-text-field>
   </div>
 </template>
