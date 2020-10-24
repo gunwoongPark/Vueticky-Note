@@ -2,27 +2,64 @@
   <div class="header">
     <v-container fluid>
       <div class="PCView hidden-sm-and-down">
-        <v-row style="align-items: center">
-          <v-col><img src="../assets/50VemoBlue.png" /></v-col>
-          <v-col>
-            <p>{{ this.date }}</p>
-          </v-col>
-          <v-col>
+        <v-row>
+          <v-col style="text-align: right" cols="4"
+            ><img class="logo" src="../assets/Vemomint.png"
+          /></v-col>
+          <v-col cols="5">
             <SearchBar @submitText="submitText" />
+          </v-col>
+          <!-- <v-col style="text-align: left">
+            <p>{{ this.date }}</p>
+          </v-col> -->
+        </v-row>
+        <v-row>
+          <v-col style="margin-left: 33%; margin-top: -25px">
+            <v-slide-group class="tagBar" show-arrows>
+              <v-slide-item
+                style="background-color: #00bfa5"
+                class="tagItems"
+                v-for="(tag, index) in tags"
+                :key="`tag-${index}`"
+              >
+                <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
+                  {{ tag }}
+                </v-btn>
+              </v-slide-item>
+            </v-slide-group>
+            <div></div>
           </v-col>
         </v-row>
       </div>
 
       <div class="mobileView hidden-md-and-up">
-        <v-row style="align-items: center">
-          <v-col cols="1"><img src="../assets/50VemoBlue.png" /></v-col>
-          <v-col cols="11" style="text-align: center">
-            <p>{{ this.date }}</p>
-          </v-col>
-        </v-row>
         <v-row>
-          <v-col>
+          <v-col style="text-align: right" cols="3"
+            ><img class="logo" src="../assets/Vemomint.png"
+          /></v-col>
+          <v-col cols="8">
             <SearchBar @submitText="submitText" />
+          </v-col>
+          <!-- <v-col style="text-align: left">
+            <p>{{ this.date }}</p>
+          </v-col> -->
+        </v-row>
+
+        <v-row>
+          <v-col style="margin-left: 25%">
+            <v-slide-group class="tagBar" show-arrows>
+              <v-slide-item
+                style="background-color: #00bfa5"
+                class="tagItems"
+                v-for="(tag, index) in tags"
+                :key="`tag-${index}`"
+              >
+                <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
+                  {{ tag }}
+                </v-btn>
+              </v-slide-item>
+            </v-slide-group>
+            <div></div>
           </v-col>
         </v-row>
       </div>
@@ -37,11 +74,16 @@ export default {
     date: {
       type: String,
       required: true,
+
+    },
+    tags: {
+      type: Array,
+      required: true,
     },
   },
 
   methods: {
-    submitText(text) {
+    submitText (text) {
       this.$emit("searchNote", text);
     },
   },
@@ -62,10 +104,7 @@ export default {
   right: 0;
 }
 
-p {
-  font-size: 25px;
-  margin: 25px;
-  margin-left: 11%;
-  font-family: "Sansita Swashed", cursive;
+.logo {
+  margin-top: -5px;
 }
 </style>
