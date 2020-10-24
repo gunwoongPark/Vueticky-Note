@@ -3,7 +3,7 @@
     <v-main>
         <Header style="z-index: 10" :date="date" @searchNote="searchNote" />
 
-        <div v-if="btnsToggle" class="btnContainer">
+        <div v-show="btnsToggle" class="btnContainer">
             <v-btn v-if="isTagMode" class="mx-2 reloadBtn" fab dark color="blue" @click="reloadOrigin">
                 <v-icon dark> mdi-reload </v-icon>
             </v-btn>
@@ -32,7 +32,7 @@
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
-            <div v-show="isNormal" class="importantNotesContainer">
+            <div v-if="isNormal" class="importantNotesContainer">
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -136,11 +136,11 @@ export default {
 
         let intFrameWidth = window.innerWidth;
         if (intFrameWidth <= 960) {
-            document.querySelector(".noteContainer").style.marginTop = "10px";
-            document.querySelector(".tagBar").style.marginTop = "210px;"
+            document.querySelector(".tagBar").style.marginTop = "210px";
+            document.querySelector(".noteContainer").style.marginTop = "250px";
         } else {
-            document.querySelector(".noteContainer").style.marginTop = "10px";
-            document.querySelector(".tagBar").style.marginTop = "140px;"
+            document.querySelector(".tagBar").style.marginTop = "140px";
+            document.querySelector(".noteContainer").style.marginTop = "180px";
         }
 
         window.addEventListener("resize", this.handleResize);
@@ -284,12 +284,13 @@ export default {
         handleResize() {
             let intFrameWidth = window.innerWidth;
             if (intFrameWidth <= 960) {
-                document.querySelector(".noteContainer").style.marginTop = "10px";
-                document.querySelector(".tagBar").style.marginTop = "210px;"
+                document.querySelector(".tagBar").style.marginTop = "210px";
+                document.querySelector(".noteContainer").style.marginTop = "250px";
             } else {
-                document.querySelector(".noteContainer").style.marginTop = "10px";
-                document.querySelector(".tagBar").style.marginTop = "140px;"
+                document.querySelector(".tagBar").style.marginTop = "140px";
+                document.querySelector(".noteContainer").style.marginTop = "180px";
             }
+
         },
     },
 };
@@ -330,7 +331,9 @@ p {
 }
 
 .tagBar {
-    margin-top: 210px;
+    position: fixed;
+
     justify-content: center;
+    z-index: 10;
 }
 </style>
