@@ -24,7 +24,7 @@
 
         <v-slide-group class="tagBar" show-arrows>
             <v-slide-item class="tagItems" v-for="(tag, index) in tags" :key="`tag-${index}`">
-                <v-btn class="mx-2" active-class="blue white--text" depressed rounded @click="selectTag(index)">
+                <v-btn class="mx-2" depressed rounded @click="selectTag(index)">
                     {{ tag }}
                 </v-btn>
             </v-slide-item>
@@ -32,7 +32,7 @@
 
         <div class="noteContainer">
             <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
-            <div v-show="!isSearch" class="importantNotesContainer">
+            <div v-show="isNormal" class="importantNotesContainer">
                 <v-row>
                     <p>Important Notes :</p>
                 </v-row>
@@ -42,11 +42,13 @@
                     </v-col>
                 </v-row>
             </div>
-            <hr v-if="!isSearch" />
-            <div v-if="!isTagMode" class="originNotesContainer">
+
+            <hr v-if="isNormal" />
+
+            <div v-if="!isTagMode">
                 <v-row>
                     <p v-if="isSearch">Search Notes :</p>
-                    <p v-else>Normal Notes :</p>
+                    <p v-if="isNormal">Normal Notes :</p>
                 </v-row>
                 <v-row v-masonry item-selector=".noteList">
                     <v-col class="noteList" v-for="(note, index) in todayNotes" :key="`note-${index}`" v-masonry-tile cols="12" lg="3" md="4" sm="6">
@@ -55,7 +57,7 @@
                 </v-row>
             </div>
 
-            <div v-else class="tagNotesContainer">
+            <div v-if="isTagMode" class="tagNotesContainer">
                 <v-row>
                     <p>Tag : {{ tag }}</p>
                 </v-row>
@@ -93,6 +95,7 @@ export default {
             notes: [],
             todayNotes: [],
             importantNotes: [],
+            searchNotes: [],
             mouseHover: false,
             date: "",
             tags: [],
@@ -103,6 +106,8 @@ export default {
             btnsToggle: false,
             isMobile: false,
             isSearch: false,
+            isNormal: true,
+
         };
     },
 
@@ -219,10 +224,14 @@ export default {
         },
 
         searchNote(memo) {
+            this.isNormal = false;
+            this.isTagMode = false;
             this.isSearch = true;
             let notes = JSON.parse(localStorage.getItem("notes"));
             if (memo === "") {
                 this.isSearch = false;
+                this.isTagMode = false;
+                this.isNormal = true;
                 this.todayNotes = notes.filter((note) => note.date === this.date);
             } else {
                 let todayNotes = notes.filter((note) => note.date === this.date);
@@ -242,13 +251,18 @@ export default {
         },
 
         selectTag(index) {
-            this.tag = this.tags[index];
+            this.isNormal = false;
+            this.isSearch = false;
             this.isTagMode = true;
+
+            this.tag = this.tags[index];
             this.tagNotes = this.todayNotes.filter((note) => note.tags.includes(this.tags[index]));
         },
 
         reloadOrigin() {
             this.isTagMode = false;
+            this.isSearch = false;
+            this.isNormal = true;
         },
 
         btnsOn() {
