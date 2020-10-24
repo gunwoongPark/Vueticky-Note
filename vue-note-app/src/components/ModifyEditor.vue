@@ -34,7 +34,14 @@
             >
           </v-col>
 
-          <v-col cols="12" md="6" lg="6" sm="12" xs="12">
+          <v-col
+            class="hidden-sm-and-down"
+            cols="12"
+            md="6"
+            lg="6"
+            sm="12"
+            xs="12"
+          >
             Previewer:
             <v-sheet
               class="mt-2"
