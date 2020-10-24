@@ -11,7 +11,7 @@
         >
           <div class="Container">
             <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
-            <v-spacer></v-spacer>
+            <v-spacer class="hidden-sm-and-down"></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
               <v-icon class="deleteIcon" @click.prevent="deleteNote"
@@ -133,7 +133,7 @@ export default {
 
 <style scoped>
 .cardTitle {
-  margin-top: -25px;
+  margin-top: -15px;
 }
 
 .Container {
