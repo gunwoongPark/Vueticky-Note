@@ -3,14 +3,13 @@
     <v-dialog v-model="dialog" width="1000">
       <template v-slot:activator="{ on, attrs }">
         <v-card
-          id="cardborder"
           @mouseenter="mouseEnter"
           @mouseleave="mouseLeave"
           class="note"
           :style="{ 'background-color': note.theme }"
         >
           <div class="Container">
-            <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
+            <v-icon v-if="note.important" class="starIcon">mdi-bookmark</v-icon>
             <v-spacer></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
@@ -50,13 +49,22 @@
             </div>
           </div>
 
-          <div v-bind="attrs" v-on="on" @click.prevent="initData">
+          <div
+            class="inCard"
+            v-bind="attrs"
+            v-on="on"
+            @click.prevent="initData"
+          >
             <v-card-title
               v-if="note.Brightness"
               style="color: black"
               class="cardTitle noteTitle"
             >
               <p>{{ note.title }}</p>
+
+              <v-divider
+                style="border-color: black; margin-left: 10px"
+              ></v-divider>
             </v-card-title>
             <v-card-title
               v-else
@@ -64,7 +72,12 @@
               class="cardTitle noteTitle"
             >
               <p>{{ note.title }}</p>
+
+              <v-divider
+                style="border-color: white; margin-left: 10px"
+              ></v-divider>
             </v-card-title>
+
             <v-card-text
               v-if="note.Brightness"
               style="color: black"
@@ -76,14 +89,14 @@
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
           </div>
-        </v-card> </template
-    ></v-dialog>
-  </div>
-</template>
-        <ModifyEditor :note="note" :tags="tags" @noteModified="modifyNote" />
+        </v-card>
+      </template>
+      <ModifyEditor :note="note" :tags="tags" @noteModified="modifyNote" />
     </v-dialog>
   </div>
 </template>
+       
+    
 
 <script>
 import {
@@ -105,6 +118,13 @@ export default {
       required: true,
     },
   },
+  data () {
+    return {
+      dialog: false,
+      isSubmit: false,
+      tempNote: {},
+    };
+  },
   mounted () {
     //console.log('hello')
     this.setBrightness(this.note.theme)
@@ -114,21 +134,9 @@ export default {
     mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
-
-    watch: {
-      dialog: {
-        handler () {
-          if (this.dialog === false && this.isSubmit === false) {
-            this.note.title = this.tempNote.title;
-            this.note.text = this.tempNote.text;
-            this.note.theme = this.tempNote.theme;
-            this.note.important = this.tempNote.important;
-            this.note.tags = this.tempNote.tags;
-          }
-        },
-      },
+    mouseLeave (e) {
+      e.target.firstChild.lastChild.style.visibility = "hidden";
     },
-
     modifyNote (title, text, theme, Brightness, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
@@ -142,6 +150,7 @@ export default {
       this.tempNote.theme = this.note.theme;
       this.tempNote.important = this.note.important
       this.tempNote.tags = this.note.tags;
+      this.isSubmit = false;
     },
 
     deleteNote () {
@@ -165,10 +174,27 @@ export default {
     },
   },
 
+  watch: {
+    dialog: {
+      handler () {
+        if (this.dialog === false && this.isSubmit === false) {
+          this.note.title = this.tempNote.title;
+          this.note.text = this.tempNote.text;
+          this.note.theme = this.tempNote.theme;
+          this.note.important = this.tempNote.important;
+          this.note.tags = this.tempNote.tags;
+        }
+      },
+    },
+  },
+
+
   components: {
     ModifyEditor,
     Editor,
   },
+
+
 };
 </script>
 
@@ -176,9 +202,13 @@ export default {
 .cardTitle {
   margin-top: -25px;
 }
+.noteTitle {
+  font-size: 25px;
+  font-weight: bold;
+}
 
 .note {
-  border-radius: 5px 50px 5px 50px;
+  border-radius: 50px 5px 50px 5px;
 }
 
 .Container {
@@ -199,5 +229,9 @@ p {
 .starIcon {
   color: rgb(181, 0, 0);
   margin-top: -20px;
+}
+
+.inCard {
+  margin: 20px;
 }
 </style>
