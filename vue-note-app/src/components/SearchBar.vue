@@ -4,7 +4,7 @@
       color="teal"
       class="searchBar"
       outlined
-      label="Type your note..."
+      label="Type a note to find..."
       append-icon="mdi-magnify"
       v-model="text"
       hide-details

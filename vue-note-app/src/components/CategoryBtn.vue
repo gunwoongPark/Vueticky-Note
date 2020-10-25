@@ -16,9 +16,9 @@
       </template>
 
       <v-card>
-        <v-card-title class="cardTitle">Tag</v-card-title>
+        <v-card-title class="cardTitle">Tag Management</v-card-title>
         <v-card-text class="mt-5">
-          <p>Registered tags</p>
+          <p>Registered Tags</p>
 
           <div v-if="tags.length">
             <v-chip
@@ -42,7 +42,7 @@
             <v-col cols="12" lg="8" md="8" sm="12">
               <v-text-field
                 color="teal"
-                placeholder="Type your tag..."
+                placeholder="Please enter a tag to register..."
                 hide-details
                 prepend-icon="mdi-tag"
                 single-line
