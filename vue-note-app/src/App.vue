@@ -70,7 +70,7 @@
 
         <div v-if="isNormal" class="normalNotesContainer">
           <v-row>
-            <p>Normal Notes :</p>
+            <p>{{ showDate }} :</p>
           </v-row>
           <v-row v-masonry item-selector=".noteList">
             <v-col
@@ -122,7 +122,7 @@
 
         <div v-if="isSearch" class="searchNotesContainer">
           <v-row>
-            <p>Search Notes :</p>
+            <p>Searched Notes :</p>
           </v-row>
           <v-row v-masonry item-selector=".searchNoteList">
             <v-col
@@ -176,6 +176,22 @@ export default {
       searchNotes: [],
       mouseHover: false,
       date: "",
+      showDate: "",
+      monthNames: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      monthIndex: 0,
       tags: [],
       isTagMode: false,
       tagNotes: [],
@@ -194,6 +210,10 @@ export default {
     const day = dateObj.getDate();
     this.date = `${year}-${month}-${day}`;
 
+    this.monthIndex = month - 1;
+
+    this.showDate = `Notes of ${this.monthNames[this.monthIndex]} ${day}, year`;
+    console.log(this.showDate);
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
 
@@ -234,7 +254,8 @@ export default {
     date: {
       handler() {
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
-
+        console.log("in!");
+        this.showDate = this.replaceAll(this.date, "-", ".");
         this.$nextTick(() => this.$redrawVueMasonry());
       },
       deep: true,
@@ -352,6 +373,10 @@ export default {
       } else {
         document.querySelector(".noteContainer").style.marginTop = "0px";
       }
+    },
+
+    replaceAll(str, searchStr, replaceStr) {
+      return str.split(searchStr).join(replaceStr);
     },
   },
 };
