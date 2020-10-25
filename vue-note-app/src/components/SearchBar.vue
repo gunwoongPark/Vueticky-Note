@@ -1,28 +1,37 @@
 <template>
-<div>
-    <v-text-field class="searchBar" placeholder="Type note..." hide-details prepend-icon="mdi-magnify" single-line v-model="text" type="text" @input="submitText"></v-text-field>
-</div>
+  <div>
+    <v-text-field
+      color="teal"
+      class="searchBar"
+      outlined
+      label="Type your note..."
+      append-icon="mdi-magnify"
+      v-model="text"
+      hide-details
+      type="text"
+      @input="submitText"
+    ></v-text-field>
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            text: ""
-        }
+  data() {
+    return {
+      text: "",
+    };
+  },
+
+  methods: {
+    submitText() {
+      this.$emit("submitText", this.text);
     },
-
-    methods: {
-        submitText() {
-            this.$emit("submitText", this.text);
-        },
-
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
 .searchBar {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 </style>
