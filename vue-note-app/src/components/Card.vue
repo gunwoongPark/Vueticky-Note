@@ -16,7 +16,7 @@
             <v-spacer class="hidden-sm-and-down"></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
-              <v-icon class="deleteIcon" @click.prevent="deleteNote"
+              <v-icon class="deleteIcon ml-3" @click.prevent="deleteNote"
                 >mdi-close-circle</v-icon
               >
             </div>
@@ -178,6 +178,5 @@ p {
 }
 
 .inCard {
-  margin: 20px;
 }
 </style>

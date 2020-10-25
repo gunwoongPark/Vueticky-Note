@@ -68,6 +68,7 @@
           multiple
         ></v-select>
         <v-spacer></v-spacer>
+        <v-btn color="black" text @click="closeDialog"> cancel </v-btn>
         <v-btn color="black" text @click="modifyNote"> modify </v-btn>
       </v-card-actions>
 
