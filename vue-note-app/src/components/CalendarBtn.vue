@@ -8,7 +8,7 @@
           class="mx-2 calendarBtn"
           fab
           dark
-          color="teal darken-1"
+          color="teal lighten-1"
         >
           <v-icon dark> mdi-calendar </v-icon>
         </v-btn>

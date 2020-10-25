@@ -8,7 +8,7 @@
           class="mx-2 tagBtn"
           fab
           dark
-          color="teal lighten-1"
+          color="teal lighten-3"
           @click="initData"
         >
           <v-icon dark> mdi-tag-multiple </v-icon>

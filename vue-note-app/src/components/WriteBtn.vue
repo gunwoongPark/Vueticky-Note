@@ -8,7 +8,7 @@
           class="mx-2 writeBtn"
           fab
           dark
-          color="teal darken-3"
+          color="teal darken-2"
           style="z-index: 10"
           @click="initData"
         >

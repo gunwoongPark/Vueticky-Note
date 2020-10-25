@@ -14,7 +14,7 @@
         class="mx-2 reloadBtn"
         fab
         dark
-        color="teal lighten-3"
+        color="warning"
         @click="reloadOrigin"
       >
         <v-icon dark> mdi-reload </v-icon>
