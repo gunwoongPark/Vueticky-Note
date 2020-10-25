@@ -36,7 +36,12 @@
           </div>
         </v-card>
       </template>
-      <ModifyEditor :note="note" :tags="tags" @noteModified="modifyNote" />
+      <ModifyEditor
+        :note="note"
+        :tags="tags"
+        @noteModified="modifyNote"
+        @closeDialog="closeDialog"
+      />
     </v-dialog>
   </div>
 </template>
@@ -121,6 +126,10 @@ export default {
     deleteNote() {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
+    },
+
+    closeDialog() {
+      this.dialog = false;
     },
   },
 

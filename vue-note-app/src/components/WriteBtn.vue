@@ -19,6 +19,7 @@
         :date="date"
         :note="note"
         @noteAdded="newNote"
+        @closeDialog="closeDialog"
         :tags="tags"
       />
     </v-dialog>
@@ -78,6 +79,10 @@ export default {
         isImportant,
         tags
       );
+    },
+
+    closeDialog() {
+      this.dialog = false;
     },
   },
 

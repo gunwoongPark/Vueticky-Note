@@ -31,14 +31,7 @@
             </v-sheet>
           </v-col>
 
-          <v-col
-            class="hidden-sm-and-down"
-            cols="12"
-            md="6"
-            lg="6"
-            sm="12"
-            xs="12"
-          >
+          <v-col cols="12" md="6" lg="6" sm="12" xs="12">
             Previewer:
             <v-sheet
               class="mt-2"
@@ -54,7 +47,8 @@
 
       <v-divider></v-divider>
 
-      <v-card-actions>
+      <!-- PCView -->
+      <v-card-actions class="hidden-sm-and-down">
         <Color :theme="note.theme" @selectedColor="initColor" />
         <v-icon
           class="starIcon"
@@ -76,6 +70,49 @@
         <v-spacer></v-spacer>
         <v-btn color="black" text @click="modifyNote"> modify </v-btn>
       </v-card-actions>
+
+      <!-- mobileView -->
+      <v-container fluid class="hidden-md-and-up">
+        <v-row style="display: flex; align-items: center">
+          <v-col cols="1"
+            ><Color :theme="note.theme" @selectedColor="initColor"
+          /></v-col>
+          <v-col cols="1"
+            ><v-icon
+              class="starIcon"
+              :class="{ important: note.important }"
+              @click="addImportant"
+              >mdi-star</v-icon
+            ></v-col
+          >
+          <v-col cols="10">
+            <v-select
+              class="ml-2 mr-2"
+              color="teal"
+              v-model="note.tags"
+              :menu-props="{ top: true, offsetY: true }"
+              :items="tags"
+              attach
+              chips
+              label="Tags"
+              multiple
+            ></v-select
+          ></v-col>
+        </v-row>
+
+        <v-row style="text-align: center">
+          <v-col
+            ><v-btn color="black" text @click="closeDialog">
+              cancel
+            </v-btn></v-col
+          >
+          <v-col
+            ><v-btn color="black" text @click="modifyNote">
+              modify
+            </v-btn></v-col
+          >
+        </v-row>
+      </v-container>
     </v-card>
   </div>
 </template>
@@ -143,6 +180,10 @@ export default {
 
     bindKor(event) {
       this.note.text = event.target.value;
+    },
+
+    closeDialog() {
+      this.$emit("closeDialog");
     },
   },
 
