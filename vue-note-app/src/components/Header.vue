@@ -1,5 +1,6 @@
 <template>
   <div class="header mb-3">
+    <!-- 그리드 레이아웃을 활용하여 헤더를 반응형으로 배치 -->
     <v-container>
       <v-row class="searchContainer">
         <v-col cols="0" lg="3" md="2" sm="1"></v-col>
@@ -12,6 +13,7 @@
         <v-col cols="0" lg="3" md="2" sm="1"></v-col>
       </v-row>
       <v-row>
+        <!-- 태그들을 담는 container -->
         <v-col class="tagContainer"
           ><v-slide-group class="tagBar" show-arrows>
             <v-slide-item

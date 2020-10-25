@@ -9,6 +9,7 @@
 <script>
 export default {
   methods: {
+    // 최상단으로 이동하는 간단한 버튼
     goTop() {
       window.scrollTo({
         top: 0,

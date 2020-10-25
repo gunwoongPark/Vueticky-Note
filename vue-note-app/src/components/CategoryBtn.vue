@@ -38,6 +38,7 @@
 
           <v-divider></v-divider>
 
+          <!-- 그리드 레이아웃을 활용하여 버튼 배치를 반응형으로 구현 -->
           <v-row class="inputContainer">
             <v-col cols="12" lg="8" md="8" sm="12">
               <v-text-field
@@ -76,6 +77,7 @@ export default {
       this.tags = JSON.parse(localStorage.getItem("tags"));
   },
 
+  // dialog가 닫히면 데이터 전송
   watch: {
     dialog: {
       handler() {
@@ -93,6 +95,7 @@ export default {
       this.$emit("deleteTag", index);
     },
 
+    // 등록 및 예외처리
     registerTag() {
       if (this.text === "") {
         alert("태그명을 입력해주세요");

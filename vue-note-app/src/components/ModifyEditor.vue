@@ -1,4 +1,5 @@
 <template>
+  <!-- WriteEditor.vue와 대부분 동일 -->
   <div>
     <v-card class="dialogBox">
       <v-card-title
@@ -148,6 +149,7 @@ export default {
 
       const dateObj = new Date();
 
+      // WriteEditor.vue와 달리 수정 날짜를 저장하기 위함
       const year = dateObj.getFullYear();
       const month = dateObj.getMonth() + 1;
       const day = dateObj.getDate();

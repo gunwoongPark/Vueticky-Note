@@ -13,7 +13,9 @@
         <div class="divider"></div>
       </v-card-title>
 
+      <!-- vuetify markdowneditor 활용 -->
       <v-card-text>
+        <!-- 그리드 레이아웃을 활용하여 editor와 previewer를 뷰에 따라 다르게 배치 -->
         <v-row>
           <v-col cols="12" md="6" lg="6" sm="12" xs="12">
             MarkDown Editor:
@@ -72,6 +74,7 @@
       </v-card-actions>
 
       <!-- mobileView -->
+      <!-- 모바일 뷰는 화면이 작기 때문에 버튼 배치를 사용자가 누르기 편한 위치로 조정 -->
       <v-container fluid class="hidden-md-and-up">
         <v-row style="display: flex; align-items: center">
           <v-col cols="1"
@@ -139,10 +142,14 @@ export default {
   },
 
   methods: {
+    // 팔레트에서 받아온 색 초기화
     initColor(picker) {
       this.note.theme = picker;
     },
+
+    // 노트 생성
     createNew() {
+      // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -175,10 +182,12 @@ export default {
       this.note.isImportant = false;
     },
 
+    // 중요도 초기화
     addImportant() {
       this.note.isImportant = !this.note.isImportant;
     },
 
+    // v-model이 한글이 바로바로 렌더링 되지 않아 효율적인 양방향 바인딩을 위한 기능
     bindKor(event) {
       this.note.text = event.target.value;
     },

@@ -37,9 +37,11 @@
 
       <TopBtn class="topBtn" />
 
+      <!-- masonry 활용 -->
       <div class="noteContainer">
         <hr />
         <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
+        <!-- 중요노트기능 -->
         <div v-show="isNormal" class="importantNotesContainer">
           <v-row>
             <p>Important Notes</p>
@@ -68,6 +70,7 @@
 
         <hr v-if="isNormal" />
 
+        <!-- 일반 노트 기능 -->
         <div v-if="isNormal" class="normalNotesContainer">
           <v-row>
             <p>{{ showDate }}</p>
@@ -94,6 +97,7 @@
           </v-row>
         </div>
 
+        <!-- 태그 검색 시 -->
         <div v-if="isTagMode" class="tagNotesContainer">
           <v-row>
             <p>Tag : {{ tag }}</p>
@@ -120,6 +124,7 @@
           </v-row>
         </div>
 
+        <!-- 검색 시 -->
         <div v-if="isSearch" class="searchNotesContainer">
           <v-row>
             <p>Searched Notes</p>
@@ -202,6 +207,7 @@ export default {
     };
   },
 
+  // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
   mounted() {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
@@ -218,25 +224,10 @@ export default {
 
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
-
-    let intFrameWidth = window.innerWidth;
-    // 최초 PC 뷰
-    if (intFrameWidth <= 600) {
-      document.querySelector(".noteContainer").style.marginTop = "0px";
-    }
-    // 최초 mobile 뷰
-    else {
-      document.querySelector(".noteContainer").style.marginTop = "0px";
-    }
-
-    window.addEventListener("resize", this.handleResize);
-  },
-
-  beforeDestroy() {
-    window.removeEventListener("resize", this.handleResize);
   },
 
   watch: {
+    // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
       handler() {
         var newNotes = this.notes;
@@ -245,11 +236,12 @@ export default {
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
         );
-
+        // vue-masonry 의 다시 그려주는 기능
         this.$nextTick(() => this.$redrawVueMasonry());
       },
     },
 
+    // 날짜를 변경할 때 그 날짜에 맞는 노트를 받아옴
     date: {
       handler() {
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
@@ -265,6 +257,7 @@ export default {
       deep: true,
     },
 
+    // 태그 변경할 때 해당 태그를 받아옴
     tags: {
       handler() {
         var newTags = this.tags;
@@ -276,6 +269,7 @@ export default {
   },
 
   methods: {
+    // 노트 생성
     newNote(title, text, theme, time, date, guid, isImportant, tags) {
       this.notes.push({
         title: title,
@@ -289,6 +283,7 @@ export default {
       });
     },
 
+    // 노트 수정
     modifyNote(
       title,
       text,
@@ -316,16 +311,19 @@ export default {
       this.notes.splice(index, 0, tempObj);
     },
 
+    // 고유값을 이용한 노트 삭제
     deleteNote(guid) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
       this.notes.splice(index, 1);
     },
 
+    // 달력에서 고른 날짜를 변수에 초기화
     selectDate(picker) {
       if (this.date !== picker) this.date = picker;
     },
 
+    // 노트 검색 기능
     searchNote(memo) {
       this.isNormal = false;
       this.isTagMode = false;
@@ -345,14 +343,17 @@ export default {
       }
     },
 
+    // 태그 변경 시 고른 태그를 변수에 초기화
     initTags(tags) {
       this.tags = tags;
     },
 
+    // 태그 삭제
     deleteTag(index) {
       this.tags.splice(index, 1);
     },
 
+    // 태그를 선택하여 출력을 태그모드로 변경
     selectTag(index) {
       this.isNormal = false;
       this.isSearch = false;
@@ -364,23 +365,11 @@ export default {
       );
     },
 
+    // 태그 모드에서 다시 돌아오는 기능
     reloadOrigin() {
       this.isTagMode = false;
       this.isSearch = false;
       this.isNormal = true;
-    },
-
-    handleResize() {
-      let intFrameWidth = window.innerWidth;
-      if (intFrameWidth <= 600) {
-        document.querySelector(".noteContainer").style.marginTop = "0px";
-      } else {
-        document.querySelector(".noteContainer").style.marginTop = "0px";
-      }
-    },
-
-    replaceAll(str, searchStr, replaceStr) {
-      return str.split(searchStr).join(replaceStr);
     },
   },
 };

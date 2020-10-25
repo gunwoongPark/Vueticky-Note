@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 날짜를 선택하고 반환하는 UI컴포넌트 활용 -->
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn

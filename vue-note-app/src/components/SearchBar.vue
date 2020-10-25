@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 글을 입력할 때 마다 검색을 활성화 하기위해 @input 사용 -->
     <v-text-field
       color="teal"
       class="searchBar"

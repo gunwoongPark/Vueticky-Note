@@ -84,6 +84,8 @@ export default {
     };
   },
 
+  // 사용자가 dialog를 비정상적으로 닫거나 등록을 안하고 닫을 경우 나올 예외처리를 하기 위해 dialog를 감시 후 변수를 초기화하여 조건문을 사용할 수 있도록 해 모든 상황에서 예외처리
+  // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
       handler() {
@@ -124,6 +126,7 @@ export default {
       );
     },
 
+    // 버튼을 누를 경우 데이터 초기화
     initData() {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
@@ -171,10 +174,6 @@ export default {
 .deleteIcon:hover {
   cursor: pointer;
 }
-
-/* .deleteIcon {
-  margin: 0 0 0 -10px;
-} */
 
 .noImportantIcon {
   margin: 0 0 0 -10px;
