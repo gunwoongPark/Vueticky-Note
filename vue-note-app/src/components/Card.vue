@@ -36,6 +36,7 @@
           >
             <v-card-title class="cardTitle noteTitle">
               <p>{{ note.title }}</p>
+              <v-divider class="cardDiv"></v-divider>
             </v-card-title>
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
@@ -177,6 +178,7 @@ p {
   margin: 0 0 0 -10px;
 }
 
-.inCard {
+.cardDiv {
+  margin: 10px;
 }
 </style>
