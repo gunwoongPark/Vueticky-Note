@@ -6,12 +6,24 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
+          v-if="note.Brightness"
+          style="color: black; width: 100%"
           v-model="note.title"
           placeholder="Title"
-          style="width: 100%"
+        ></textarea>
+        <textarea
+          v-else
+          style="color: white; width: 100%"
+          v-model="note.title"
+          placeholder="Title"
         ></textarea>
 
-        <div class="time">{{ note.time }}</div>
+        <div v-if="note.Brightness" class="time" style="color: rgb(95, 95, 95)">
+          {{ note.time }}
+        </div>
+        <div v-else class="time" style="color: rgb(220, 220, 220)">
+          {{ note.time }}
+        </div>
       </v-card-title>
 
       <v-card-text>
@@ -92,8 +104,24 @@ export default {
   },
 
   methods: {
+
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
+
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
+    },
     initColor (picker) {
       this.note.theme = picker;
+      this.setBrightness(this.note.theme);
     },
 
     modifyNote () {
@@ -126,6 +154,7 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
+        this.note.Brightness,
         time,
         date,
         originDate,
@@ -154,7 +183,6 @@ textarea {
   padding: 10px;
   resize: none;
   border: none;
-  /* font */
 }
 
 textarea:hover {

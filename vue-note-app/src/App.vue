@@ -247,11 +247,12 @@ export default {
   },
 
   methods: {
-    newNote (title, text, theme, time, date, guid, isImportant, tags) {
+    newNote (title, text, theme, Brightness, time, date, guid, isImportant, tags) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
+        Brightness: Brightness,
         time: time,
         date: date,
         guid: guid,
@@ -264,6 +265,7 @@ export default {
       title,
       text,
       theme,
+      Brightness,
       time,
       date,
       originDate,
@@ -277,6 +279,7 @@ export default {
       tempObj.title = title;
       tempObj.text = text;
       tempObj.theme = theme;
+      tempObj.Brightness = Brightness;
       tempObj.time = `edited ${date} ${time}`;
       tempObj.guid = guid;
       tempObj.date = originDate;

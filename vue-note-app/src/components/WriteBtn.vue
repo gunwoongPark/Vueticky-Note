@@ -61,19 +61,21 @@ export default {
       this.note.theme = "rgb(240,240,240)";
       this.note.isImportant = false;
       this.note.selectedTags = [];
+      this.note.Brightness = "true"
     },
 
-    newNote (title, text, theme, time, date, isImportant, tags) {
+    newNote (title, text, theme, Brightness, time, date, isImportant, tags) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
         title,
         text,
         theme,
+        Brightness,
         time,
         date,
         cryptoRandomString({
-          length: 10,
+          length: 10
         }),
         isImportant,
         tags
