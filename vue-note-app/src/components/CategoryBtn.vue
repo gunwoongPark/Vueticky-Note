@@ -99,6 +99,19 @@ export default {
         return;
       }
 
+      var blank_pattern = /[\s]/g;
+      if (blank_pattern.test(this.text) == true) {
+        alert("태그에는 공백은 사용할 수 없습니다. ");
+        this.text = "";
+        return;
+      }
+
+      if (this.text.length > 20) {
+        alert("태그가 너무 깁니다.");
+        this.text = "";
+        return;
+      }
+
       this.tags.push(this.text);
       this.text = "";
     },

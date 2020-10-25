@@ -1,6 +1,6 @@
 <template>
   <div class="header mb-3">
-    <v-container fluid>
+    <v-container>
       <v-row class="searchContainer">
         <v-col cols="0" lg="3" md="2" sm="1"></v-col>
         <v-col cols="3" lg="1" md="2" sm="2">
