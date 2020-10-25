@@ -42,7 +42,7 @@
         <!-- 검색 후 렌더링 하니 masonry가 제대로 작동하지 않아 v-if를 v-show로 변경하니 정상 작동 -> 초기 렌더링 비용과 관계가 있어 보임-->
         <div v-show="isNormal" class="importantNotesContainer">
           <v-row>
-            <p>Important Notes :</p>
+            <p>Important Notes</p>
           </v-row>
           <v-row v-masonry item-selector=".imNoteList">
             <v-col
@@ -70,7 +70,7 @@
 
         <div v-if="isNormal" class="normalNotesContainer">
           <v-row>
-            <p>{{ showDate }} :</p>
+            <p>{{ showDate }}</p>
           </v-row>
           <v-row v-masonry item-selector=".noteList">
             <v-col
@@ -122,7 +122,7 @@
 
         <div v-if="isSearch" class="searchNotesContainer">
           <v-row>
-            <p>Searched Notes :</p>
+            <p>Searched Notes</p>
           </v-row>
           <v-row v-masonry item-selector=".searchNoteList">
             <v-col
@@ -191,7 +191,6 @@ export default {
         "November",
         "December",
       ],
-      monthIndex: 0,
       tags: [],
       isTagMode: false,
       tagNotes: [],
@@ -210,10 +209,10 @@ export default {
     const day = dateObj.getDate();
     this.date = `${year}-${month}-${day}`;
 
-    this.monthIndex = month - 1;
+    let monthIndex = month - 1;
 
-    this.showDate = `Notes of ${this.monthNames[this.monthIndex]} ${day}, year`;
-    console.log(this.showDate);
+    this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
+
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
 
@@ -254,8 +253,13 @@ export default {
     date: {
       handler() {
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
-        console.log("in!");
-        this.showDate = this.replaceAll(this.date, "-", ".");
+
+        let year = Number(this.date.slice(0, 4));
+        let monthIndex = Number(this.date.slice(5, 7)) - 1;
+        let day = Number(this.date.slice(8, 10));
+
+        this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, ${year}`;
+
         this.$nextTick(() => this.$redrawVueMasonry());
       },
       deep: true,
