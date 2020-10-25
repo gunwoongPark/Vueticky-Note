@@ -28,7 +28,12 @@
             </div>
           </div>
 
-          <div v-bind="attrs" v-on="on" @click.prevent="initData">
+          <div
+            class="inCard"
+            v-bind="attrs"
+            v-on="on"
+            @click.prevent="initData"
+          >
             <v-card-title class="cardTitle noteTitle">
               <p>{{ note.title }}</p>
             </v-card-title>
@@ -165,5 +170,14 @@ export default {
 
 p {
   white-space: pre-line;
+}
+
+.starIcon {
+  color: rgb(181, 0, 0);
+  margin: 0 0 0 -10px;
+}
+
+.inCard {
+  margin: 20px;
 }
 </style>
