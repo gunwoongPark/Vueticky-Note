@@ -10,7 +10,7 @@
           placeholder="Title"
           style="width: 100%"
         ></textarea>
-        <v-spacer></v-spacer>
+
         <div class="time">{{ note.time }}</div>
       </v-card-title>
 
@@ -218,6 +218,8 @@ textarea:focus {
   color: rgb(102, 102, 102);
   font-size: 15px;
   margin-bottom: -10px;
+  text-align: right;
+  width: 100%;
 }
 
 .important {

@@ -10,7 +10,9 @@
           :style="{ 'background-color': note.theme }"
         >
           <div class="Container">
-            <v-icon v-if="note.important" class="starIcon">mdi-pin</v-icon>
+            <v-icon v-if="note.important" class="starIcon"
+              >mdi-brightness-1</v-icon
+            >
             <v-spacer class="hidden-sm-and-down"></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
@@ -141,6 +143,10 @@ export default {
 </script>
 
 <style scoped>
+.note {
+  border-radius: 50px 5px 50px 5px;
+}
+
 .cardTitle {
   margin-top: -15px;
 }

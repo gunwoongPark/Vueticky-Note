@@ -11,7 +11,6 @@
           style="width: 100%"
         ></textarea>
         <div class="divider"></div>
-        <v-spacer></v-spacer>
       </v-card-title>
 
       <v-card-text>
