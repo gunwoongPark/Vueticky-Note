@@ -9,7 +9,9 @@
           :style="{ 'background-color': note.theme }"
         >
           <div class="Container">
-            <v-icon v-if="note.important" class="starIcon">mdi-bookmark</v-icon>
+            <v-icon v-if="note.important" class="starIcon"
+              >mdi-brightness-1</v-icon
+            >
             <v-spacer></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
@@ -228,7 +230,7 @@ p {
 }
 .starIcon {
   color: rgb(181, 0, 0);
-  margin-top: -20px;
+  margin: -10px 0 0 -7px;
 }
 
 .inCard {
