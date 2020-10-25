@@ -306,7 +306,7 @@ export default {
       tempObj.title = title;
       tempObj.text = text;
       tempObj.theme = theme;
-      tempObj.time = `edited ${date} ${time}`;
+      tempObj.time = `Edited ${date} ${time}`;
       tempObj.guid = guid;
       tempObj.date = originDate;
       tempObj.important = important;

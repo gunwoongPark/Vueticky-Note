@@ -16,7 +16,10 @@
             <v-spacer class="hidden-sm-and-down"></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
-              <v-icon class="deleteIcon ml-3" @click.prevent="deleteNote"
+              <v-icon
+                class="deleteIcon"
+                :class="{ noImportantIcon: !note.important }"
+                @click.prevent="deleteNote"
                 >mdi-close-circle</v-icon
               >
             </div>
@@ -167,6 +170,14 @@ export default {
 
 .deleteIcon:hover {
   cursor: pointer;
+}
+
+/* .deleteIcon {
+  margin: 0 0 0 -10px;
+} */
+
+.noImportantIcon {
+  margin: 0 0 0 -10px;
 }
 
 p {
