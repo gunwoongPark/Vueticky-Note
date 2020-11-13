@@ -44,6 +44,12 @@
             </v-sheet>
           </v-col>
         </v-row>
+
+        <v-file-input
+          color="teal"
+          accept="image/*"
+          label="사진첨부"
+        ></v-file-input>
       </v-card-text>
 
       <v-divider></v-divider>
