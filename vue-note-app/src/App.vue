@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="main">
       <Header
         style="z-index: 10"
         :date="date"
@@ -207,7 +207,7 @@ export default {
 
       isSearch: false,
       isNormal: true,
-      isDark: false,
+      isDark: "",
     };
   },
 
@@ -234,11 +234,11 @@ export default {
 
     // 모드 불러오기
     if (localStorage.getItem("isDark")) {
-      if (JSON.parse(localStorage.getItem("tags")) === "true")
-        this.isDark = true;
-      else this.isDark = false;
+      if (JSON.parse(localStorage.getItem("isDark")))
+        document.querySelector(".main").style.background = "rgb(53,53,53)";
+      else document.querySelector(".main").style.background = "white";
     } else {
-      var newMode = this.isDark;
+      var newMode = false;
       localStorage.setItem("isDark", JSON.stringify(newMode));
     }
   },
@@ -286,7 +286,9 @@ export default {
 
     isDark: {
       handler() {
-        console.log(this.isDark);
+        if (this.isDark)
+          document.querySelector(".main").style.background = "rgb(53,53,53)";
+        else document.querySelector(".main").style.background = "white";
       },
     },
   },
