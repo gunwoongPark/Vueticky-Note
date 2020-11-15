@@ -10,7 +10,7 @@
 export default {
   methods: {
     // 최상단으로 이동하는 간단한 버튼
-    goTop() {
+    goTop () {
       window.scrollTo({
         top: 0,
         left: 0,

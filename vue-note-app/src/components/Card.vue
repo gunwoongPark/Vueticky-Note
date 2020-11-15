@@ -13,10 +13,21 @@
             <v-icon v-if="note.important" class="starIcon"
               >mdi-brightness-1</v-icon
             >
-            <v-spacer class="hidden-sm-and-down"></v-spacer>
+            <v-spacer></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
               <v-icon
+                v-if="note.Brightness"
+                style="color: black"
+                class="deleteIcon"
+                :class="{ noImportantIcon: !note.important }"
+                @click.prevent="deleteNote"
+                >mdi-close-circle</v-icon
+              >
+
+              <v-icon
+                v-else
+                style="color: white"
                 class="deleteIcon"
                 :class="{ noImportantIcon: !note.important }"
                 @click.prevent="deleteNote"
@@ -25,7 +36,19 @@
             </div>
 
             <div class="PCDeleteIconContainer hidden-sm-and-down">
-              <v-icon class="deleteIcon" @click.prevent="deleteNote"
+              <v-icon
+                v-if="note.Brightness"
+                style="color: black"
+                class="deleteIcon"
+                @click.prevent="deleteNote"
+                >mdi-close-circle</v-icon
+              >
+
+              <v-icon
+                v-else
+                style="color: white"
+                class="deleteIcon"
+                @click.prevent="deleteNote"
                 >mdi-close-circle</v-icon
               >
             </div>
@@ -37,10 +60,30 @@
             v-on="on"
             @click.prevent="initData"
           >
-            <v-card-title class="cardTitle noteTitle">
+            <v-card-title
+              v-if="note.Brightness"
+              style="color: black"
+              class="cardTitle noteTitle"
+            >
               <p>{{ note.title }}</p>
-              <v-divider class="cardDiv"></v-divider>
+
+              <v-divider
+                style="border-color: black; margin-left: 10px"
+              ></v-divider>
             </v-card-title>
+
+            <v-card-title
+              v-else
+              style="color: white"
+              class="cardTitle noteTitle"
+            >
+              <p>{{ note.title }}</p>
+
+              <v-divider
+                style="border-color: white; margin-left: 10px"
+              ></v-divider>
+            </v-card-title>
+
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -56,6 +99,8 @@
     </v-dialog>
   </div>
 </template>
+       
+    
 
 <script>
 import { Editor } from "vuetify-markdown-editor";
@@ -76,7 +121,7 @@ export default {
     },
   },
 
-  data() {
+  data () {
     return {
       dialog: false,
       isSubmit: false,
@@ -88,7 +133,7 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler() {
+      handler () {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
@@ -99,17 +144,20 @@ export default {
       },
     },
   },
-
+  mounted () {
+    //console.log('hello')
+    this.setBrightness(this.note.theme)
+  },
   methods: {
-    mouseEnter(e) {
+    mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave(e) {
+    mouseLeave (e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote(title, text, theme, time, date, originDate, important, tags) {
+    modifyNote (title, text, theme, Brightness, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -117,6 +165,7 @@ export default {
         title,
         text,
         theme,
+        Brightness,
         time,
         date,
         originDate,
@@ -125,9 +174,21 @@ export default {
         tags
       );
     },
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
 
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
+    },
     // 버튼을 누를 경우 데이터 초기화
-    initData() {
+    initData () {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
@@ -137,12 +198,12 @@ export default {
       this.isSubmit = false;
     },
 
-    deleteNote() {
+    deleteNote () {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog() {
+    closeDialog () {
       this.dialog = false;
     },
   },
@@ -160,7 +221,15 @@ export default {
 }
 
 .cardTitle {
-  margin-top: -15px;
+  margin-top: -25px;
+}
+.noteTitle {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.note {
+  border-radius: 50px 5px 50px 5px;
 }
 
 .Container {
@@ -182,10 +251,13 @@ export default {
 p {
   white-space: pre-line;
 }
-
 .starIcon {
   color: rgb(181, 0, 0);
-  margin: 0 0 0 -10px;
+  margin: -10px 0 0 -7px;
+}
+
+.inCard {
+  margin: 20px;
 }
 
 .cardDiv {

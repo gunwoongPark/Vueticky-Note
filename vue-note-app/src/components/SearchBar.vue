@@ -17,14 +17,14 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       text: "",
     };
   },
 
   methods: {
-    submitText() {
+    submitText () {
       this.$emit("submitText", this.text);
     },
   },

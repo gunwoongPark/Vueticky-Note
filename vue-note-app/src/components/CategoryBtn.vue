@@ -8,7 +8,11 @@
           class="mx-2 tagBtn"
           fab
           dark
+<<<<<<< HEAD
           color="teal lighten-3"
+=======
+          color="#80CBC4"
+>>>>>>> Design6
           @click="initData"
         >
           <v-icon dark> mdi-tag-multiple </v-icon>
@@ -16,9 +20,15 @@
       </template>
 
       <v-card>
+<<<<<<< HEAD
         <v-card-title class="cardTitle">Tag Management</v-card-title>
         <v-card-text class="mt-5">
           <p>Registered Tags</p>
+=======
+        <v-card-title class="cardTitle">Tag</v-card-title>
+        <v-card-text class="mt-5">
+          <p>Registered tags</p>
+>>>>>>> Design6
 
           <div v-if="tags.length">
             <v-chip
@@ -38,12 +48,20 @@
 
           <v-divider></v-divider>
 
+<<<<<<< HEAD
           <!-- 그리드 레이아웃을 활용하여 버튼 배치를 반응형으로 구현 -->
           <v-row class="inputContainer">
             <v-col cols="12" lg="8" md="8" sm="12">
               <v-text-field
                 color="teal"
                 placeholder="Please enter a tag to register..."
+=======
+          <v-row class="inputContainer">
+            <v-col cols="12" lg="8" md="8" sm="12">
+              <v-text-field
+                color="blue"
+                placeholder="Type your tag..."
+>>>>>>> Design6
                 hide-details
                 prepend-icon="mdi-tag"
                 single-line
@@ -64,6 +82,7 @@
 
 <script>
 export default {
+<<<<<<< HEAD
   data() {
     return {
       dialog: false,
@@ -73,19 +92,45 @@ export default {
   },
 
   mounted() {
+=======
+  data () {
+    return {
+      dialog: false,
+      tags: [],
+      text: ""
+    }
+  },
+
+  mounted () {
+>>>>>>> Design6
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
   },
 
+<<<<<<< HEAD
   // dialog가 닫히면 데이터 전송
   watch: {
     dialog: {
       handler() {
         this.$emit("initTags", this.tags);
       },
+=======
+  watch: {
+    dialog: {
+      handler () {
+        this.$emit("initTags", this.tags);
+      }
+    }
+  },
+
+  methods: {
+    initData () {
+      this.text = ""
+>>>>>>> Design6
     },
   },
 
+<<<<<<< HEAD
   methods: {
     initData() {
       this.text = "";
@@ -120,11 +165,37 @@ export default {
     },
   },
 };
+=======
+    deleteTag (index) {
+      this.$emit("deleteTag", index);
+    },
+
+    registerTag () {
+      if (this.text === "") {
+        alert("태그명을 입력해주세요");
+        return;
+      }
+      this.tags.push(this.text);
+      this.text = "";
+    },
+
+    // selectTag(index) {
+    //     this.$emit("selectTag", this.tags[index]);
+    //     this.dialog = false;
+    // }
+  }
+
+}
+>>>>>>> Design6
 </script>
 
 <style scoped>
 .cardTitle {
+<<<<<<< HEAD
   background: #009688;
+=======
+  background: #4db6ac;
+>>>>>>> Design6
   color: white;
 }
 
