@@ -293,25 +293,19 @@ export default {
       },
     },
   },
-
+  computed: {
+    brightness() {
+      return this.$store.getters.getBrightness;
+    },
+  },
   methods: {
     // 노트 생성
-    newNote(
-      title,
-      text,
-      theme,
-      Brightness,
-      time,
-      date,
-      guid,
-      isImportant,
-      tags
-    ) {
+    newNote(title, text, theme, time, date, guid, isImportant, tags) {
       this.notes.push({
         title: title,
         text: text,
         theme: theme,
-        Brightness: Brightness,
+        brightness: this.brightness,
         time: time,
         date: date,
         guid: guid,
@@ -325,7 +319,7 @@ export default {
       title,
       text,
       theme,
-      Brightness,
+
       time,
       date,
       originDate,
@@ -339,7 +333,7 @@ export default {
       tempObj.title = title;
       tempObj.text = text;
       tempObj.theme = theme;
-      tempObj.Brightness = Brightness;
+      tempObj.brightness = this.brightness;
       tempObj.time = `Edited ${date} ${time}`;
       tempObj.guid = guid;
       tempObj.date = originDate;
