@@ -8,7 +8,7 @@
           <img src="../assets/Memo_icon.svg.png" />
         </v-col>
         <v-col cols="9" lg="5" md="6" sm="8">
-          <SearchBar @submitText="submitText"
+          <SearchBar :isDark="isDark" @submitText="submitText"
         /></v-col>
         <v-col cols="0" lg="3" md="2" sm="1"></v-col>
       </v-row>
@@ -36,20 +36,23 @@
 import SearchBar from "./SearchBar";
 export default {
   props: {
-
     tags: {
       type: Array,
       required: true,
     },
 
+    isDark: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
-    submitText (text) {
+    submitText(text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag (index) {
+    selectTag(index) {
       this.$emit("selectTag", index);
     },
   },
