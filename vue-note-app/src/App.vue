@@ -283,6 +283,12 @@ export default {
         this.$nextTick(() => this.$redrawVueMasonry());
       },
     },
+
+    isDark: {
+      handler() {
+        console.log(this.isDark);
+      },
+    },
   },
 
   methods: {
@@ -389,9 +395,12 @@ export default {
       this.isNormal = true;
     },
 
-    // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영 및 테마 변경
+    // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영
     changeMode() {
       this.isDark = !this.isDark;
+
+      var newMode = this.isDark;
+      localStorage.setItem("isDark", JSON.stringify(newMode));
     },
   },
 };
