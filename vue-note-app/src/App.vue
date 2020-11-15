@@ -37,6 +37,8 @@
 
       <TopBtn class="topBtn" />
 
+      <ChangeMode class="modeChangeBtn" @changeMode="changeMode" />
+
       <!-- masonry 활용 -->
       <div class="noteContainer">
         <hr />
@@ -162,6 +164,7 @@ import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
+import ChangeMode from "./components/ChangeMode";
 
 export default {
   components: {
@@ -171,6 +174,7 @@ export default {
     Card,
     TopBtn,
     CategoryBtn,
+    ChangeMode,
   },
 
   data() {
@@ -201,9 +205,9 @@ export default {
       tagNotes: [],
       tag: "",
 
-      isMobile: false,
       isSearch: false,
       isNormal: true,
+      isDark: false,
     };
   },
 
@@ -217,13 +221,26 @@ export default {
 
     let monthIndex = month - 1;
 
+    // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
+    // 노트들 불러오기
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
 
+    // 각 노트의 태그들 불러오기
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
+
+    // 모드 불러오기
+    if (localStorage.getItem("isDark")) {
+      if (JSON.parse(localStorage.getItem("tags")) === "true")
+        this.isDark = true;
+      else this.isDark = false;
+    } else {
+      var newMode = this.isDark;
+      localStorage.setItem("isDark", JSON.stringify(newMode));
+    }
   },
 
   watch: {
@@ -370,6 +387,11 @@ export default {
       this.isTagMode = false;
       this.isSearch = false;
       this.isNormal = true;
+    },
+
+    // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영 및 테마 변경
+    changeMode() {
+      this.isDark = !this.isDark;
     },
   },
 };
