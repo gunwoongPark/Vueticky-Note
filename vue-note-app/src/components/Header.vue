@@ -41,10 +41,7 @@ export default {
       type: Array,
       required: true,
     },
-    tags: {
-      type: Array,
-      required: true,
-    },
+
   },
 
   methods: {

@@ -1,9 +1,6 @@
 <template>
   <div>
-<<<<<<< HEAD
     <!-- 날짜를 선택하고 반환하는 UI컴포넌트 활용 -->
-=======
->>>>>>> Design6
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -12,11 +9,7 @@
           class="mx-2 calendarBtn"
           fab
           dark
-<<<<<<< HEAD
           color="teal lighten-1"
-=======
-          color="#4DB6AC"
->>>>>>> Design6
         >
           <v-icon dark> mdi-calendar </v-icon>
         </v-btn>
@@ -24,11 +17,7 @@
 
       <v-card>
         <v-date-picker
-<<<<<<< HEAD
           color="teal"
-=======
-          color="#4DB6AC"
->>>>>>> Design6
           full-width
           v-model="picker"
           year-icon="mdi-calendar-blank"
@@ -47,11 +36,7 @@
 
 <script>
 export default {
-<<<<<<< HEAD
-  created() {
-=======
   created () {
->>>>>>> Design6
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -59,22 +44,14 @@ export default {
 
     this.picker = `${year}-${month}-${day}`;
   },
-<<<<<<< HEAD
-  data() {
-=======
   data () {
->>>>>>> Design6
     return {
       picker: "",
       dialog: false,
     };
   },
   methods: {
-<<<<<<< HEAD
-    selectDate() {
-=======
     selectDate () {
->>>>>>> Design6
       this.dialog = false;
       this.$emit("selectDate", this.picker);
     },

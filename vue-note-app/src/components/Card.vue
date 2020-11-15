@@ -138,6 +138,7 @@ export default {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
           this.note.theme = this.tempNote.theme;
+          this.note.Brightness = this.tempNote.Brightness;
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
         }
@@ -192,6 +193,7 @@ export default {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
+      this.tempNote.Brightness = this.note.Brightness;
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
 
