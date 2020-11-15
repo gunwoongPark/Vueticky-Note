@@ -6,7 +6,7 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
-          v-if="note.Brightness"
+          v-if="this.brightness"
           style="color: black; width: 100%"
           v-model="note.title"
           placeholder="Title"
@@ -148,11 +148,18 @@ export default {
     },
   },
 
+  computed: {
+    brightness () {
+      return this.$store.getters.getBrightness;
+    }
+  },
+
   methods: {
     // 팔레트에서 받아온 색 초기화
     initColor (picker) {
       this.note.theme = picker;
-      this.setBrightness(this.note.theme)
+      this.$store.commit('setBrightness', this.note.theme)
+      //this.setBrightness(this.note.theme)
     },
 
     // 노트 생성
@@ -181,7 +188,7 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
-        this.note.Brightness,
+
         time,
         date,
         this.note.isImportant,
@@ -190,19 +197,7 @@ export default {
 
       this.note.isImportant = false;
     },
-    setBrightness (color) {
-      let hexR = color.substring(1, 3);
-      let hexG = color.substring(3, 5);
-      let hexB = color.substring(5, 7);
 
-      let decR = parseInt(hexR, 16);
-      let decG = parseInt(hexG, 16);
-      let decB = parseInt(hexB, 16);
-
-      let v = (decR + decG + decB) / 3;
-      //console.log(v);
-      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
-    },
 
     addImportant () {
       this.note.isImportant = !this.note.isImportant;

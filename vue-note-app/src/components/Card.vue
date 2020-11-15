@@ -17,7 +17,7 @@
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
               <v-icon
-                v-if="note.Brightness"
+                v-if="note.brightness"
                 style="color: black"
                 class="deleteIcon"
                 :class="{ noImportantIcon: !note.important }"
@@ -37,7 +37,7 @@
 
             <div class="PCDeleteIconContainer hidden-sm-and-down">
               <v-icon
-                v-if="note.Brightness"
+                v-if="note.brightness"
                 style="color: black"
                 class="deleteIcon"
                 @click.prevent="deleteNote"
@@ -61,7 +61,7 @@
             @click.prevent="initData"
           >
             <v-card-title
-              v-if="note.Brightness"
+              v-if="note.brightness"
               style="color: black"
               class="cardTitle noteTitle"
             >
@@ -136,7 +136,7 @@ export default {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
           this.note.theme = this.tempNote.theme;
-          this.note.Brightness = this.tempNote.Brightness;
+          this.$store.commit('setBrightness', this.tempNote.theme)
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
         }
@@ -145,7 +145,13 @@ export default {
   },
   mounted () {
     //console.log('hello')
-    this.setBrightness(this.note.theme)
+    //this.setBrightness(this.note.theme)
+    this.$store.commit('setBrightness', this.note.theme)
+  },
+  computed: {
+    brightness () {
+      return this.$store.getters.getBrightness;
+    }
   },
   methods: {
     mouseEnter (e) {
@@ -156,7 +162,7 @@ export default {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (title, text, theme, Brightness, time, date, originDate, important, tags) {
+    modifyNote (title, text, theme, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -164,7 +170,7 @@ export default {
         title,
         text,
         theme,
-        Brightness,
+
         time,
         date,
         originDate,
@@ -173,28 +179,14 @@ export default {
         tags
       );
     },
-    //16진수 색상 문자열에서 RGB 별로 색상 구분
-    setBrightness (color) {
-      let hexR = color.substring(1, 3);
-      let hexG = color.substring(3, 5);
-      let hexB = color.substring(5, 7);
-      // 자료형 변환 
-      let decR = parseInt(hexR, 16);
-      let decG = parseInt(hexG, 16);
-      let decB = parseInt(hexB, 16);
-      // 명도 계산 
-      let v = (decR + decG + decB) / 3;
-      //console.log(v);
 
-      //threshold 
-      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
-    },
+
     // 버튼을 누를 경우 데이터 초기화
     initData () {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
-      this.tempNote.Brightness = this.note.Brightness;
+      this.$store.commit('setBrightness', this.note.theme)
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
 

@@ -63,17 +63,17 @@ export default {
       this.note.theme = "rgb(240,240,240)";
       this.note.isImportant = false;
       this.note.selectedTags = [];
-      this.note.Brightness = "true"
+      this.$store.commit('setBrightness', this.note.theme)
     },
 
-    newNote (title, text, theme, Brightness, time, date, isImportant, tags) {
+    newNote (title, text, theme, time, date, isImportant, tags) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
         title,
         text,
         theme,
-        Brightness,
+
         time,
         date,
         cryptoRandomString({
