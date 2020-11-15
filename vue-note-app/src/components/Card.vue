@@ -137,6 +137,7 @@ export default {
           this.note.text = this.tempNote.text;
           this.note.theme = this.tempNote.theme;
           this.$store.commit('setBrightness', this.tempNote.theme)
+          this.note.brightness = this.brightness;
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
         }

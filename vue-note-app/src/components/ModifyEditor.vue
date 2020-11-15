@@ -156,8 +156,10 @@ export default {
 
     initColor (picker) {
       this.note.theme = picker;
-      this.$store.commit('setBrightness', this.note.theme)
-      //this.setBrightness(this.note.theme);
+      this.$store.commit('setBrightness', this.note.theme);
+      this.note.brightness = this.brightness;
+
+
     },
 
     modifyNote () {
