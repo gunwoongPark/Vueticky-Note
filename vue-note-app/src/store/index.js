@@ -45,26 +45,27 @@ export default new Vuex.Store({
                 var newMode = false;
                 localStorage.setItem("isDark", JSON.stringify(newMode));
             }
-            setBrightness: (state, color) => {
-                let hexR = color.substring(1, 3);
-                let hexG = color.substring(3, 5);
-                let hexB = color.substring(5, 7);
-                // 자료형 변환
-                let decR = parseInt(hexR, 16);
-                let decG = parseInt(hexG, 16);
-                let decB = parseInt(hexB, 16);
-                // 명도 계산
-                let v = (decR + decG + decB) / 3;
-                //console.log(v);
-
-                //threshold
-                (v < 120) ? state.brightness = false : state.brightness = true;
-            }
         },
+        setBrightness: (state, color) => {
+            let hexR = color.substring(1, 3);
+            let hexG = color.substring(3, 5);
+            let hexB = color.substring(5, 7);
+            // 자료형 변환
+            let decR = parseInt(hexR, 16);
+            let decG = parseInt(hexG, 16);
+            let decB = parseInt(hexB, 16);
+            // 명도 계산
+            let v = (decR + decG + decB) / 3;
+            //console.log(v);
 
-        // methods
-        // 일반 로직(비동기O)
-        actions: {
-
+            //threshold
+            (v < 120) ? state.brightness = false : state.brightness = true;
         }
-    })
+    },
+
+    // methods
+    // 일반 로직(비동기O)
+    actions: {
+
+    }
+})

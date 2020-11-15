@@ -213,6 +213,9 @@ export default {
     isDark() {
       return this.$store.getters.getDark;
     },
+    brightness() {
+      return this.$store.getters.getBrightness;
+    },
   },
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
@@ -293,11 +296,7 @@ export default {
       },
     },
   },
-  computed: {
-    brightness() {
-      return this.$store.getters.getBrightness;
-    },
-  },
+
   methods: {
     // 노트 생성
     newNote(title, text, theme, time, date, guid, isImportant, tags) {
