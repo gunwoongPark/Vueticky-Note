@@ -234,9 +234,13 @@ export default {
 
     // 모드 불러오기
     if (localStorage.getItem("isDark")) {
-      if (JSON.parse(localStorage.getItem("isDark")))
+      if (JSON.parse(localStorage.getItem("isDark"))) {
         document.querySelector(".main").style.background = "rgb(53,53,53)";
-      else document.querySelector(".main").style.background = "white";
+        this.isDark = true;
+      } else {
+        document.querySelector(".main").style.background = "white";
+        this.isDark = false;
+      }
     } else {
       var newMode = false;
       localStorage.setItem("isDark", JSON.stringify(newMode));
