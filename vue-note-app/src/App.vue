@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="main">
       <Header
         style="z-index: 10"
         :date="date"
@@ -36,6 +36,12 @@
       />
 
       <TopBtn class="topBtn" />
+
+      <ChangeMode
+        class="modeChangeBtn"
+        @changeMode="changeMode"
+        :isDark="isDark"
+      />
 
       <!-- masonry 활용 -->
       <div class="noteContainer">
@@ -162,6 +168,7 @@ import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
+import ChangeMode from "./components/ChangeMode";
 
 export default {
   components: {
@@ -171,6 +178,7 @@ export default {
     Card,
     TopBtn,
     CategoryBtn,
+    ChangeMode,
   },
 
   data () {
@@ -201,9 +209,9 @@ export default {
       tagNotes: [],
       tag: "",
 
-      isMobile: false,
       isSearch: false,
       isNormal: true,
+      isDark: false,
     };
   },
 
@@ -217,13 +225,30 @@ export default {
 
     let monthIndex = month - 1;
 
+    // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
+    // 노트들 불러오기
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
 
+    // 각 노트의 태그들 불러오기
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
+
+    // 모드 불러오기
+    if (localStorage.getItem("isDark")) {
+      if (JSON.parse(localStorage.getItem("isDark"))) {
+        document.querySelector(".main").style.background = "rgb(53,53,53)";
+        this.isDark = true;
+      } else {
+        document.querySelector(".main").style.background = "white";
+        this.isDark = false;
+      }
+    } else {
+      var newMode = false;
+      localStorage.setItem("isDark", JSON.stringify(newMode));
+    }
   },
 
   watch: {
@@ -264,6 +289,14 @@ export default {
         localStorage.setItem("tags", JSON.stringify(newTags));
 
         this.$nextTick(() => this.$redrawVueMasonry());
+      },
+    },
+
+    isDark: {
+      handler() {
+        if (this.isDark)
+          document.querySelector(".main").style.background = "rgb(53,53,53)";
+        else document.querySelector(".main").style.background = "white";
       },
     },
   },
@@ -373,6 +406,14 @@ export default {
       this.isTagMode = false;
       this.isSearch = false;
       this.isNormal = true;
+    },
+
+    // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영
+    changeMode() {
+      this.isDark = !this.isDark;
+
+      var newMode = this.isDark;
+      localStorage.setItem("isDark", JSON.stringify(newMode));
     },
   },
 };
