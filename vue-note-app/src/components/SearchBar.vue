@@ -17,13 +17,6 @@
 
 <script>
 export default {
-  props: {
-    isDark: {
-      type: Boolean,
-      required: true,
-    },
-  },
-
   data() {
     return {
       text: "",
