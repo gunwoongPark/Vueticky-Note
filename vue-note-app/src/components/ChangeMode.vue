@@ -12,16 +12,15 @@
 
 <script>
 export default {
-  props: {
-    isDark: {
-      type: Boolean,
-      required: true,
+  methods: {
+    changeMode() {
+      this.$store.commit("changeMode");
     },
   },
 
-  methods: {
-    changeMode() {
-      this.$emit("changeMode");
+  computed: {
+    isDark() {
+      return this.$store.getters.getDark;
     },
   },
 };
