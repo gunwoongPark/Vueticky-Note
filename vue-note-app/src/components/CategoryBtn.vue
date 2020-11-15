@@ -2,12 +2,27 @@
   <div>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
+        <!-- PC뷰 -->
         <v-btn
           v-bind="attrs"
           v-on="on"
-          class="mx-2 tagBtn"
+          class="mx-2 tagBtn hidden-sm-and-down"
           fab
           dark
+          color="teal lighten-3"
+          @click="initData"
+        >
+          <v-icon dark> mdi-tag-multiple </v-icon>
+        </v-btn>
+
+        <!-- 모바일 뷰 -->
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          class="mx-2 tagBtn hidden-md-and-up"
+          fab
+          dark
+          small
           color="teal lighten-3"
           @click="initData"
         >
@@ -64,7 +79,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialog: false,
       tags: [],
@@ -72,7 +87,7 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
   },
@@ -80,23 +95,23 @@ export default {
   // dialog가 닫히면 데이터 전송
   watch: {
     dialog: {
-      handler () {
+      handler() {
         this.$emit("initTags", this.tags);
       },
     },
   },
 
   methods: {
-    initData () {
+    initData() {
       this.text = "";
     },
 
-    deleteTag (index) {
+    deleteTag(index) {
       this.$emit("deleteTag", index);
     },
 
     // 등록 및 예외처리
-    registerTag () {
+    registerTag() {
       if (this.text === "") {
         alert("태그명을 입력해주세요");
         return;

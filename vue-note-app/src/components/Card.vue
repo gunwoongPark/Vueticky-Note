@@ -13,7 +13,7 @@
             <v-icon v-if="note.important" class="starIcon"
               >mdi-brightness-1</v-icon
             >
-            <v-spacer></v-spacer>
+            <v-spacer class="hidden-sm-and-down"></v-spacer>
 
             <div class="MobileDeleteIconContainer hidden-md-and-up">
               <v-icon
@@ -119,7 +119,7 @@ export default {
     },
   },
 
-  data () {
+  data() {
     return {
       dialog: false,
       isSubmit: false,
@@ -131,12 +131,12 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler () {
+      handler() {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
           this.note.theme = this.tempNote.theme;
-          this.$store.commit('setBrightness', this.tempNote.theme)
+          this.$store.commit("setBrightness", this.tempNote.theme);
           this.note.brightness = this.brightness;
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
@@ -144,26 +144,26 @@ export default {
       },
     },
   },
-  mounted () {
+  mounted() {
     //console.log('hello')
     //this.setBrightness(this.note.theme)
-    this.$store.commit('setBrightness', this.note.theme)
+    this.$store.commit("setBrightness", this.note.theme);
   },
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
-    }
+    },
   },
   methods: {
-    mouseEnter (e) {
+    mouseEnter(e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave (e) {
+    mouseLeave(e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (title, text, theme, time, date, originDate, important, tags) {
+    modifyNote(title, text, theme, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -181,25 +181,24 @@ export default {
       );
     },
 
-
     // 버튼을 누를 경우 데이터 초기화
-    initData () {
+    initData() {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
-      this.$store.commit('setBrightness', this.note.theme)
+      this.$store.commit("setBrightness", this.note.theme);
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
 
       this.isSubmit = false;
     },
 
-    deleteNote () {
+    deleteNote() {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog () {
+    closeDialog() {
       this.dialog = false;
     },
   },
@@ -249,7 +248,7 @@ p {
 }
 .starIcon {
   color: rgb(181, 0, 0);
-  margin: -10px 0 0 -7px;
+  margin: 0 0 0 -10px;
 }
 
 .inCard {

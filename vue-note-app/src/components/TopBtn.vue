@@ -1,6 +1,25 @@
 <template>
   <div>
-    <v-btn class="topBtn mx-2" color="teal darken-4" @click="goTop" fab dark>
+    <!-- PC뷰 -->
+    <v-btn
+      class="topBtn mx-2 hidden-sm-and-down"
+      color="teal darken-4"
+      @click="goTop"
+      fab
+      dark
+    >
+      <v-icon>mdi-arrow-up-thick</v-icon>
+    </v-btn>
+
+    <!-- 모바일 뷰 -->
+    <v-btn
+      class="topBtn mx-2 hidden-md-and-up"
+      color="teal darken-4"
+      @click="goTop"
+      fab
+      dark
+      small
+    >
       <v-icon>mdi-arrow-up-thick</v-icon>
     </v-btn>
   </div>
@@ -10,7 +29,7 @@
 export default {
   methods: {
     // 최상단으로 이동하는 간단한 버튼
-    goTop () {
+    goTop() {
       window.scrollTo({
         top: 0,
         left: 0,
