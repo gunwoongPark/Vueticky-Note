@@ -17,14 +17,21 @@
 
 <script>
 export default {
-  data () {
+  props: {
+    isDark: {
+      type: Boolean,
+      required: true,
+    },
+  },
+
+  data() {
     return {
       text: "",
     };
   },
 
   methods: {
-    submitText () {
+    submitText() {
       this.$emit("submitText", this.text);
     },
   },
@@ -34,5 +41,6 @@ export default {
 <style scoped>
 .searchBar {
   margin-right: 15px;
+  background: white;
 }
 </style>
