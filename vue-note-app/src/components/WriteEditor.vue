@@ -6,16 +6,23 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
+          v-if="note.Brightness"
+          style="color: black; width: 100%"
           v-model="note.title"
           placeholder="Title"
-          style="width: 100%"
         ></textarea>
+        <textarea
+          v-else
+          style="color: white; width: 100%"
+          v-model="note.title"
+          placeholder="Title"
+        ></textarea>
+
         <div class="divider"></div>
+        <v-spacer></v-spacer>
       </v-card-title>
 
-      <!-- vuetify markdowneditor 활용 -->
       <v-card-text>
-        <!-- 그리드 레이아웃을 활용하여 editor와 previewer를 뷰에 따라 다르게 배치 -->
         <v-row>
           <v-col cols="12" md="6" lg="6" sm="12" xs="12">
             MarkDown Editor:
@@ -143,12 +150,13 @@ export default {
 
   methods: {
     // 팔레트에서 받아온 색 초기화
-    initColor(picker) {
+    initColor (picker) {
       this.note.theme = picker;
+      this.setBrightness(this.note.theme)
     },
 
     // 노트 생성
-    createNew() {
+    createNew () {
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -173,6 +181,7 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
+        this.note.Brightness,
         time,
         date,
         this.note.isImportant,
@@ -181,20 +190,30 @@ export default {
 
       this.note.isImportant = false;
     },
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
 
-    // 중요도 초기화
-    addImportant() {
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
+    },
+
+    addImportant () {
       this.note.isImportant = !this.note.isImportant;
     },
 
-    // v-model이 한글이 바로바로 렌더링 되지 않아 효율적인 양방향 바인딩을 위한 기능
-    bindKor(event) {
+    bindKor (event) {
       this.note.text = event.target.value;
     },
-
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
-    },
+    }
   },
 
   components: {
@@ -224,7 +243,7 @@ textarea:focus {
 }
 
 .important {
-  color: yellow;
+  color: red;
 }
 
 .divider {

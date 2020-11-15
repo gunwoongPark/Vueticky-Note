@@ -36,22 +36,20 @@
 import SearchBar from "./SearchBar";
 export default {
   props: {
-    date: {
-      type: String,
-      required: true,
-    },
+
     tags: {
       type: Array,
       required: true,
     },
+
   },
 
   methods: {
-    submitText(text) {
+    submitText (text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag(index) {
+    selectTag (index) {
       this.$emit("selectTag", index);
     },
   },
@@ -80,3 +78,4 @@ p {
   justify-content: center;
 }
 </style>
+

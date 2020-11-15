@@ -7,12 +7,24 @@
         :style="{ backgroundColor: note.theme }"
       >
         <textarea
+          v-if="note.Brightness"
+          style="color: black; width: 100%"
           v-model="note.title"
           placeholder="Title"
-          style="width: 100%"
+        ></textarea>
+        <textarea
+          v-else
+          style="color: white; width: 100%"
+          v-model="note.title"
+          placeholder="Title"
         ></textarea>
 
-        <div class="time">{{ note.time }}</div>
+        <div v-if="note.Brightness" class="time" style="color: rgb(95, 95, 95)">
+          {{ note.time }}
+        </div>
+        <div v-else class="time" style="color: rgb(220, 220, 220)">
+          {{ note.time }}
+        </div>
       </v-card-title>
 
       <v-card-text>
@@ -135,11 +147,28 @@ export default {
   },
 
   methods: {
-    initColor(picker) {
+    //16진수 색상 문자열에서 RGB 별로 색상 구분
+    setBrightness (color) {
+      let hexR = color.substring(1, 3);
+      let hexG = color.substring(3, 5);
+      let hexB = color.substring(5, 7);
+      // 자료형 변환 
+      let decR = parseInt(hexR, 16);
+      let decG = parseInt(hexG, 16);
+      let decB = parseInt(hexB, 16);
+      // 명도 계산 
+      let v = (decR + decG + decB) / 3;
+      //console.log(v);
+
+      //threshold 
+      (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
+    },
+    initColor (picker) {
       this.note.theme = picker;
+      this.setBrightness(this.note.theme);
     },
 
-    modifyNote() {
+    modifyNote () {
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -149,7 +178,6 @@ export default {
 
       const dateObj = new Date();
 
-      // WriteEditor.vue와 달리 수정 날짜를 저장하기 위함
       const year = dateObj.getFullYear();
       const month = dateObj.getMonth() + 1;
       const day = dateObj.getDate();
@@ -170,6 +198,7 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
+        this.note.Brightness,
         time,
         date,
         originDate,
@@ -177,15 +206,15 @@ export default {
         this.note.tags
       );
     },
-    addImportant() {
+    addImportant () {
       this.note.important = !this.note.important;
     },
 
-    bindKor(event) {
+    bindKor (event) {
       this.note.text = event.target.value;
     },
 
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
     },
   },
@@ -226,6 +255,13 @@ textarea:focus {
 }
 
 .important {
-  color: yellow;
+  color: red;
+}
+.Vdivider {
+  margin-top: -10px;
+}
+
+.cardFooter {
+  margin-top: -20px;
 }
 </style>

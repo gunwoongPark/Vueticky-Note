@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       dialog: false,
       tags: [],
@@ -72,7 +72,7 @@ export default {
     };
   },
 
-  mounted() {
+  mounted () {
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
   },
@@ -80,23 +80,23 @@ export default {
   // dialog가 닫히면 데이터 전송
   watch: {
     dialog: {
-      handler() {
+      handler () {
         this.$emit("initTags", this.tags);
       },
     },
   },
 
   methods: {
-    initData() {
+    initData () {
       this.text = "";
     },
 
-    deleteTag(index) {
+    deleteTag (index) {
       this.$emit("deleteTag", index);
     },
 
     // 등록 및 예외처리
-    registerTag() {
+    registerTag () {
       if (this.text === "") {
         alert("태그명을 입력해주세요");
         return;

@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  created() {
+  created () {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -44,14 +44,14 @@ export default {
 
     this.picker = `${year}-${month}-${day}`;
   },
-  data() {
+  data () {
     return {
       picker: "",
       dialog: false,
     };
   },
   methods: {
-    selectDate() {
+    selectDate () {
       this.dialog = false;
       this.$emit("selectDate", this.picker);
     },

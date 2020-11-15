@@ -41,7 +41,7 @@ export default {
     },
   },
 
-  data() {
+  data () {
     return {
       note: {
         title: "",
@@ -57,21 +57,23 @@ export default {
 
   methods: {
     // 버튼을 눌러 dialog에 진입 시 기존 데이터 초기화 -> 사용자가 입력 중 dialog가 비정상적으로 닫힐 경우 해당 내용을 기억하지 않고 초기화!
-    initData() {
+    initData () {
       this.note.title = "";
       this.note.text = "";
       this.note.theme = "rgb(240,240,240)";
       this.note.isImportant = false;
       this.note.selectedTags = [];
+      this.note.Brightness = "true"
     },
 
-    newNote(title, text, theme, time, date, isImportant, tags) {
+    newNote (title, text, theme, Brightness, time, date, isImportant, tags) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
         title,
         text,
         theme,
+        Brightness,
         time,
         date,
         cryptoRandomString({
@@ -82,7 +84,7 @@ export default {
       );
     },
 
-    closeDialog() {
+    closeDialog () {
       this.dialog = false;
     },
   },
