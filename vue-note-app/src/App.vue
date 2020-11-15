@@ -37,7 +37,11 @@
 
       <TopBtn class="topBtn" />
 
-      <ChangeMode class="modeChangeBtn" @changeMode="changeMode" />
+      <ChangeMode
+        class="modeChangeBtn"
+        @changeMode="changeMode"
+        :isDark="isDark"
+      />
 
       <!-- masonry 활용 -->
       <div class="noteContainer">
@@ -207,7 +211,7 @@ export default {
 
       isSearch: false,
       isNormal: true,
-      isDark: "",
+      isDark: false,
     };
   },
 
