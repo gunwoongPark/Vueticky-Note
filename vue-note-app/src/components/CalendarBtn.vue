@@ -3,12 +3,26 @@
     <!-- 날짜를 선택하고 반환하는 UI컴포넌트 활용 -->
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
+        <!-- PC뷰 -->
         <v-btn
           v-bind="attrs"
           v-on="on"
-          class="mx-2 calendarBtn"
+          class="mx-2 calendarBtn hidden-sm-and-down"
           fab
           dark
+          color="teal lighten-1"
+        >
+          <v-icon dark> mdi-calendar </v-icon>
+        </v-btn>
+
+        <!-- 모바일 뷰 -->
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          class="mx-2 calendarBtn hidden-md-and-up"
+          fab
+          dark
+          small
           color="teal lighten-1"
         >
           <v-icon dark> mdi-calendar </v-icon>
@@ -36,7 +50,7 @@
 
 <script>
 export default {
-  created () {
+  created() {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -44,14 +58,14 @@ export default {
 
     this.picker = `${year}-${month}-${day}`;
   },
-  data () {
+  data() {
     return {
       picker: "",
       dialog: false,
     };
   },
   methods: {
-    selectDate () {
+    selectDate() {
       this.dialog = false;
       this.$emit("selectDate", this.picker);
     },

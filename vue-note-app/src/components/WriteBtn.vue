@@ -2,12 +2,28 @@
   <div>
     <v-dialog v-model="dialog" width="1000">
       <template v-slot:activator="{ on, attrs }">
+        <!-- PC뷰 -->
         <v-btn
           v-bind="attrs"
           v-on="on"
-          class="mx-2 writeBtn"
+          class="mx-2 writeBtn hidden-sm-and-down"
           fab
           dark
+          color="teal darken-2"
+          style="z-index: 10"
+          @click="initData"
+        >
+          <v-icon dark> mdi-plus </v-icon>
+        </v-btn>
+
+        <!-- 모바일 뷰 -->
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          class="mx-2 writeBtn hidden-md-and-up"
+          fab
+          dark
+          small
           color="teal darken-2"
           style="z-index: 10"
           @click="initData"
@@ -41,7 +57,7 @@ export default {
     },
   },
 
-  data () {
+  data() {
     return {
       note: {
         title: "",
@@ -57,16 +73,16 @@ export default {
 
   methods: {
     // 버튼을 눌러 dialog에 진입 시 기존 데이터 초기화 -> 사용자가 입력 중 dialog가 비정상적으로 닫힐 경우 해당 내용을 기억하지 않고 초기화!
-    initData () {
+    initData() {
       this.note.title = "";
       this.note.text = "";
       this.note.theme = "rgb(240,240,240)";
       this.note.isImportant = false;
       this.note.selectedTags = [];
-      this.$store.commit('setBrightness', this.note.theme)
+      this.$store.commit("setBrightness", this.note.theme);
     },
 
-    newNote (title, text, theme, time, date, isImportant, tags) {
+    newNote(title, text, theme, time, date, isImportant, tags) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
@@ -84,7 +100,7 @@ export default {
       );
     },
 
-    closeDialog () {
+    closeDialog() {
       this.dialog = false;
     },
   },
