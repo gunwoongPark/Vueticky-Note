@@ -147,19 +147,20 @@ export default {
   },
 
   methods: {
-
+    //16진수 색상 문자열에서 RGB 별로 색상 구분
     setBrightness (color) {
       let hexR = color.substring(1, 3);
       let hexG = color.substring(3, 5);
       let hexB = color.substring(5, 7);
-
+      // 자료형 변환 
       let decR = parseInt(hexR, 16);
       let decG = parseInt(hexG, 16);
       let decB = parseInt(hexB, 16);
-
+      // 명도 계산 
       let v = (decR + decG + decB) / 3;
       //console.log(v);
 
+      //threshold 
       (v < 120) ? this.note.Brightness = false : this.note.Brightness = true;
     },
     initColor (picker) {
