@@ -2,6 +2,7 @@
   <div>
     <v-card class="dialogBox">
       <v-card-title
+        @click="testClick"
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
       >
@@ -54,6 +55,7 @@
 
         <!-- 사진 등록 -->
         <v-file-input
+          v-model="imageFile"
           color="teal"
           accept="image/*"
           label="Input image"
@@ -161,7 +163,15 @@ export default {
     },
   },
 
+  data() {
+    return { imageFile: null };
+  },
+
   methods: {
+    testClick() {
+      console.log(this.imageFile);
+    },
+
     // 팔레트에서 받아온 색 초기화
     initColor(picker) {
       this.note.theme = picker;
