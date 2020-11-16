@@ -55,11 +55,14 @@
 
         <!-- 사진 등록 -->
         <v-file-input
+          id="inputImage"
           v-model="imageFile"
           color="teal"
           accept="image/*"
           label="Input image"
         ></v-file-input>
+
+        <img :src="testPath" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -164,12 +167,12 @@ export default {
   },
 
   data() {
-    return { imageFile: null };
+    return { imageFile: null, testPath: "" };
   },
 
   methods: {
     testClick() {
-      console.log(this.imageFile);
+      this.testPath = document.querySelector("#inputImage").value;
     },
 
     // 팔레트에서 받아온 색 초기화
