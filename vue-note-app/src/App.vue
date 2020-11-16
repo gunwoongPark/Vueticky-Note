@@ -214,6 +214,8 @@ export default {
 
       isSearch: false,
       isNormal: true,
+
+      weather: {},
     };
   },
 
@@ -244,12 +246,24 @@ export default {
     if (base_time > 9) base_time = String(base_time) + "00";
     else base_time = "0" + String(base_time) + "00";
 
+    // 날씨 정보 받아오기
     axios
       .get(
         `${apiURL}?serviceKey=${serviceKey}&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=60&ny=127`
       )
       .then((res) => {
-        console.log(res.data.response.body.items);
+        console.log(res.data.response.body.items.item);
+
+        let PTY = res.data.response.body.items.item.filter(
+          (el) => el.category === "PTY"
+        );
+
+        let T1H = res.data.response.body.items.item.filter(
+          (el) => el.category === "T1H"
+        );
+
+        this.weather.PTY = PTY;
+        this.weather.T1H = T1H;
       })
       .catch((err) => {
         console.log(err);
