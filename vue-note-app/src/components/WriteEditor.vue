@@ -51,6 +51,13 @@
             </v-sheet>
           </v-col>
         </v-row>
+
+        <!-- 사진 등록 -->
+        <v-file-input
+          color="teal"
+          accept="image/*"
+          label="Input image"
+        ></v-file-input>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -149,21 +156,21 @@ export default {
   },
 
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
-    }
+    },
   },
 
   methods: {
     // 팔레트에서 받아온 색 초기화
-    initColor (picker) {
+    initColor(picker) {
       this.note.theme = picker;
-      this.$store.commit('setBrightness', this.note.theme)
+      this.$store.commit("setBrightness", this.note.theme);
       //this.setBrightness(this.note.theme)
     },
 
     // 노트 생성
-    createNew () {
+    createNew() {
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -198,17 +205,16 @@ export default {
       this.note.isImportant = false;
     },
 
-
-    addImportant () {
+    addImportant() {
       this.note.isImportant = !this.note.isImportant;
     },
 
-    bindKor (event) {
+    bindKor(event) {
       this.note.text = event.target.value;
     },
-    closeDialog () {
+    closeDialog() {
       this.$emit("closeDialog");
-    }
+    },
   },
 
   components: {
