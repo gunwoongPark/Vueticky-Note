@@ -167,6 +167,9 @@ import ChangeMode from "./components/ChangeMode";
 
 import axios from "axios";
 
+const apiURL =
+  "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst";
+
 const serviceKey =
   "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D";
 
@@ -235,9 +238,15 @@ export default {
 
     let base_date = String(year) + String(month) + String(day);
 
+    const today = new Date();
+    let base_time = today.getHours() - 1;
+
+    if (base_time > 9) base_time = String(base_time) + "00";
+    else base_time = "0" + String(base_time) + "00";
+
     axios
       .get(
-        `http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst?serviceKey=${serviceKey}&dataType=JSON&base_date=${base_date}&base_time=0500&nx=86&ny=96`
+        `${apiURL}?serviceKey=${serviceKey}&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=60&ny=127`
       )
       .then((res) => {
         console.log(res.data.response.body.items);
