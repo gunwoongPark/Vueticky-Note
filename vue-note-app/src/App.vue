@@ -165,6 +165,11 @@ import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
+import axios from "axios";
+
+const serviceKey =
+  "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D";
+
 export default {
   components: {
     Header,
@@ -227,6 +232,19 @@ export default {
     this.date = `${year}-${month}-${day}`;
 
     let monthIndex = month - 1;
+
+    let base_date = String(year) + String(month) + String(day);
+
+    axios
+      .get(
+        `http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst?serviceKey=${serviceKey}&dataType=JSON&base_date=${base_date}&base_time=0500&nx=86&ny=96`
+      )
+      .then((res) => {
+        console.log(res.data.response.body.items);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
