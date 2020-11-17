@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="weatherBtn"></div>
-    <v-tooltip top>
+    <v-tooltip right>
       <template v-slot:activator="{ on, attrs }">
         <img id="weatherBtn" :src="icon" v-bind="attrs" v-on="on" />
       </template>
       <div id="tooltipContainer">
         <h2>{{ name }}</h2>
-        <p>{{ description }}</p>
-        <p>{{ temp }}ºC</p>
+        <p style="display: flex; justify-content: center">{{ description }}</p>
+        <p style="display: flex; justify-content: center">{{ temp }}ºC</p>
       </div>
     </v-tooltip>
   </div>
@@ -70,10 +70,4 @@ export default {
 </script>
 
 <style scoped>
-#weatherBtn {
-  left: 2%;
-  position: fixed;
-  bottom: 12%;
-  z-index: 10;
-}
 </style>
