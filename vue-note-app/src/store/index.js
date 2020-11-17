@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -8,7 +9,12 @@ export default new Vuex.Store({
     // data
     state: {
         isDark: false,
-        brightness: true
+        brightness: true,
+        weather: {},
+
+        apiURL: "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst",
+
+        serviceKey: "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D",
     },
 
     // computed
@@ -18,6 +24,9 @@ export default new Vuex.Store({
         },
         getBrightness: state => {
             return state.brightness;
+        },
+        getWeather: state => {
+            return state.weather;
         }
     },
 
@@ -60,6 +69,31 @@ export default new Vuex.Store({
 
             //threshold
             (v < 120) ? state.brightness = false : state.brightness = true;
+        },
+
+        getWeather: (state, payload) => {
+            // 날씨 정보 받아오기
+            axios
+                .get(
+                    `${state.apiURL}?serviceKey=${state.serviceKey}&dataType=JSON&base_date=${payload.base_date}&base_time=${payload.base_time}&nx=60&ny=127`
+                )
+                .then((res) => {
+                    let PTY = res.data.response.body.items.item.filter(
+                        (el) => el.category === "PTY"
+                    );
+
+                    let T1H = res.data.response.body.items.item.filter(
+                        (el) => el.category === "T1H"
+                    );
+
+                    state.weather.PTY = PTY;
+                    state.weather.T1H = T1H;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            console.log(state.weather)
         }
     },
 
