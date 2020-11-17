@@ -1,5 +1,7 @@
 <template>
   <div class="mb-3">
+    <WeatherBtn />
+
     <!-- 그리드 레이아웃을 활용하여 헤더를 반응형으로 배치 -->
     <v-container>
       <!-- 로고와 검색 바 -->
@@ -37,6 +39,7 @@
 
 <script>
 import SearchBar from "./SearchBar";
+import WeatherBtn from "./WeatherBtn";
 
 export default {
   props: {
@@ -58,6 +61,7 @@ export default {
 
   components: {
     SearchBar,
+    WeatherBtn,
   },
 };
 </script>

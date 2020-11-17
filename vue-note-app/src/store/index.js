@@ -11,8 +11,8 @@ export default new Vuex.Store({
         isDark: false,
         brightness: true,
 
-        lat: "",
-        lon: "",
+        lat: "36.13",
+        lon: "128.39",
 
         apiURL: "http://api.openweathermap.org/data/2.5/weather",
 
@@ -75,23 +75,33 @@ export default new Vuex.Store({
             (v < 120) ? state.brightness = false : state.brightness = true;
         },
 
-        getWeather: (state) => {
+        getWeather(state) {
+            axios
+                .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&units=metric`
+                )
+                .then((res) => {
+                    state.weather.name = res.data.name;
+                    state.weather.temperature = res.data.main.temp;
+                    state.weather.skycode = res.data.weather[0].id;
+                    state.weather.icon = res.data.weather[0].icon;
+                    state.weather.description = res.data.weather[0].description;
+                    console.log(state.weather)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+
+        getLocation(state, commit) {
             window.navigator.geolocation.getCurrentPosition(position => {
                 state.lat = String(position.coords.latitude);
                 state.lon = String(position.coords.longitude);
-                axios
-                    .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&units=metric`
-                    )
-                    .then((res) => {
-                        console.log(res.data);
-                        state.weather.temperature = res.data.main.temp;
-                        state.weather.skycode = res.data.weather[0].id;
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                commit("getWeather");
             })
         },
+
+
+
     },
 
     // methods

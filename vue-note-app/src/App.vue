@@ -230,9 +230,6 @@ export default {
 
     let monthIndex = month - 1;
 
-    // 날씨 정보 받아오기
-    this.$store.commit("getWeather");
-
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
