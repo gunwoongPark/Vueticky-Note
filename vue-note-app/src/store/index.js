@@ -11,6 +11,9 @@ export default new Vuex.Store({
         isDark: false,
         brightness: true,
 
+        lat: "",
+        lon: "",
+
         apiURL: "http://api.openweathermap.org/data/2.5/weather",
 
         appid: "7ae860771f4eef0020863071b271395c",
@@ -71,17 +74,23 @@ export default new Vuex.Store({
         },
 
         getWeather: (state) => {
-            // 날씨 정보 받아오기
-            axios
-                .get(`${state.apiURL}?q=Seoul&lang=kr&appid=${state.appid}`
-                )
-                .then((res) => {
-                    console.log(res);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
+            window.navigator.geolocation.getCurrentPosition(position => {
+                state.lat = String(position.coords.latitude);
+                state.lon = String(position.coords.longitude);
+                axios
+                    .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&lang=kr`
+                    )
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+
+        },
+
+
     },
 
     // methods
