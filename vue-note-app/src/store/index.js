@@ -8,7 +8,7 @@ export default new Vuex.Store({
     // data
     state: {
         isDark: false,
-        brightness: true
+        brightness: true,
     },
 
     // computed
@@ -18,6 +18,9 @@ export default new Vuex.Store({
         },
         getBrightness: state => {
             return state.brightness;
+        },
+        getWeather: state => {
+            return state.weather;
         }
     },
 
@@ -60,7 +63,8 @@ export default new Vuex.Store({
 
             //threshold
             (v < 120) ? state.brightness = false : state.brightness = true;
-        }
+        },
+
     },
 
     // methods

@@ -113,9 +113,9 @@ export default {
 
 <style scoped>
 .writeBtn {
-  right: 5%;
+  right: 2%;
   position: fixed;
-  bottom: 15%;
+  bottom: 12%;
   z-index: 10;
 }
 </style>

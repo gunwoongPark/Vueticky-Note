@@ -165,6 +165,8 @@ import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
+// import axios from "axios";
+
 export default {
   components: {
     Header,
@@ -426,9 +428,9 @@ p {
 }
 
 .reloadBtn {
-  right: 5%;
+  right: 2%;
   position: fixed;
-  bottom: 45%;
+  bottom: 36%;
   z-index: 10;
 }
 </style>

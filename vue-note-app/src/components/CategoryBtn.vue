@@ -153,9 +153,9 @@ export default {
 }
 
 .categoryBtn {
-  right: 5%;
+  right: 2%;
   position: fixed;
-  bottom: 35%;
+  bottom: 28%;
   z-index: 10;
 }
 </style>
