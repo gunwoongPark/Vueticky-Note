@@ -15,6 +15,8 @@ export default new Vuex.Store({
         apiURL: "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst",
 
         serviceKey: "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D",
+
+        ServerURL: "http://localhost:3000"
     },
 
     // computed
@@ -92,6 +94,21 @@ export default new Vuex.Store({
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+
+        imgUpload: (state, form) => {
+            console.log(form);
+            axios.post(`${state.ServerURL}/imageUpload`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then((res) => {
+                    console.log(res.status);
+                })
+                .catch((err) => {
+                    console.log(err.res);
+                })
         }
     },
 

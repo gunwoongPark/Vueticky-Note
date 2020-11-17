@@ -83,7 +83,10 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-
+            <!-- <img
+              style="height: 400px"
+              src="http://localhost:3000/images/2020-11-18_01-24-50-492_pinksky.png"
+            /> -->
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -119,7 +122,7 @@ export default {
     },
   },
 
-  data() {
+  data () {
     return {
       dialog: false,
       isSubmit: false,
@@ -131,7 +134,7 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler() {
+      handler () {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
@@ -144,26 +147,26 @@ export default {
       },
     },
   },
-  mounted() {
+  mounted () {
     //console.log('hello')
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
   },
   computed: {
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
     },
   },
   methods: {
-    mouseEnter(e) {
+    mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave(e) {
+    mouseLeave (e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote(title, text, theme, time, date, originDate, important, tags) {
+    modifyNote (title, text, theme, time, date, originDate, important, tags) {
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -182,7 +185,7 @@ export default {
     },
 
     // 버튼을 누를 경우 데이터 초기화
-    initData() {
+    initData () {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
@@ -193,12 +196,12 @@ export default {
       this.isSubmit = false;
     },
 
-    deleteNote() {
-      if (confirm("정말 삭제하시겠습니까?"))
-        this.$emit("deleteNote", this.note.guid);
+    deleteNote () {
+      //if (confirm("정말 삭제하시겠습니까?"))
+      this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog() {
+    closeDialog () {
       this.dialog = false;
     },
   },

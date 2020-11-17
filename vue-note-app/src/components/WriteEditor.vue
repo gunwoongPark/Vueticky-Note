@@ -51,6 +51,18 @@
             </v-sheet>
           </v-col>
         </v-row>
+
+        <!-- 사진 등록 -->
+        <v-file-input
+          v-model="files"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input>
+
+        <!-- <img :src="testPath" /> -->
       </v-card-text>
 
       <v-divider></v-divider>
@@ -131,6 +143,11 @@
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
+  data () {
+    return {
+      files: null
+    }
+  },
   props: {
     note: {
       type: Object,
@@ -183,6 +200,11 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
+      let form = new FormData();
+      form.append("image", this.files);
+      console.log(form);
+      this.$store.commit("imgUpload", form);
+
       this.$emit(
         "noteAdded",
         this.note.title,
@@ -196,6 +218,8 @@ export default {
       );
 
       this.note.isImportant = false;
+
+
     },
 
 
