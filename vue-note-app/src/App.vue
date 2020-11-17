@@ -165,6 +165,8 @@ import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
+// import axios from "axios";
+
 export default {
   components: {
     Header,
@@ -206,8 +208,6 @@ export default {
 
       isSearch: false,
       isNormal: true,
-
-      weather: {},
     };
   },
 

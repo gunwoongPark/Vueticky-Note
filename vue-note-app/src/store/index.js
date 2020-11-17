@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -10,15 +9,6 @@ export default new Vuex.Store({
     state: {
         isDark: false,
         brightness: true,
-
-        lat: "36.13",
-        lon: "128.39",
-
-        apiURL: "http://api.openweathermap.org/data/2.5/weather",
-
-        appid: "7ae860771f4eef0020863071b271395c",
-
-        weather: {},
     },
 
     // computed
@@ -74,33 +64,6 @@ export default new Vuex.Store({
             //threshold
             (v < 120) ? state.brightness = false : state.brightness = true;
         },
-
-        getWeather(state) {
-            axios
-                .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&units=metric`
-                )
-                .then((res) => {
-                    state.weather.name = res.data.name;
-                    state.weather.temperature = res.data.main.temp;
-                    state.weather.skycode = res.data.weather[0].id;
-                    state.weather.icon = res.data.weather[0].icon;
-                    state.weather.description = res.data.weather[0].description;
-                    console.log(state.weather)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-
-        getLocation(state, commit) {
-            window.navigator.geolocation.getCurrentPosition(position => {
-                state.lat = String(position.coords.latitude);
-                state.lon = String(position.coords.longitude);
-                commit("getWeather");
-            })
-        },
-
-
 
     },
 
