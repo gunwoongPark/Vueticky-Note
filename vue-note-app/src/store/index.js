@@ -10,11 +10,10 @@ export default new Vuex.Store({
     state: {
         isDark: false,
         brightness: true,
-        weather: {},
 
-        apiURL: "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst",
+        apiURL: "http://api.openweathermap.org/data/2.5/weather",
 
-        serviceKey: "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D",
+        appid: "7ae860771f4eef0020863071b271395c",
     },
 
     // computed
@@ -71,23 +70,13 @@ export default new Vuex.Store({
             (v < 120) ? state.brightness = false : state.brightness = true;
         },
 
-        getWeather: (state, payload) => {
+        getWeather: (state) => {
             // 날씨 정보 받아오기
             axios
-                .get(
-                    `${state.apiURL}?serviceKey=${state.serviceKey}&dataType=JSON&base_date=${payload.base_date}&base_time=${payload.base_time}&nx=60&ny=127`
+                .get(`${state.apiURL}?q=Seoul&lang=kr&appid=${state.appid}`
                 )
                 .then((res) => {
-                    let PTY = res.data.response.body.items.item.filter(
-                        (el) => el.category === "PTY"
-                    );
-
-                    let T1H = res.data.response.body.items.item.filter(
-                        (el) => el.category === "T1H"
-                    );
-
-                    state.weather.PTY = PTY;
-                    state.weather.T1H = T1H;
+                    console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);

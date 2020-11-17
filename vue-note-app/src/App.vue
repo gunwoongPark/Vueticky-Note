@@ -230,15 +230,8 @@ export default {
 
     let monthIndex = month - 1;
 
-    // 날씨 정보를 받아오기 위해 필요한 쿼리들
-    let base_date = String(year) + String(month) + String(day);
-    let base_time = dateObj.getHours() - 1;
-
-    if (base_time > 9) base_time = String(base_time) + "00";
-    else base_time = "0" + String(base_time) + "00";
-
     // 날씨 정보 받아오기
-    this.$store.commit("getWeather", { base_date, base_time });
+    this.$store.commit("getWeather");
 
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
