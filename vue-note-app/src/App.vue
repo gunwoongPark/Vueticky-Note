@@ -431,9 +431,9 @@ p {
 }
 
 .reloadBtn {
-  right: 5%;
+  right: 2%;
   position: fixed;
-  bottom: 45%;
+  bottom: 36%;
   z-index: 10;
 }
 </style>

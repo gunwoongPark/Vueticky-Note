@@ -28,9 +28,9 @@ export default {
 
 <style scoped>
 .changeBtn {
-  left: 5%;
+  left: 2%;
   position: fixed;
-  bottom: 5%;
+  bottom: 4%;
   z-index: 10;
 }
 </style>

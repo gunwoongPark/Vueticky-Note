@@ -17,6 +17,8 @@ export default new Vuex.Store({
         apiURL: "http://api.openweathermap.org/data/2.5/weather",
 
         appid: "7ae860771f4eef0020863071b271395c",
+
+        weather: {},
     },
 
     // computed
@@ -78,19 +80,18 @@ export default new Vuex.Store({
                 state.lat = String(position.coords.latitude);
                 state.lon = String(position.coords.longitude);
                 axios
-                    .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&lang=kr`
+                    .get(`${state.apiURL}?lat=${state.lat}&lon=${state.lon}&appid=${state.appid}&units=metric`
                     )
                     .then((res) => {
-                        console.log(res);
+                        console.log(res.data);
+                        state.weather.temperature = res.data.main.temp;
+                        state.weather.skycode = res.data.weather[0].id;
                     })
                     .catch((err) => {
                         console.log(err);
                     });
             })
-
         },
-
-
     },
 
     // methods

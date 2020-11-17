@@ -4,14 +4,15 @@
     <v-container>
       <!-- 로고와 검색 바 -->
       <v-row class="searchContainer">
-        <v-col class="offsetCols" cols="0" lg="3" md="2" sm="1"></v-col>
-        <v-col cols="3" lg="1" md="2" sm="2">
-          <img src="../assets/Memo_icon.svg.png" />
+        <v-col class="offsetCols" cols="1" lg="3" md="2" sm="2"></v-col>
+        <v-col cols="2" lg="1" md="2" sm="2">
+          <img class="hidden-sm-and-down" src="../assets/Memo_icon.png" />
+          <img class="hidden-md-and-up" src="../assets/Memo_icon_xs.png" />
         </v-col>
-        <v-col cols="9" lg="5" md="6" sm="8">
+        <v-col cols="8" lg="5" md="6" sm="6">
           <SearchBar @submitText="submitText"
         /></v-col>
-        <v-col class="offsetCols" cols="0" lg="3" md="2" sm="1"></v-col>
+        <v-col class="offsetCols" cols="1" lg="3" md="2" sm="2"></v-col>
       </v-row>
 
       <!-- 태그들 -->
