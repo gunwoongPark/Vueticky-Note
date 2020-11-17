@@ -165,14 +165,6 @@ import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
-// import axios from "axios";
-
-// const apiURL =
-//   "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst";
-
-// const serviceKey =
-//   "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D";
-
 export default {
   components: {
     Header,
@@ -245,28 +237,8 @@ export default {
     if (base_time > 9) base_time = String(base_time) + "00";
     else base_time = "0" + String(base_time) + "00";
 
-    this.$store.commit("getWeather", { base_date, base_time });
-
     // 날씨 정보 받아오기
-    // axios
-    //   .get(
-    //     `${apiURL}?serviceKey=${serviceKey}&dataType=JSON&base_date=${base_date}&base_time=${base_time}&nx=60&ny=127`
-    //   )
-    //   .then((res) => {
-    //     let PTY = res.data.response.body.items.item.filter(
-    //       (el) => el.category === "PTY"
-    //     );
-
-    //     let T1H = res.data.response.body.items.item.filter(
-    //       (el) => el.category === "T1H"
-    //     );
-
-    //     this.weather.PTY = PTY;
-    //     this.weather.T1H = T1H;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    this.$store.commit("getWeather", { base_date, base_time });
 
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;

@@ -1,19 +1,23 @@
 <template>
-  <div class="header mb-3">
+  <div class="mb-3">
+    <WeatherBtn />
+
     <!-- 그리드 레이아웃을 활용하여 헤더를 반응형으로 배치 -->
     <v-container>
+      <!-- 로고와 검색 바 -->
       <v-row class="searchContainer">
-        <v-col cols="0" lg="3" md="2" sm="1"></v-col>
+        <v-col class="offsetCols" cols="0" lg="3" md="2" sm="1"></v-col>
         <v-col cols="3" lg="1" md="2" sm="2">
           <img src="../assets/Memo_icon.svg.png" />
         </v-col>
         <v-col cols="9" lg="5" md="6" sm="8">
           <SearchBar @submitText="submitText"
         /></v-col>
-        <v-col cols="0" lg="3" md="2" sm="1"></v-col>
+        <v-col class="offsetCols" cols="0" lg="3" md="2" sm="1"></v-col>
       </v-row>
+
+      <!-- 태그들 -->
       <v-row>
-        <!-- 태그들을 담는 container -->
         <v-col class="tagContainer"
           ><v-slide-group class="tagBar" show-arrows>
             <v-slide-item
@@ -34,6 +38,8 @@
 
 <script>
 import SearchBar from "./SearchBar";
+import WeatherBtn from "./WeatherBtn";
+
 export default {
   props: {
     tags: {
@@ -54,6 +60,7 @@ export default {
 
   components: {
     SearchBar,
+    WeatherBtn,
   },
 };
 </script>
