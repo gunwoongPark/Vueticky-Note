@@ -1,16 +1,38 @@
 <template>
   <div>
-    <div id="weatherBtn"></div>
-    <v-tooltip right>
-      <template v-slot:activator="{ on, attrs }">
-        <img id="weatherBtn" :src="icon" v-bind="attrs" v-on="on" />
-      </template>
-      <div id="tooltipContainer">
-        <h2>{{ name }}</h2>
-        <p style="display: flex; justify-content: center">{{ description }}</p>
-        <p style="display: flex; justify-content: center">{{ temp }}ºC</p>
-      </div>
-    </v-tooltip>
+    <!-- PC 뷰 -->
+    <div class="hidden-sm-and-down">
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <img id="weatherBtn" :src="icon" v-bind="attrs" v-on="on" />
+        </template>
+        <div id="tooltipContainer">
+          <h2>{{ name }}</h2>
+          <p style="display: flex; justify-content: center">
+            {{ description }}
+          </p>
+          <p style="display: flex; justify-content: center">{{ temp }}ºC</p>
+        </div>
+      </v-tooltip>
+    </div>
+
+    <!-- 모바일 뷰 -->
+    <div class="hidden-md-and-up">
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn fab small v-bind="attrs" v-on="on"
+            ><v-icon>mdi-weather-partly-snowy-rainy</v-icon></v-btn
+          >
+        </template>
+        <div id="tooltipContainer">
+          <h2>{{ name }}</h2>
+          <p style="display: flex; justify-content: center">
+            {{ description }}
+          </p>
+          <p style="display: flex; justify-content: center">{{ temp }}ºC</p>
+        </div>
+      </v-tooltip>
+    </div>
   </div>
 </template>
 

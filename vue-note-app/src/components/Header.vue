@@ -35,6 +35,8 @@
         >
       </v-row>
     </v-container>
+
+    <WeatherBtn class="hidden-md-and-up mobileView" />
   </div>
 </template>
 
@@ -83,6 +85,13 @@ p {
 .tagContainer {
   display: flex;
   justify-content: center;
+}
+
+.mobileView {
+  left: 2%;
+  position: fixed;
+  bottom: 12%;
+  z-index: 10;
 }
 </style>
 
