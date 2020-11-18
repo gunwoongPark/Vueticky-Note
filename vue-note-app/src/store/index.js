@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -11,7 +12,7 @@ export default new Vuex.Store({
         brightness: true,
 
 
-        ServerURL: "http://localhost:3000",
+        ServerURL: "http://192.168.35.17:3000",
         imgName: ""
 
     },

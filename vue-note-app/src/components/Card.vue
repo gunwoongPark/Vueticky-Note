@@ -103,7 +103,7 @@
 <script>
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
-import axios from "axios"
+import axios from "axios";
 export default {
   props: {
     note: {
@@ -120,12 +120,11 @@ export default {
     },
   },
 
-  data () {
+  data() {
     return {
       dialog: false,
       isSubmit: false,
       tempNote: {},
-
     };
   },
 
@@ -133,7 +132,7 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler () {
+      handler() {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
@@ -146,57 +145,69 @@ export default {
       },
     },
   },
-  created () {
-
+  created() {
     //console.log(this.note.image);
     if (this.note.image) {
-      axios.get(`http://localhost:3000/image/${this.note.guid}`)
+      axios
+        .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
         .then((res) => {
           //console.log(res.data.image.imgName);
-          this.note.image = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+          this.note.image = `http://192.168.35.17:3000/images/`.concat(
+            res.data.image.imgName
+          );
         })
         .catch((err) => {
           console.log(err.res);
-        })
+        });
     } else {
-      console.log("this note has not Img")
+      console.log("this note has not Img");
     }
   },
-  mounted () {
+  mounted() {
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
   },
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
     },
-
-
-
   },
   methods: {
-    mouseEnter (e) {
+    mouseEnter(e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave (e) {
+    mouseLeave(e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (title, text, theme, time, date, originDate, important, tags, image) {
+    modifyNote(
+      title,
+      text,
+      theme,
+      time,
+      date,
+      originDate,
+      important,
+      tags,
+      image
+    ) {
       if (this.note.image) {
-        //this.$store.dispatch("getImg", this.note.guid); //get 요청 
+        //this.$store.dispatch("getImg", this.note.guid); //get 요청
         console.log(this.note.guid);
-        axios.get(`http://localhost:3000/image/${this.note.guid}`)
+        axios
+          .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
           .then((res) => {
             //console.log(res.data.image.imgName);
-            this.note.image = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+            this.note.image = `http://192.168.35.17:3000/images/`.concat(
+              res.data.image.imgName
+            );
           })
           .catch((err) => {
             console.log(err.res);
-          })
+          });
       } else {
-        console.log("this note has not Img")
+        console.log("this note has not Img");
       }
       this.isSubmit = true;
       this.dialog = false;
@@ -217,7 +228,7 @@ export default {
     },
 
     // 버튼을 누를 경우 데이터 초기화
-    initData () {
+    initData() {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
@@ -225,15 +236,14 @@ export default {
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
       this.isSubmit = false;
-
     },
 
-    deleteNote () {
+    deleteNote() {
       //if (confirm("정말 삭제하시겠습니까?"))
       this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog () {
+    closeDialog() {
       this.dialog = false;
     },
   },
