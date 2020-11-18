@@ -140,6 +140,7 @@
 </template>
 
 <script>
+
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
@@ -181,6 +182,7 @@ export default {
 
     // 노트 생성
     createNew () {
+
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -200,21 +202,27 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
-      let form = new FormData();
-      form.append("image", this.files);
-      console.log(form);
-      this.$store.commit("imgUpload", form);
+      if (this.files) { //이미지 파일을 입력한 경우에만
+        //console.log(this.files.name);
+        let form = new FormData();
+        form.append("image", this.files);
+        form.append("noteID", this.note.guid);
+        this.$store.commit("imgUpload", form);
+        this.note.image = this.files.name;
+      }
 
       this.$emit(
         "noteAdded",
         this.note.title,
         this.note.text,
         this.note.theme,
-
         time,
         date,
+        this.note.guid,
         this.note.isImportant,
-        this.note.selectedTags
+        this.note.selectedTags,
+        this.note.image
+
       );
 
       this.note.isImportant = false;

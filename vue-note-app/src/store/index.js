@@ -16,7 +16,9 @@ export default new Vuex.Store({
 
         serviceKey: "kVRhALvyxzc27lUT2I4LpbKLcvVd%2BMdsRERuwd7IkOqzJk6n48dz9rIFMrdNh%2B83AJw2O5o1Z3%2FX4AjvCrz%2B6g%3D%3D",
 
-        ServerURL: "http://localhost:3000"
+        ServerURL: "http://localhost:3000",
+        imgName: ""
+
     },
 
     // computed
@@ -29,6 +31,9 @@ export default new Vuex.Store({
         },
         getWeather: state => {
             return state.weather;
+        },
+        getImgName: state => {
+            return state.imgName;
         }
     },
 
@@ -97,7 +102,7 @@ export default new Vuex.Store({
         },
 
         imgUpload: (state, form) => {
-            console.log(form);
+            //console.log(form);
             axios.post(`${state.ServerURL}/imageUpload`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -109,7 +114,18 @@ export default new Vuex.Store({
                 .catch((err) => {
                     console.log(err.res);
                 })
-        }
+        },
+        // getImg: (state, guid) => {
+        //     //console.log(guid);
+        //     axios.get(`${state.ServerURL}/image/${guid}`)
+        //         .then((res) => {
+        //             //console.log(res.data.image.imgName);
+        //             state.imgName = res.data.image.imgName
+        //         })
+        //         .catch((err) => {
+        //             console.log(err.res);
+        //         })
+        // },
     },
 
     // methods

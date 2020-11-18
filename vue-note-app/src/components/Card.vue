@@ -83,10 +83,7 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-            <!-- <img
-              style="height: 400px"
-              src="http://localhost:3000/images/2020-11-18_01-24-50-492_pinksky.png"
-            /> -->
+            <img v-if="note.image" style="height: 400px" :src="imgUrl" />
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -106,6 +103,7 @@
 <script>
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
+import axios from "axios"
 export default {
   props: {
     note: {
@@ -127,6 +125,7 @@ export default {
       dialog: false,
       isSubmit: false,
       tempNote: {},
+      imgUrl: ""
     };
   },
 
@@ -147,15 +146,44 @@ export default {
       },
     },
   },
+  created () {
+    console.log(this.note.image)
+
+    if (this.note.image) {
+      //this.$store.dispatch("getImg", this.note.guid); //get 요청 
+      console.log(this.note.guid);
+      axios.get(`http://localhost:3000/image/${this.note.guid}`)
+        .then((res) => {
+          //console.log(res.data.image.imgName);
+          this.imgUrl = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+        })
+        .catch((err) => {
+          console.log(err.res);
+        })
+
+
+
+    } else {
+      console.log("Hello")
+    }
+  },
   mounted () {
-    //console.log('hello')
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
+
+
+
   },
   computed: {
     brightness () {
       return this.$store.getters.getBrightness;
     },
+    // imgUrl () {
+    //   //return `http://localhost:3000/images/`.concat(this.$store.getters.getImgName);
+    //   return this.$store.getters.getImgName;
+    // }
+
+
   },
   methods: {
     mouseEnter (e) {
@@ -192,8 +220,8 @@ export default {
       this.$store.commit("setBrightness", this.note.theme);
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
-
       this.isSubmit = false;
+
     },
 
     deleteNote () {
