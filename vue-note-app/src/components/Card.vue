@@ -83,7 +83,7 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-            <img v-if="note.image" style="height: 400px" :src="imgUrl" />
+            <img v-if="note.image" :src="imgUrl" />
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -284,6 +284,12 @@ p {
 
 .inCard {
   margin: 20px;
+  overflow: hidden;
+}
+.inCard img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .cardDiv {
