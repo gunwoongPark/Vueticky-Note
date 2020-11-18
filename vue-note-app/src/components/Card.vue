@@ -83,7 +83,7 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-            <img v-if="note.image" :src="imgUrl" />
+            <img v-if="note.image" :src="note.image" />
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -125,7 +125,7 @@ export default {
       dialog: false,
       isSubmit: false,
       tempNote: {},
-      imgUrl: ""
+
     };
   },
 
@@ -147,15 +147,13 @@ export default {
     },
   },
   created () {
-    console.log(this.note.image)
 
+    //console.log(this.note.image);
     if (this.note.image) {
-      //this.$store.dispatch("getImg", this.note.guid); //get 요청 
-      console.log(this.note.guid);
       axios.get(`http://localhost:3000/image/${this.note.guid}`)
         .then((res) => {
           //console.log(res.data.image.imgName);
-          this.imgUrl = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+          this.note.image = `http://localhost:3000/images/`.concat(res.data.image.imgName);
         })
         .catch((err) => {
           console.log(err.res);
@@ -192,7 +190,7 @@ export default {
         axios.get(`http://localhost:3000/image/${this.note.guid}`)
           .then((res) => {
             //console.log(res.data.image.imgName);
-            this.imgUrl = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+            this.note.image = `http://localhost:3000/images/`.concat(res.data.image.imgName);
           })
           .catch((err) => {
             console.log(err.res);
