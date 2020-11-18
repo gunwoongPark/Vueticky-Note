@@ -115,17 +115,21 @@ export default new Vuex.Store({
                     console.log(err.res);
                 })
         },
-        // getImg: (state, guid) => {
-        //     //console.log(guid);
-        //     axios.get(`${state.ServerURL}/image/${guid}`)
-        //         .then((res) => {
-        //             //console.log(res.data.image.imgName);
-        //             state.imgName = res.data.image.imgName
-        //         })
-        //         .catch((err) => {
-        //             console.log(err.res);
-        //         })
-        // },
+        imgModify: (state, form) => {
+            //console.log(form);
+            axios.put(`${state.ServerURL}/imageModify`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then((res) => {
+                    console.log(res.status);
+                })
+                .catch((err) => {
+                    console.log(err.res);
+                })
+        },
+
     },
 
     // methods

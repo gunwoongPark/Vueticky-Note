@@ -207,7 +207,7 @@ export default {
         let form = new FormData();
         form.append("image", this.files);
         form.append("noteID", this.note.guid);
-        this.$store.commit("imgUpload", form);
+        this.$store.commit("imgUpload", form);  //서버에 이미지 업로드 요청
         this.note.image = this.files.name;
       }
 

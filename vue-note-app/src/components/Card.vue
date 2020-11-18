@@ -160,28 +160,19 @@ export default {
         .catch((err) => {
           console.log(err.res);
         })
-
-
-
     } else {
-      console.log("Hello")
+      console.log("this note has not Img")
     }
   },
   mounted () {
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
-
-
-
   },
   computed: {
     brightness () {
       return this.$store.getters.getBrightness;
     },
-    // imgUrl () {
-    //   //return `http://localhost:3000/images/`.concat(this.$store.getters.getImgName);
-    //   return this.$store.getters.getImgName;
-    // }
+
 
 
   },
@@ -194,7 +185,21 @@ export default {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (title, text, theme, time, date, originDate, important, tags) {
+    modifyNote (title, text, theme, time, date, originDate, important, tags, image) {
+      if (this.note.image) {
+        //this.$store.dispatch("getImg", this.note.guid); //get 요청 
+        console.log(this.note.guid);
+        axios.get(`http://localhost:3000/image/${this.note.guid}`)
+          .then((res) => {
+            //console.log(res.data.image.imgName);
+            this.imgUrl = `http://localhost:3000/images/`.concat(res.data.image.imgName);
+          })
+          .catch((err) => {
+            console.log(err.res);
+          })
+      } else {
+        console.log("this note has not Img")
+      }
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -208,7 +213,8 @@ export default {
         originDate,
         this.note.guid,
         important,
-        tags
+        tags,
+        image
       );
     },
 
@@ -284,7 +290,6 @@ p {
 
 .inCard {
   margin: 20px;
-  overflow: hidden;
 }
 .inCard img {
   max-width: 100%;
