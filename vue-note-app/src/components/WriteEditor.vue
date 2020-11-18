@@ -51,6 +51,18 @@
             </v-sheet>
           </v-col>
         </v-row>
+
+        <!-- 사진 등록 -->
+        <v-file-input
+          v-model="files"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input>
+
+        <!-- <img :src="testPath" /> -->
       </v-card-text>
 
       <v-divider></v-divider>
@@ -128,9 +140,15 @@
 </template>
 
 <script>
+
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
+  data () {
+    return {
+      files: null
+    }
+  },
   props: {
     note: {
       type: Object,
@@ -164,6 +182,7 @@ export default {
 
     // 노트 생성
     createNew () {
+
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -183,19 +202,32 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
+      if (this.files) { //이미지 파일을 입력한 경우에만
+        //console.log(this.files.name);
+        let form = new FormData();
+        form.append("image", this.files);
+        form.append("noteID", this.note.guid);
+        this.$store.commit("imgUpload", form);  //서버에 이미지 업로드 요청
+        this.note.image = this.files.name;
+      }
+
       this.$emit(
         "noteAdded",
         this.note.title,
         this.note.text,
         this.note.theme,
-
         time,
         date,
+        this.note.guid,
         this.note.isImportant,
-        this.note.selectedTags
+        this.note.selectedTags,
+        this.note.image
+
       );
 
       this.note.isImportant = false;
+
+
     },
 
 

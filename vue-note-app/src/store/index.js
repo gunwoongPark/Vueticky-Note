@@ -9,6 +9,11 @@ export default new Vuex.Store({
     state: {
         isDark: false,
         brightness: true,
+
+
+        ServerURL: "http://localhost:3000",
+        imgName: ""
+
     },
 
     // computed
@@ -21,6 +26,9 @@ export default new Vuex.Store({
         },
         getWeather: state => {
             return state.weather;
+        },
+        getImgName: state => {
+            return state.imgName;
         }
     },
 
@@ -63,6 +71,37 @@ export default new Vuex.Store({
 
             //threshold
             (v < 120) ? state.brightness = false : state.brightness = true;
+        },
+
+
+
+        imgUpload: (state, form) => {
+            //console.log(form);
+            axios.post(`${state.ServerURL}/imageUpload`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then((res) => {
+                    console.log(res.status);
+                })
+                .catch((err) => {
+                    console.log(err.res);
+                })
+        },
+        imgModify: (state, form) => {
+            //console.log(form);
+            axios.put(`${state.ServerURL}/imageModify`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then((res) => {
+                    console.log(res.status);
+                })
+                .catch((err) => {
+                    console.log(err.res);
+                })
         },
 
     },

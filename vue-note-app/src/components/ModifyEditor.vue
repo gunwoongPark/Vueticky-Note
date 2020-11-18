@@ -56,6 +56,15 @@
             </v-sheet>
           </v-col>
         </v-row>
+        <!-- 사진 등록 -->
+        <v-file-input
+          v-model="files"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -135,6 +144,11 @@
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
+  data () {
+    return {
+      files: null
+    }
+  },
   props: {
     note: {
       type: Object,
@@ -187,6 +201,14 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
+      if (this.files) { //이미지 파일을 입력한 경우에만
+        //console.log(this.files.name);
+        let form = new FormData();
+        form.append("image", this.files);
+        form.append("noteID", this.note.guid);
+        this.$store.commit("imgModify", form); //서버에 이미지 업로드 요청
+        this.note.image = this.files.name;
+      }
       this.$emit(
         "noteModified",
         this.note.title,
@@ -197,7 +219,8 @@ export default {
         date,
         originDate,
         this.note.important,
-        this.note.tags
+        this.note.tags,
+        this.note.image
       );
     },
     addImportant () {
