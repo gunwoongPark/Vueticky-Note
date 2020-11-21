@@ -58,7 +58,7 @@
         </v-row>
         <!-- 사진 등록 -->
         <v-file-input
-          v-model="files"
+          v-model="note.image"
           accept="image/*"
           color="teal"
           counter
@@ -144,11 +144,6 @@
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
-  data () {
-    return {
-      files: null
-    }
-  },
   props: {
     note: {
       type: Object,
@@ -161,22 +156,18 @@ export default {
   },
 
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
-    }
+    },
   },
   methods: {
-
-
-    initColor (picker) {
+    initColor(picker) {
       this.note.theme = picker;
-      this.$store.commit('setBrightness', this.note.theme);
+      this.$store.commit("setBrightness", this.note.theme);
       this.note.brightness = this.brightness;
-
-
     },
 
-    modifyNote () {
+    modifyNote() {
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -200,14 +191,13 @@ export default {
       const date = `${year}-${month}-${day}`;
 
       const time = `${hour}:${minutes}:${seconds}`;
-
-      if (this.files) { //이미지 파일을 입력한 경우에만
-        //console.log(this.files.name);
+      //이미지 파일을 입력한 경우에만
+      if (this.note.image) {
         let form = new FormData();
-        form.append("image", this.files);
+        form.append("image", this.note.image);
         form.append("noteID", this.note.guid);
-        this.$store.commit("imgModify", form); //서버에 이미지 업로드 요청
-        this.note.image = this.files.name;
+        //서버에 이미지 업로드 요청
+        this.$store.commit("imgModify", form);
       }
       this.$emit(
         "noteModified",
@@ -223,15 +213,15 @@ export default {
         this.note.image
       );
     },
-    addImportant () {
+    addImportant() {
       this.note.important = !this.note.important;
     },
 
-    bindKor (event) {
+    bindKor(event) {
       this.note.text = event.target.value;
     },
 
-    closeDialog () {
+    closeDialog() {
       this.$emit("closeDialog");
     },
   },

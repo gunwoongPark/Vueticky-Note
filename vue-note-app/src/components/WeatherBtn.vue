@@ -7,7 +7,7 @@
           <img id="weatherBtn" :src="icon" v-bind="attrs" v-on="on" />
         </template>
         <div id="tooltipContainer">
-          <h2>{{ name }}</h2>
+          <h2 style="display: flex; justify-content: center">{{ name }}</h2>
           <p style="display: flex; justify-content: center">
             {{ description }}
           </p>
@@ -25,7 +25,7 @@
           >
         </template>
         <div id="tooltipContainer">
-          <h2>{{ name }}</h2>
+          <h2 style="display: flex; justify-content: center">{{ name }}</h2>
           <p style="display: flex; justify-content: center">
             {{ description }}
           </p>

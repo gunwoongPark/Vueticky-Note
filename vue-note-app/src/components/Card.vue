@@ -151,7 +151,6 @@ export default {
       axios
         .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
         .then((res) => {
-          //console.log(res.data.image.imgName);
           this.note.image = `http://192.168.35.17:3000/images/`.concat(
             res.data.image.imgName
           );
@@ -193,18 +192,15 @@ export default {
       image
     ) {
       if (this.note.image) {
-        //this.$store.dispatch("getImg", this.note.guid); //get 요청
-        console.log(this.note.guid);
         axios
           .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
           .then((res) => {
-            //console.log(res.data.image.imgName);
             this.note.image = `http://192.168.35.17:3000/images/`.concat(
               res.data.image.imgName
             );
           })
           .catch((err) => {
-            console.log(err.res);
+            console.log(err);
           });
       } else {
         console.log("this note has not Img");
@@ -216,7 +212,6 @@ export default {
         title,
         text,
         theme,
-
         time,
         date,
         originDate,
@@ -235,6 +230,7 @@ export default {
       this.$store.commit("setBrightness", this.note.theme);
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
+
       this.isSubmit = false;
     },
 
