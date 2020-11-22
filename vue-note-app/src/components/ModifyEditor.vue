@@ -141,8 +141,11 @@
 </template>
 
 <script>
+// import axios from "axios";
+// import ipObj from "../ip.js"
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
+
 export default {
   data () {
     return {
@@ -163,17 +166,16 @@ export default {
   computed: {
     brightness () {
       return this.$store.getters.getBrightness;
+    },
+    imgName () {
+      return this.$store.getters.getImgName;
     }
   },
   methods: {
-
-
     initColor (picker) {
       this.note.theme = picker;
       this.$store.commit('setBrightness', this.note.theme);
       this.note.brightness = this.brightness;
-
-
     },
 
     modifyNote () {
@@ -201,14 +203,7 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
-      if (this.files) { //이미지 파일을 입력한 경우에만
-        //console.log(this.files.name);
-        let form = new FormData();
-        form.append("image", this.files);
-        form.append("noteID", this.note.guid);
-        this.$store.commit("imgModify", form); //서버에 이미지 업로드 요청
-        this.note.image = this.files.name;
-      }
+
       this.$emit(
         "noteModified",
         this.note.title,
@@ -220,7 +215,8 @@ export default {
         originDate,
         this.note.important,
         this.note.tags,
-        this.note.image
+        this.note.image,
+        this.files
       );
     },
     addImportant () {

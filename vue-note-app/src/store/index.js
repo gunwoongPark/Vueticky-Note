@@ -77,28 +77,31 @@ export default new Vuex.Store({
 
 
         imgUpload: (state, form) => {
-            //console.log(form);
+
             axios.post(`${state.ServerURL}/imageUpload`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             })
                 .then((res) => {
-                    console.log(res.status);
+                    console.log(res.status + ":Success ImageUploading");
                 })
                 .catch((err) => {
                     console.log(err.res);
                 })
         },
         imgModify: (state, form) => {
-            //console.log(form);
+
             axios.put(`${state.ServerURL}/imageModify`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             })
                 .then((res) => {
-                    console.log(res.status);
+                    console.log(res.status + ":Success ImageModify");
+                    //console.log(res.data.imgName);
+                    state.imgName = res.data.imgName;
+                    //console.log(state.imgName)
                 })
                 .catch((err) => {
                     console.log(err.res);

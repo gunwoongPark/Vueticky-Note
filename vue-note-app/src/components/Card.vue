@@ -147,7 +147,7 @@ export default {
     },
   },
   created () {
-    console.log(this.note.image);
+    //console.log(this.note.image);
     if (this.note.image) {
       axios
         .get(`${ipObj.ip}/image/${this.note.guid}`)
@@ -191,25 +191,37 @@ export default {
       originDate,
       important,
       tags,
-      image
+      image,
+      files
+
     ) {
-      if (this.note.image) {
-        //this.$store.dispatch("getImg", this.note.guid); //get 요청
-        console.log(this.note.guid);
-        axios
-          .get(`${ipObj.ip}/image/${this.note.guid}`)
+
+      if (files) { //이미지 파일을 입력한 경우에만
+
+        let form = new FormData();
+        form.append("image", files);
+        form.append("noteID", this.note.guid);
+        //this.$store.commit("imgModify", form); //서버에 이미지 업로드 요청
+        axios.put(`${ipObj.ip}/imageModify`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
           .then((res) => {
-            //console.log(res.data.image.imgName);
+            console.log(res.status + ":Success ImageModify");
+            //this.note.image = res.data.imgName;
             this.note.image = `${ipObj.ip}/images/`.concat(
-              res.data.image.imgName
-            );
+              res.data.imgName);
+
+
           })
           .catch((err) => {
             console.log(err.res);
-          });
-      } else {
-        console.log("this note has not Img");
+          })
+
       }
+
+
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
