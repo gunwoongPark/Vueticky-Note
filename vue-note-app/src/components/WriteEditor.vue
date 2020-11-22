@@ -140,7 +140,8 @@
 </template>
 
 <script>
-
+import axios from "axios";
+import ipObj from "../ip.js"
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 export default {
@@ -207,8 +208,20 @@ export default {
         let form = new FormData();
         form.append("image", this.files);
         form.append("noteID", this.note.guid);
-        this.$store.commit("imgUpload", form);  //서버에 이미지 업로드 요청
-        this.note.image = this.files.name;
+        //this.$store.commit("imgUpload", form);  //서버에 이미지 업로드 요청
+        axios.post(`${ipObj.ip}/imageUpload`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+          .then((res) => {
+            console.log(res.status + ":Success of ImageUploading");
+            this.note.image = true;
+          })
+          .catch((err) => {
+            console.log(err.res);
+          })
+
       }
 
       this.$emit(

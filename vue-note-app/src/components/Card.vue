@@ -202,22 +202,41 @@ export default {
         form.append("image", files);
         form.append("noteID", this.note.guid);
         //this.$store.commit("imgModify", form); //서버에 이미지 업로드 요청
-        axios.put(`${ipObj.ip}/imageModify`, form, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-          .then((res) => {
-            console.log(res.status + ":Success ImageModify");
-            //this.note.image = res.data.imgName;
-            this.note.image = `${ipObj.ip}/images/`.concat(
-              res.data.imgName);
+
+        if (!image) { //수정 시 이미지가 없던 상태 
+          axios.post(`${ipObj.ip}/imageUpload`, form, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+            .then((res) => {
+              console.log(res.status + ":Success of ImageUploading");
+              //console.log(res.data.imgName);
+              this.note.image = `${ipObj.ip}/images/`.concat(
+                res.data.imgName);
+            })
+            .catch((err) => {
+              console.log(err.res);
+            })
+        } else {//수정 시 이미지가 존재한 상태
+          axios.put(`${ipObj.ip}/imageModify`, form, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+            .then((res) => {
+              console.log(res.status + ":Success of ImageModify");
+              //this.note.image = res.data.imgName;
+              this.note.image = `${ipObj.ip}/images/`.concat(
+                res.data.imgName);
 
 
-          })
-          .catch((err) => {
-            console.log(err.res);
-          })
+            })
+            .catch((err) => {
+              console.log(err.res);
+            })
+
+        }
 
       }
 

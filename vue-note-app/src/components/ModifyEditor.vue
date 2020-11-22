@@ -164,6 +164,7 @@ export default {
   },
 
   computed: {
+
     brightness () {
       return this.$store.getters.getBrightness;
     },
@@ -171,6 +172,7 @@ export default {
       return this.$store.getters.getImgName;
     }
   },
+
   methods: {
     initColor (picker) {
       this.note.theme = picker;
@@ -209,7 +211,6 @@ export default {
         this.note.title,
         this.note.text,
         this.note.theme,
-
         time,
         date,
         originDate,
