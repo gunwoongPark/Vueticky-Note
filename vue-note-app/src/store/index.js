@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios"
-
+import ipObj from "../ip.js"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,7 +12,7 @@ export default new Vuex.Store({
         brightness: true,
 
 
-        ServerURL: "http://192.168.35.17:3000",
+        ServerURL: ipObj.ip,
         imgName: ""
 
     },
