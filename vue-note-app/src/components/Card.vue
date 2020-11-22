@@ -147,7 +147,7 @@ export default {
     },
   },
   created () {
-    //console.log(this.note.image);
+    console.log(this.note.image);
     if (this.note.image) {
       axios
         .get(`${ipObj.ip}/image/${this.note.guid}`)
@@ -214,6 +214,7 @@ export default {
               //console.log(res.data.imgName);
               this.note.image = `${ipObj.ip}/images/`.concat(
                 res.data.imgName);
+              image = true;
             })
             .catch((err) => {
               console.log(err.res);

@@ -216,12 +216,12 @@ export default {
         })
           .then((res) => {
             console.log(res.status + ":Success of ImageUploading");
-            this.note.image = true;
+
           })
           .catch((err) => {
             console.log(err.res);
           })
-
+        this.note.image = true;
       }
 
       this.$emit(

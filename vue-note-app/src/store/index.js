@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios"
-import ipObj from "../ip.js"
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,8 +11,7 @@ export default new Vuex.Store({
         brightness: true,
 
 
-        ServerURL: ipObj.ip,
-        imgName: ""
+
 
     },
 
@@ -28,9 +26,7 @@ export default new Vuex.Store({
         getWeather: state => {
             return state.weather;
         },
-        getImgName: state => {
-            return state.imgName;
-        }
+
     },
 
     // methods
@@ -76,20 +72,7 @@ export default new Vuex.Store({
 
 
 
-        imgUpload: (state, form) => {
 
-            axios.post(`${state.ServerURL}/imageUpload`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-                .then((res) => {
-                    console.log(res.status + ":Success of ImageUploading");
-                })
-                .catch((err) => {
-                    console.log(err.res);
-                })
-        },
 
 
     },
