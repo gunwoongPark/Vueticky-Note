@@ -54,6 +54,8 @@
 
         <!-- 사진 등록 -->
         <v-file-input
+          id="inputFile"
+          @change="testFunc"
           v-model="note.image"
           accept="image/*"
           color="teal"
@@ -62,7 +64,7 @@
           prepend-icon="mdi-camera"
         ></v-file-input>
 
-        <!-- <img :src="testPath" /> -->
+        <img src="" alt="test" id="testImg" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -167,6 +169,17 @@ export default {
   },
 
   methods: {
+    testFunc() {
+      var input = document.getElementById("inputFile");
+      var fReader = new FileReader();
+      fReader.readAsDataURL(input.files[0]);
+      fReader.onloadend = function (event) {
+        let img = document.getElementById("testImg");
+        img.src = event.target.result;
+        console.log(img);
+      };
+    },
+
     // 팔레트에서 받아온 색 초기화
     initColor(picker) {
       this.note.theme = picker;
@@ -197,11 +210,7 @@ export default {
 
       //이미지 파일을 입력한 경우에만
       if (this.note.image) {
-        let form = new FormData();
-        form.append("image", this.note.image);
-        form.append("noteID", this.note.guid);
-        //서버에 이미지 업로드 요청
-        this.$store.commit("imgUpload", form);
+        console.log(this.note.image.value);
       }
 
       this.$emit(
