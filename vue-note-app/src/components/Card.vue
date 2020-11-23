@@ -273,7 +273,7 @@ export default {
 
     deleteNote () {
       //if (confirm("정말 삭제하시겠습니까?"))
-      this.$emit("deleteNote", this.note.guid);
+      this.$emit("deleteNote", this.note.guid, this.note.image);
     },
 
     closeDialog () {

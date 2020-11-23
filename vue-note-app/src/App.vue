@@ -157,6 +157,8 @@
 </template>
 
 <script>
+import axios from "axios";
+import ipObj from "./ip.js"
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
@@ -349,10 +351,26 @@ export default {
     },
 
     // 고유값을 이용한 노트 삭제
-    deleteNote (guid) {
-      const index = this.notes.findIndex((note) => note.guid === guid);
+    deleteNote (guid, isImage) {
+      let result = confirm("정말로 삭제하시겠습니까?");
+      if (result) {
+        const index = this.notes.findIndex((note) => note.guid === guid);
+        this.notes.splice(index, 1);
 
-      this.notes.splice(index, 1);
+        if (isImage) {
+          axios
+            .delete(`${ipObj.ip}/${guid}`)
+            .then((res) => {
+              if (res.status === 200) {
+                console.log(res.status + ":Success of ImageDelete")
+              }
+            }).catch((err) => {
+              console.log(err.res);
+            });
+        }
+
+      }
+
     },
 
     // 달력에서 고른 날짜를 변수에 초기화
