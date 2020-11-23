@@ -141,8 +141,7 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import ipObj from "../ip.js"
+ 
 import { Editor } from "vuetify-markdown-editor";
 import Color from "./Color";
 

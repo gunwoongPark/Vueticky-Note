@@ -214,7 +214,7 @@ export default {
               //console.log(res.data.imgName);
               this.note.image = `${ipObj.ip}/images/`.concat(
                 res.data.imgName);
-              image = true;
+
             })
             .catch((err) => {
               console.log(err.res);
@@ -238,7 +238,7 @@ export default {
             })
 
         }
-
+        image = true;//이미지가 없던 상태인 경우 note.image는 초기화되어 있지 않다. 
       }
 
 
