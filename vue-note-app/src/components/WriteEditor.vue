@@ -54,15 +54,16 @@
 
         <!-- 사진 등록 -->
         <v-file-input
-          id="inputFile"
-          @change="testFunc"
-          v-model="note.image"
+          id="inputImage"
+          @change="changeImage"
+          v-model="image"
           accept="image/*"
           color="teal"
           counter
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
+        <v-img id="canvas" alt="test"></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -166,14 +167,20 @@ export default {
     },
   },
 
+  data() {
+    return {
+      image: null,
+    };
+  },
+
   methods: {
-    testFunc() {
-      if (this.note.image) {
-        var input = document.getElementById("inputFile");
-        var fReader = new FileReader();
+    changeImage() {
+      if (this.image) {
+        let input = document.querySelector("#inputImage");
+        let fReader = new FileReader();
         fReader.readAsDataURL(input.files[0]);
-        fReader.onloadend = function (event) {
-          this.note.image = event.target.result;
+        fReader.onload = (event) => {
+          this.note.imagePath = event.target.result;
         };
       }
     },
@@ -220,9 +227,10 @@ export default {
         this.note.guid,
         this.note.isImportant,
         this.note.selectedTags,
-        this.note.image
+        this.note.imagePath
       );
 
+      // 중요도 표시를 초기화
       this.note.isImportant = false;
     },
 
