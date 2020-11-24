@@ -63,8 +63,6 @@
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
-
-        <img src="" alt="test" id="testImg" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -170,21 +168,20 @@ export default {
 
   methods: {
     testFunc() {
-      var input = document.getElementById("inputFile");
-      var fReader = new FileReader();
-      fReader.readAsDataURL(input.files[0]);
-      fReader.onloadend = function (event) {
-        let img = document.getElementById("testImg");
-        img.src = event.target.result;
-        console.log(img);
-      };
+      if (this.note.image) {
+        var input = document.getElementById("inputFile");
+        var fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = function (event) {
+          this.note.image = event.target.result;
+        };
+      }
     },
 
     // 팔레트에서 받아온 색 초기화
     initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
-      //this.setBrightness(this.note.theme)
     },
 
     // 노트 생성
