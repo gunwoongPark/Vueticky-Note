@@ -338,7 +338,7 @@ export default {
       guid,
       important,
       tags,
-      image
+      imagePath
     ) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -352,7 +352,7 @@ export default {
       tempObj.date = originDate;
       tempObj.important = important;
       tempObj.tags = tags;
-      tempObj.image = image;
+      tempObj.imagePath = imagePath;
 
       this.notes.splice(index, 1);
       this.notes.splice(index, 0, tempObj);

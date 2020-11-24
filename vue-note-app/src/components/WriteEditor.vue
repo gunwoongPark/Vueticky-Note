@@ -182,7 +182,7 @@ export default {
         fReader.onload = (event) => {
           this.note.imagePath = event.target.result;
         };
-      }
+      } else this.note.imagePath = "";
     },
 
     // 팔레트에서 받아온 색 초기화
@@ -211,11 +211,6 @@ export default {
       const date = this.date;
 
       const time = `${hour}:${minutes}:${seconds}`;
-
-      //이미지 파일을 입력한 경우에만
-      if (this.note.image) {
-        console.log(this.note.image.value);
-      }
 
       this.$emit(
         "noteAdded",

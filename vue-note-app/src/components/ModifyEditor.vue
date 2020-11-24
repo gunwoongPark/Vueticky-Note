@@ -58,7 +58,9 @@
         </v-row>
         <!-- 사진 등록 -->
         <v-file-input
-          v-model="note.image"
+          id="inputImage"
+          @change="changeImage"
+          v-model="image"
           accept="image/*"
           color="teal"
           counter
@@ -160,7 +162,29 @@ export default {
       return this.$store.getters.getBrightness;
     },
   },
+
+  data() {
+    return {
+      image: null,
+    };
+  },
+
   methods: {
+    changeImage() {
+      console.log("in!");
+      if (this.image) {
+        let input = document.querySelector("#inputImage");
+        let fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onload = (event) => {
+          this.note.imagePath = event.target.result;
+        };
+      } else {
+        this.note.imagePath = "";
+        console.log("empty!");
+      }
+    },
+
     initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
@@ -191,14 +215,7 @@ export default {
       const date = `${year}-${month}-${day}`;
 
       const time = `${hour}:${minutes}:${seconds}`;
-      //이미지 파일을 입력한 경우에만
-      if (this.note.image) {
-        let form = new FormData();
-        form.append("image", this.note.image);
-        form.append("noteID", this.note.guid);
-        //서버에 이미지 업로드 요청
-        this.$store.commit("imgModify", form);
-      }
+
       this.$emit(
         "noteModified",
         this.note.title,
@@ -210,7 +227,7 @@ export default {
         originDate,
         this.note.important,
         this.note.tags,
-        this.note.image
+        this.note.imagePath
       );
     },
     addImportant() {
