@@ -67,6 +67,7 @@ export default {
         selectedTags: [],
         imagePath: "",
         guid: "",
+        imageName: "",
       },
 
       dialog: false,
@@ -86,6 +87,7 @@ export default {
       this.note.guid = cryptoRandomString({
         length: 10,
       });
+      this.note.imageName = "";
     },
 
     newNote(
@@ -97,7 +99,8 @@ export default {
       guid,
       isImportant,
       tags,
-      imagePath
+      imagePath,
+      imageName
     ) {
       this.dialog = false;
       this.$emit(
@@ -110,7 +113,8 @@ export default {
         guid,
         isImportant,
         tags,
-        imagePath
+        imagePath,
+        imageName
       );
     },
 
