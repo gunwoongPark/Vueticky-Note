@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="dialogBox">
+    <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
@@ -63,7 +63,7 @@
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
-        <v-img id="canvas" alt="test"></v-img>
+        <v-img v-if="image" :src="note.imagePath" alt="image error"></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -238,6 +238,11 @@ export default {
     },
     closeDialog() {
       this.$emit("closeDialog");
+      this.image = null;
+    },
+
+    onClickOutside() {
+      this.image = null;
     },
   },
 
