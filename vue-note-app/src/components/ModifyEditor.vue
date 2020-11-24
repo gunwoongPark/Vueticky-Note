@@ -1,7 +1,7 @@
 <template>
   <!-- WriteEditor.vue와 대부분 동일 -->
   <div>
-    <v-card class="dialogBox">
+    <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
@@ -57,16 +57,22 @@
           </v-col>
         </v-row>
         <!-- 사진 등록 -->
-        <v-file-input
-          id="inputImage"
+        <!-- <v-file-input
+          id="modifyImage"
           @change="changeImage"
-          v-model="image"
+          v-model="newImg"
           accept="image/*"
           color="teal"
           counter
-          placeholder="Input Image"
+          placeholder="Add or Modify your image"
           prepend-icon="mdi-camera"
-        ></v-file-input>
+        ></v-file-input> -->
+        <input
+          type="file"
+          id="modifyImage"
+          @change="changeImage"
+          accept="image/*"
+        />
         <v-img :src="note.imagePath" alt="image error"></v-img>
       </v-card-text>
 
@@ -166,20 +172,20 @@ export default {
 
   data() {
     return {
-      image: null,
+      newImg: null,
     };
   },
 
   methods: {
-    changeImage() {
-      if (this.image) {
-        let input = document.querySelector("#inputImage");
-        let fReader = new FileReader();
-        fReader.readAsDataURL(input.files[0]);
-        fReader.onload = (event) => {
-          this.note.imagePath = event.target.result;
-        };
-      } else this.note.imagePath = "";
+    changeImage(e) {
+      let file = e.target.files;
+      console.log(file);
+      let reader = new FileReader();
+
+      reader.readAsDataURL(file[0]);
+      reader.onload = (e) => {
+        this.note.imagePath = e.target.result;
+      };
     },
 
     initColor(picker) {
@@ -226,6 +232,8 @@ export default {
         this.note.tags,
         this.note.imagePath
       );
+
+      this.newImg = null;
     },
     addImportant() {
       this.note.important = !this.note.important;
@@ -237,6 +245,11 @@ export default {
 
     closeDialog() {
       this.$emit("closeDialog");
+      this.newImg = null;
+    },
+
+    onClickOutside() {
+      this.newImg = null;
     },
   },
 

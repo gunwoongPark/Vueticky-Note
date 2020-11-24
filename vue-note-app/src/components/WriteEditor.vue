@@ -182,10 +182,7 @@ export default {
         fReader.onload = (event) => {
           this.note.imagePath = event.target.result;
         };
-        this.note.imageName = this.image.name;
-      } else {
-        this.note.imagePath = "";
-      }
+      } else this.note.imagePath = "";
     },
 
     // 팔레트에서 받아온 색 초기화
@@ -225,8 +222,7 @@ export default {
         this.note.guid,
         this.note.isImportant,
         this.note.selectedTags,
-        this.note.imagePath,
-        this.note.imageName
+        this.note.imagePath
       );
 
       // 중요도 표시를 초기화
