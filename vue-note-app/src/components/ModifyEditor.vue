@@ -67,6 +67,7 @@
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
+        <v-img :src="note.imagePath" alt="image error"></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -171,7 +172,6 @@ export default {
 
   methods: {
     changeImage() {
-      console.log("in!");
       if (this.image) {
         let input = document.querySelector("#inputImage");
         let fReader = new FileReader();
@@ -179,10 +179,7 @@ export default {
         fReader.onload = (event) => {
           this.note.imagePath = event.target.result;
         };
-      } else {
-        this.note.imagePath = "";
-        console.log("empty!");
-      }
+      } else this.note.imagePath = "";
     },
 
     initColor(picker) {
