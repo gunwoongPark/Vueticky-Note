@@ -65,7 +65,7 @@ export default {
         theme: "rgb(240,240,240)",
         isImportant: false,
         selectedTags: [],
-        image: null,
+        imagePath: "",
         guid: "",
       },
 
@@ -82,13 +82,23 @@ export default {
       this.note.isImportant = false;
       this.note.selectedTags = [];
       this.$store.commit("setBrightness", this.note.theme);
-      this.note.image = null;
+      this.note.imagePath = "";
       this.note.guid = cryptoRandomString({
         length: 10,
       });
     },
 
-    newNote(title, text, theme, time, date, guid, isImportant, tags, image) {
+    newNote(
+      title,
+      text,
+      theme,
+      time,
+      date,
+      guid,
+      isImportant,
+      tags,
+      imagePath
+    ) {
       this.dialog = false;
       this.$emit(
         "noteAdded",
@@ -100,7 +110,7 @@ export default {
         guid,
         isImportant,
         tags,
-        image
+        imagePath
       );
     },
 

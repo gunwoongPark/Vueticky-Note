@@ -83,7 +83,7 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-            <img v-if="note.image" :src="note.image" />
+            <img v-if="note.imagePath" :src="note.imagePath" />
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -103,7 +103,6 @@
 <script>
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
-import axios from "axios";
 export default {
   props: {
     note: {
@@ -141,27 +140,12 @@ export default {
           this.note.brightness = this.brightness;
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
+          this.note.imagePath = this.tempNote.imagePath;
         }
       },
     },
   },
-  created() {
-    //console.log(this.note.image);
-    if (this.note.image) {
-      axios
-        .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
-        .then((res) => {
-          this.note.image = `http://192.168.35.17:3000/images/`.concat(
-            res.data.image.imgName
-          );
-        })
-        .catch((err) => {
-          console.log(err.res);
-        });
-    } else {
-      console.log("this note has not Img");
-    }
-  },
+
   mounted() {
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
@@ -189,22 +173,8 @@ export default {
       originDate,
       important,
       tags,
-      image
+      imagePath
     ) {
-      if (this.note.image) {
-        axios
-          .get(`http://192.168.35.17:3000/image/${this.note.guid}`)
-          .then((res) => {
-            this.note.image = `http://192.168.35.17:3000/images/`.concat(
-              res.data.image.imgName
-            );
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log("this note has not Img");
-      }
       this.isSubmit = true;
       this.dialog = false;
       this.$emit(
@@ -218,7 +188,7 @@ export default {
         this.note.guid,
         important,
         tags,
-        image
+        imagePath
       );
     },
 
@@ -230,6 +200,7 @@ export default {
       this.$store.commit("setBrightness", this.note.theme);
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
+      this.tempNote.imagePath = this.note.imagePath;
 
       this.isSubmit = false;
     },

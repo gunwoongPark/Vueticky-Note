@@ -13,8 +13,9 @@ export default new Vuex.Store({
 
 
         ServerURL: "http://192.168.35.17:3000",
-        imgName: ""
+        imgName: "",
 
+        imgPath: "",
     },
 
     // computed
@@ -30,7 +31,8 @@ export default new Vuex.Store({
         },
         getImgName: state => {
             return state.imgName;
-        }
+        },
+
     },
 
     // methods
@@ -74,7 +76,10 @@ export default new Vuex.Store({
             (v < 120) ? state.brightness = false : state.brightness = true;
         },
 
-
+        changeImage: (state, path) => {
+            console.log(state);
+            console.log(path);
+        },
 
         imgUpload: (state, form) => {
             //console.log(form);
@@ -104,6 +109,7 @@ export default new Vuex.Store({
                     console.log(err.res);
                 })
         },
+
 
     },
 

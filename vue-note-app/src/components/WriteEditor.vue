@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="dialogBox">
+    <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
@@ -54,15 +54,16 @@
 
         <!-- 사진 등록 -->
         <v-file-input
-          v-model="note.image"
+          id="inputImage"
+          @change="changeImage"
+          v-model="image"
           accept="image/*"
           color="teal"
           counter
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
-
-        <!-- <img :src="testPath" /> -->
+        <v-img v-if="image" :src="note.imagePath" alt="image error"></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -166,12 +167,28 @@ export default {
     },
   },
 
+  data() {
+    return {
+      image: null,
+    };
+  },
+
   methods: {
+    changeImage() {
+      if (this.image) {
+        let input = document.querySelector("#inputImage");
+        let fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onload = (event) => {
+          this.note.imagePath = event.target.result;
+        };
+      } else this.note.imagePath = "";
+    },
+
     // 팔레트에서 받아온 색 초기화
     initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
-      //this.setBrightness(this.note.theme)
     },
 
     // 노트 생성
@@ -195,15 +212,6 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
-      //이미지 파일을 입력한 경우에만
-      if (this.note.image) {
-        let form = new FormData();
-        form.append("image", this.note.image);
-        form.append("noteID", this.note.guid);
-        //서버에 이미지 업로드 요청
-        this.$store.commit("imgUpload", form);
-      }
-
       this.$emit(
         "noteAdded",
         this.note.title,
@@ -214,9 +222,10 @@ export default {
         this.note.guid,
         this.note.isImportant,
         this.note.selectedTags,
-        this.note.image
+        this.note.imagePath
       );
 
+      // 중요도 표시를 초기화
       this.note.isImportant = false;
     },
 
@@ -229,6 +238,11 @@ export default {
     },
     closeDialog() {
       this.$emit("closeDialog");
+      this.image = null;
+    },
+
+    onClickOutside() {
+      this.image = null;
     },
   },
 

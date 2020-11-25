@@ -1,7 +1,7 @@
 <template>
   <!-- WriteEditor.vue와 대부분 동일 -->
   <div>
-    <v-card class="dialogBox">
+    <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
@@ -56,15 +56,26 @@
             </v-sheet>
           </v-col>
         </v-row>
+
         <!-- 사진 등록 -->
-        <v-file-input
-          v-model="note.image"
-          accept="image/*"
-          color="teal"
-          counter
-          placeholder="Input Image"
-          prepend-icon="mdi-camera"
-        ></v-file-input>
+        <div id="fileContainer">
+          <input
+            type="file"
+            id="modifyImage"
+            @change="changeImage"
+            accept="image/*"
+          />
+
+          <v-icon id="cancelImageIcon" @click="cancelImage"
+            >mdi-close-thick</v-icon
+          >
+        </div>
+
+        <v-img
+          v-if="note.imagePath"
+          :src="note.imagePath"
+          alt="image error"
+        ></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -160,7 +171,28 @@ export default {
       return this.$store.getters.getBrightness;
     },
   },
+
+  data() {
+    return {
+      newImg: null,
+    };
+  },
+
   methods: {
+    cancelImage() {
+      this.note.imagePath = "";
+    },
+    changeImage(e) {
+      let file = e.target.files;
+      console.log(file[0]);
+      let reader = new FileReader();
+
+      reader.readAsDataURL(file[0]);
+      reader.onload = (e) => {
+        this.note.imagePath = e.target.result;
+      };
+    },
+
     initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
@@ -191,14 +223,7 @@ export default {
       const date = `${year}-${month}-${day}`;
 
       const time = `${hour}:${minutes}:${seconds}`;
-      //이미지 파일을 입력한 경우에만
-      if (this.note.image) {
-        let form = new FormData();
-        form.append("image", this.note.image);
-        form.append("noteID", this.note.guid);
-        //서버에 이미지 업로드 요청
-        this.$store.commit("imgModify", form);
-      }
+
       this.$emit(
         "noteModified",
         this.note.title,
@@ -210,8 +235,10 @@ export default {
         originDate,
         this.note.important,
         this.note.tags,
-        this.note.image
+        this.note.imagePath
       );
+
+      this.newImg = null;
     },
     addImportant() {
       this.note.important = !this.note.important;
@@ -223,6 +250,11 @@ export default {
 
     closeDialog() {
       this.$emit("closeDialog");
+      this.newImg = null;
+    },
+
+    onClickOutside() {
+      this.newImg = null;
     },
   },
 
@@ -270,5 +302,14 @@ textarea:focus {
 
 .cardFooter {
   margin-top: -20px;
+}
+
+#modifyImage {
+  display: inline-block;
+}
+
+#fileContainer {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
