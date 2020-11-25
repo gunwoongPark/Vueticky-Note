@@ -56,24 +56,26 @@
             </v-sheet>
           </v-col>
         </v-row>
+
         <!-- 사진 등록 -->
-        <!-- <v-file-input
-          id="modifyImage"
-          @change="changeImage"
-          v-model="newImg"
-          accept="image/*"
-          color="teal"
-          counter
-          placeholder="Add or Modify your image"
-          prepend-icon="mdi-camera"
-        ></v-file-input> -->
-        <input
-          type="file"
-          id="modifyImage"
-          @change="changeImage"
-          accept="image/*"
-        />
-        <v-img :src="note.imagePath" alt="image error"></v-img>
+        <div id="fileContainer">
+          <input
+            type="file"
+            id="modifyImage"
+            @change="changeImage"
+            accept="image/*"
+          />
+
+          <v-icon id="cancelImageIcon" @click="cancelImage"
+            >mdi-close-thick</v-icon
+          >
+        </div>
+
+        <v-img
+          v-if="note.imagePath"
+          :src="note.imagePath"
+          alt="image error"
+        ></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -177,9 +179,12 @@ export default {
   },
 
   methods: {
+    cancelImage() {
+      this.note.imagePath = "";
+    },
     changeImage(e) {
       let file = e.target.files;
-      console.log(file);
+      console.log(file[0]);
       let reader = new FileReader();
 
       reader.readAsDataURL(file[0]);
@@ -297,5 +302,14 @@ textarea:focus {
 
 .cardFooter {
   margin-top: -20px;
+}
+
+#modifyImage {
+  display: inline-block;
+}
+
+#fileContainer {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
