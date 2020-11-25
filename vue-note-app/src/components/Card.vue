@@ -147,7 +147,7 @@ export default {
     },
   },
   created () {
-    console.log(this.note.image);
+    // console.log(this.note.image);
     if (this.note.image) {
       axios
         .get(`${ipObj.ip}/image/${this.note.guid}`)
@@ -156,6 +156,7 @@ export default {
           this.note.image = `${ipObj.ip}/images/`.concat(
             res.data.image.imgName
           );
+          console.log(this.note.image);
         })
         .catch((err) => {
           console.log(err.res);
@@ -163,6 +164,27 @@ export default {
     } else {
       console.log("this note has not Img");
     }
+    // //kakaoAPI 멀티 태그 사용 
+    // let form = new FormData();
+    // console.log(this.note.imagePath);
+    // form.append("image_url", this.note.image);
+    // axios
+    //   .post(`https://dapi.kakao.com/v2/vision/multitag/generate`, form, {
+    //     headers: {
+
+    //       "Content-Type": "application/x-www-form-urlencoded",
+    //       "Authorization": "KakaoAK 3da2b3579e3a830f7a06d0298a29a4d6 ",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(response);
+    //     }
+    //   })
+    //   .catch((err) => {
+
+    //     console.log(err);
+    //   });
   },
   mounted () {
     //this.setBrightness(this.note.theme)
