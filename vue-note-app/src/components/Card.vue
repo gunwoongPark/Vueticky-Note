@@ -83,7 +83,7 @@
                 style="border-color: white; margin-left: 10px"
               ></v-divider>
             </v-card-title>
-            <img v-if="note.imagePath" :src="note.imagePath" />
+            <img id="image" v-if="note.imagePath" :src="note.imagePath" />
             <v-card-text class="noteText">
               <Editor v-model="note.text" mode="viewer" />
             </v-card-text>
@@ -101,10 +101,13 @@
 </template>
        
 <script>
+import * as cocoSSD from '@tensorflow-models/coco-ssd'
+import * as tf from '@tensorflow/tfjs';
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
+
     note: {
       type: Object,
       required: true,
@@ -119,7 +122,7 @@ export default {
     },
   },
 
-  data() {
+  data () {
     return {
       dialog: false,
       isSubmit: false,
@@ -131,7 +134,7 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler() {
+      handler () {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
@@ -145,26 +148,49 @@ export default {
       },
     },
   },
+  async created () {
+    this.model = tf.sequential();
+    this.model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
+    //console.log(this.model);
+    console.log("model loaded");
+    this.predict();
+    this.model = null;
 
-  mounted() {
-    //this.setBrightness(this.note.theme)
+  },
+  mounted () {
+    //this.setBrightness(this.note.theme) 
     this.$store.commit("setBrightness", this.note.theme);
+
   },
   computed: {
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
     },
   },
   methods: {
-    mouseEnter(e) {
+    async predict () {
+      console.log(this.note.title);
+
+      var img = document.createElement("img");
+      img.setAttribute("src", this.note.imagePath);
+
+      //var img = document.getElementById("image");
+
+      let tmp = await this.model.detect(img);
+      console.log(tmp)
+
+      //this.predicted = tmp[0].class
+    },
+
+    mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave(e) {
+    mouseLeave (e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote(
+    modifyNote (
       title,
       text,
       theme,
@@ -193,7 +219,7 @@ export default {
     },
 
     // 버튼을 누를 경우 데이터 초기화
-    initData() {
+    initData () {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
@@ -205,12 +231,12 @@ export default {
       this.isSubmit = false;
     },
 
-    deleteNote() {
+    deleteNote () {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog() {
+    closeDialog () {
       this.dialog = false;
     },
   },
