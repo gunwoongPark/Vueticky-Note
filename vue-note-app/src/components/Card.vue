@@ -101,13 +101,14 @@
 </template>
        
 <script>
-import * as cocoSSD from '@tensorflow-models/coco-ssd'
-import * as tf from '@tensorflow/tfjs';
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
-
+    model: {
+      type: Object,
+      required: true,
+    },
     note: {
       type: Object,
       required: true,
@@ -149,15 +150,11 @@ export default {
     },
   },
   async created () {
-    this.model = tf.sequential();
-    this.model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
-    //console.log(this.model);
-    console.log("model loaded");
-    this.predict();
-    this.model = null;
 
+    if (this.note.imagePath) this.predict();
   },
   mounted () {
+
     //this.setBrightness(this.note.theme) 
     this.$store.commit("setBrightness", this.note.theme);
 
@@ -173,8 +170,6 @@ export default {
 
       var img = document.createElement("img");
       img.setAttribute("src", this.note.imagePath);
-
-      //var img = document.getElementById("image");
 
       let tmp = await this.model.detect(img);
       console.log(tmp)
