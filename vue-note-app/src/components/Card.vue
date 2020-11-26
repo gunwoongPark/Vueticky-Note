@@ -101,6 +101,8 @@
 </template>
        
 <script>
+import * as cocoSSD from '@tensorflow-models/coco-ssd'
+import * as tf from '@tensorflow/tfjs';
 import ipObj from "../ip.js"
 import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
@@ -146,7 +148,9 @@ export default {
       },
     },
   },
-  created () {
+  async created () {
+
+
     // console.log(this.note.image);
     if (this.note.image) {
       axios
@@ -156,7 +160,7 @@ export default {
           this.note.image = `${ipObj.ip}/images/`.concat(
             res.data.image.imgName
           );
-          console.log(this.note.image);
+          // console.log(this.note.image);
         })
         .catch((err) => {
           console.log(err.res);
@@ -164,6 +168,13 @@ export default {
     } else {
       console.log("this note has not Img");
     }
+
+    this.model = tf.sequential();
+    this.model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
+    //console.log(this.model);
+    console.log("model loaded");
+    this.predict();
+    this.model = null;
     // //kakaoAPI 멀티 태그 사용 
     // let form = new FormData();
     // console.log(this.note.imagePath);
@@ -187,6 +198,7 @@ export default {
     //   });
   },
   mounted () {
+
     //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
   },
@@ -196,6 +208,29 @@ export default {
     },
   },
   methods: {
+    async predict () {
+      console.log(this.note.title);
+
+      var img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = this.note.image;
+      img.width = 508;
+      img.height = 333;
+
+      // var img = document.createElement("img");
+      // console.log(this.note.image);
+      // img.setAttribute("src", this.note.image);
+
+      //var img = document.getElementById("image");
+
+
+      console.log(img);
+      let tmp = await this.model.detect(img);
+      console.log(tmp)
+
+      //this.predicted = tmp[0].class
+    },
+
     mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
