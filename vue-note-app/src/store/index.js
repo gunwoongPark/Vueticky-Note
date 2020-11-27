@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios"
+//import axios from "axios"
 
+import * as cocoSSD from '@tensorflow-models/coco-ssd'
+import * as tf from '@tensorflow/tfjs';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,10 +14,11 @@ export default new Vuex.Store({
         brightness: true,
 
 
-        ServerURL: "http://192.168.35.17:3000",
-        imgName: "",
+        // ServerURL: "http://192.168.35.17:3000",
+        // imgName: "",
 
         imgPath: "",
+        model: {},
     },
 
     // computed
@@ -29,9 +32,16 @@ export default new Vuex.Store({
         getWeather: state => {
             return state.weather;
         },
-        getImgName: state => {
-            return state.imgName;
-        },
+
+        getModel: state => {
+
+            return state.model;
+
+
+        }
+        // getImgName: state => {
+        //     return state.imgName;
+        // },
 
     },
 
@@ -81,34 +91,11 @@ export default new Vuex.Store({
             console.log(path);
         },
 
-        imgUpload: (state, form) => {
-            //console.log(form);
-            axios.post(`${state.ServerURL}/imageUpload`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-                .then((res) => {
-                    console.log(res.status);
-                })
-                .catch((err) => {
-                    console.log(err.res);
-                })
-        },
-        imgModify: (state, form) => {
-            //console.log(form);
-            axios.put(`${state.ServerURL}/imageModify`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-                .then((res) => {
-                    console.log(res.status);
-                })
-                .catch((err) => {
-                    console.log(err.res);
-                })
-        },
+        initModel: async (state, model) => {
+            state.model = model;
+            console.log("model loaded");
+        }
+
 
 
     },
@@ -116,6 +103,12 @@ export default new Vuex.Store({
     // methods
     // 일반 로직(비동기O)
     actions: {
+        loadModel: async (context) => {
+            let model;
+            model = tf.sequential();
+            model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
+            context.commit('initModel', model)
+        }
 
     }
 })

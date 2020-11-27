@@ -88,7 +88,6 @@
               sm="6"
             >
               <Card
-                :model="model"
                 :note="note"
                 :date="date"
                 :tags="tags"
@@ -159,8 +158,6 @@
 
 <script>
 
-import * as cocoSSD from '@tensorflow-models/coco-ssd'
-import * as tf from '@tensorflow/tfjs';
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
@@ -184,7 +181,7 @@ export default {
 
   data () {
     return {
-      model: {},
+
       notes: [],
       todayNotes: [],
       importantNotes: [],
@@ -227,11 +224,8 @@ export default {
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
   async mounted () {
-    this.model = tf.sequential();
-    this.model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
-    //console.log(this.model);
-    console.log("model loaded");
 
+    await this.$store.dispatch("loadModel");
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;

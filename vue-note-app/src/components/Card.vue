@@ -105,10 +105,7 @@ import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
-    model: {
-      type: Object,
-      required: true,
-    },
+
     note: {
       type: Object,
       required: true,
@@ -150,9 +147,10 @@ export default {
     },
   },
   async created () {
-
     if (this.note.imagePath) this.predict();
   },
+
+
   mounted () {
 
     //this.setBrightness(this.note.theme) 
@@ -163,16 +161,22 @@ export default {
     brightness () {
       return this.$store.getters.getBrightness;
     },
+    model () {
+      return this.$store.getters.getModel;
+    },
   },
   methods: {
     async predict () {
-      console.log(this.note.title);
-
+      //console.log(this.note.title);
       var img = document.createElement("img");
+
       img.setAttribute("src", this.note.imagePath);
 
       let tmp = await this.model.detect(img);
-      console.log(tmp)
+      console.log(tmp[0].class);
+      this.tags.push(tmp[0].class);
+      this.note.tags.push(tmp[0].class);
+
 
       //this.predicted = tmp[0].class
     },
