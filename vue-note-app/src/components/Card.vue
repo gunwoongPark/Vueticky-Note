@@ -147,12 +147,11 @@ export default {
     },
   },
   async created () {
-    if (this.note.imagePath) this.predict();
+    //if (this.note.imagePath) this.predict();
   },
 
 
   mounted () {
-
     //this.setBrightness(this.note.theme) 
     this.$store.commit("setBrightness", this.note.theme);
 
@@ -161,25 +160,12 @@ export default {
     brightness () {
       return this.$store.getters.getBrightness;
     },
-    model () {
-      return this.$store.getters.getModel;
-    },
+    // model () {
+    //   return this.$store.getters.getModel;
+    // },
   },
   methods: {
-    async predict () {
-      //console.log(this.note.title);
-      var img = document.createElement("img");
 
-      img.setAttribute("src", this.note.imagePath);
-
-      let tmp = await this.model.detect(img);
-      console.log(tmp[0].class);
-      this.tags.push(tmp[0].class);
-      this.note.tags.push(tmp[0].class);
-
-
-      //this.predicted = tmp[0].class
-    },
 
     mouseEnter (e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
