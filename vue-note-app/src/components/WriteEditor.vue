@@ -178,7 +178,7 @@ export default {
 
   methods: {
     async predict () {
-      //console.log(this.note.title);
+
       var img = document.createElement("img");
 
       img.setAttribute("src", this.note.imagePath);
@@ -188,8 +188,6 @@ export default {
       this.tags.push(tmp[0].class);
       this.note.selectedTags.push(tmp[0].class);
 
-
-      //this.predicted = tmp[0].class
     },
     changeImage () {
       if (this.image) {

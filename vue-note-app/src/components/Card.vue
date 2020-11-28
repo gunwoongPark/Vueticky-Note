@@ -146,9 +146,6 @@ export default {
       },
     },
   },
-  async created () {
-    //if (this.note.imagePath) this.predict();
-  },
 
 
   mounted () {
@@ -160,9 +157,7 @@ export default {
     brightness () {
       return this.$store.getters.getBrightness;
     },
-    // model () {
-    //   return this.$store.getters.getModel;
-    // },
+
   },
   methods: {
 

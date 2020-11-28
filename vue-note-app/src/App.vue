@@ -166,7 +166,7 @@ import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
-// import axios from "axios";
+
 
 export default {
   components: {
@@ -276,9 +276,7 @@ export default {
         let year = Number(this.date.slice(0, 4));
         let monthIndex = Number(this.date.slice(5, 7)) - 1;
         let day = Number(this.date.slice(8, 10));
-
         this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, ${year}`;
-
         this.$nextTick(() => this.$redrawVueMasonry());
       },
       deep: true,
@@ -335,7 +333,6 @@ export default {
       title,
       text,
       theme,
-
       time,
       date,
       originDate,
