@@ -180,6 +180,8 @@ export default {
       newImg: null,
       isChange: false,
       originImage: "",
+      delTag: "",
+      addTag: "",
     };
   },
 
@@ -188,51 +190,17 @@ export default {
   },
 
   methods: {
-    async predict() {
-      var img = document.createElement("img");
-
-      img.setAttribute("src", this.note.imagePath);
-
-      let tmp = await this.model.detect(img);
-
-      // 객체 탐지 성공 시
-      if (tmp.length) {
-        let originTags;
-
-        // 태그가 미리 생성된 것이 있을 경우
-        if (localStorage.getItem("tags")) {
-          originTags = JSON.parse(localStorage.getItem("tags"));
-
-          // 해당 태그가 이미 있다면 -> 가만 있어
-          if (originTags.indexOf(tmp[0].class) !== -1) {
-            this.note.selectedTags.push(tmp[0].class);
-          }
-          // 없다면 -> 기존 태그 삭제 후 새로운 태그 할당
-          else {
-            this.tags.push(tmp[0].class);
-            this.note.selectedTags.push(tmp[0].class);
-          }
-        }
-        // 태그가 미리 생성된 것이 없을 경우
-        else {
-          this.tags.push(tmp[0].class);
-          this.note.selectedTags.push(tmp[0].class);
-        }
-      }
-    },
-
-    cancelImage() {
-      this.note.imagePath = "";
-    },
+    // 일단 이미지가 들어왔을 때
     changeImage(e) {
+      console.log("in!");
       let file = e.target.files;
       console.log(file[0]);
       let reader = new FileReader();
 
       reader.readAsDataURL(file[0]);
       reader.onload = (e) => {
-        // 변경을 기존과 같은 이미지로 했을 경우
-        if (e.target.result === this.originImage) this.isChange = true;
+        // 변경을 기존과 다른 이미지로 했을 경우
+        if (e.target.result !== this.originImage) this.isChange = true;
         this.note.imagePath = e.target.result;
       };
     },
@@ -243,8 +211,52 @@ export default {
       this.note.brightness = this.brightness;
     },
 
-    modifyNote() {
-      if (this.isChange) this.predict();
+    cancelImage() {
+      this.note.imagePath = "";
+
+      const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+      this.note.tags.splice(delIndex, 1);
+
+      // 사진 -> 글
+      this.delTag = this.note.detectedTag;
+      this.addTag = "";
+
+      this.note.detectedTag = "";
+    },
+
+    // 객체 탐지 함수
+    async predict() {
+      var img = document.createElement("img");
+      img.setAttribute("src", this.note.imagePath);
+      let tmp = await this.model.detect(img);
+
+      return new Promise(function (resolve) {
+        if (!tmp.length) resolve(null);
+
+        if (this.note.detectedTag !== tmp[0].class) {
+          resolve(tmp[0].class);
+        }
+      });
+    },
+
+    async modifyNote() {
+      // 우선 이미지가 들어와야하고 변경 또한 되어야 함
+      if (this.note.imagePath) {
+        if (this.isChange) {
+          // 감지된 객체가 있을 경우
+          if ((await this.predict()) !== null) {
+            this.note.detectedTag = await this.predict();
+            this.note.tags.push(await this.predict());
+          }
+
+          // 감지된 객체가 없을 경우
+          else {
+            const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+            this.note.tags.splice(delIndex, 1);
+          }
+        }
+      }
+
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -280,7 +292,10 @@ export default {
         originDate,
         this.note.important,
         this.note.tags,
-        this.note.imagePath
+        this.note.imagePath,
+        this.note.detectedTag,
+        this.delTag,
+        this.addTag
       );
 
       this.newImg = null;

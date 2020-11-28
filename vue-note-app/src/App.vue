@@ -343,7 +343,10 @@ export default {
       guid,
       important,
       tags,
-      imagePath
+      imagePath,
+      detectedTag,
+      delTag,
+      addTag
     ) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -358,9 +361,37 @@ export default {
       tempObj.important = important;
       tempObj.tags = tags;
       tempObj.imagePath = imagePath;
+      tempObj.detectedTag = detectedTag;
 
       this.notes.splice(index, 1);
       this.notes.splice(index, 0, tempObj);
+
+      // 밑으로는 태그 놀이
+
+      if (addTag) {
+        console.log("add!");
+      }
+
+      if (delTag) {
+        if (this.checkLast(delTag))
+          this.tags.splice(this.tags.indexOf(delTag), 1);
+      }
+    },
+
+    // 남은 태그가 자신뿐일 경우
+    checkLast(delTag) {
+      let haveTag = false;
+      this.notes.forEach((el) => {
+        if (el.tags.indexOf(delTag) !== -1) {
+          haveTag = true;
+        }
+      });
+
+      if (haveTag) {
+        return false;
+      } else {
+        return true;
+      }
     },
 
     // 고유값을 이용한 노트 삭제

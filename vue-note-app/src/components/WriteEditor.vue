@@ -185,9 +185,7 @@ export default {
 
       return new Promise(function (resolve) {
         if (!tmp.length) resolve(null);
-        let detected = "";
-        detected = tmp[0].class;
-        resolve(detected);
+        resolve(tmp[0].class);
       });
     },
     changeImage() {
