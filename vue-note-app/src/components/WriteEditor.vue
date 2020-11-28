@@ -184,6 +184,7 @@ export default {
       let tmp = await this.model.detect(img);
 
       return new Promise(function (resolve) {
+        if (!tmp.length) resolve(null);
         let detected = "";
         detected = tmp[0].class;
         resolve(detected);
@@ -210,8 +211,10 @@ export default {
     async createNew() {
       // 객체 탐지
       if (this.note.imagePath) {
-        this.note.detectedTag = await this.predict();
-        this.note.selectedTags.push(await this.predict());
+        if ((await this.predict()) !== null) {
+          this.note.detectedTag = await this.predict();
+          this.note.selectedTags.push(await this.predict());
+        }
       }
 
       // 입력 예외처리
