@@ -13,11 +13,14 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "crypto-random-string": "^3.3.0",
+    "firebase": "^7.24.0",
+    "firebase-admin": "^9.4.1",
     "vue": "^2.6.11",
     "vue-masonry": "^0.11.8",
     "vuetify": "^2.2.11",
     "vuetify-markdown-editor": "^3.3.0",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "vuexfire": "^3.2.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -167,7 +167,6 @@ import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 
 
-
 export default {
   components: {
     Header,
