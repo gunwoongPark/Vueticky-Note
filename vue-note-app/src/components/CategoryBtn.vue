@@ -90,6 +90,8 @@ export default {
   mounted() {
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
+
+    console.log(this.tags);
   },
 
   // dialog가 닫히면 데이터 전송
