@@ -162,37 +162,54 @@ export default {
   },
 
   computed: {
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
+    },
+    model () {
+      return this.$store.getters.getModel;
     },
   },
 
-  data() {
+  data () {
     return {
       image: null,
     };
   },
 
   methods: {
-    changeImage() {
+    async predict () {
+
+      var img = document.createElement("img");
+
+      img.setAttribute("src", this.note.imagePath);
+
+      let tmp = await this.model.detect(img);
+      console.log(tmp[0].class);
+      this.tags.push(tmp[0].class);
+      this.note.selectedTags.push(tmp[0].class);
+
+    },
+    changeImage () {
       if (this.image) {
         let input = document.querySelector("#inputImage");
         let fReader = new FileReader();
         fReader.readAsDataURL(input.files[0]);
         fReader.onload = (event) => {
           this.note.imagePath = event.target.result;
+
         };
       } else this.note.imagePath = "";
     },
 
     // 팔레트에서 받아온 색 초기화
-    initColor(picker) {
+    initColor (picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
     },
 
     // 노트 생성
-    createNew() {
+    createNew () {
+      this.predict();
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -229,19 +246,19 @@ export default {
       this.note.isImportant = false;
     },
 
-    addImportant() {
+    addImportant () {
       this.note.isImportant = !this.note.isImportant;
     },
 
-    bindKor(event) {
+    bindKor (event) {
       this.note.text = event.target.value;
     },
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
       this.image = null;
     },
 
-    onClickOutside() {
+    onClickOutside () {
       this.image = null;
     },
   },
