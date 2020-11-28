@@ -180,40 +180,14 @@ export default {
     // 객체 탐지 함수
     async predict() {
       var img = document.createElement("img");
-
       img.setAttribute("src", this.note.imagePath);
-
       let tmp = await this.model.detect(img);
 
-      // 객체 탐지 성공 시
-      if (tmp.length) {
-        let originTags;
-
-        // 태그가 미리 생성된 것이 있을 경우
-        if (localStorage.getItem("tags")) {
-          originTags = JSON.parse(localStorage.getItem("tags"));
-
-          // 해당 태그가 이미 있다면
-          if (originTags.indexOf(tmp[0].class) !== -1) {
-            this.note.selectedTags.push(tmp[0].class);
-            this.note.detectedTag.push(tmp[0].class);
-          }
-          // 없다면
-          else {
-            this.tags.push(tmp[0].class);
-            this.note.selectedTags.push(tmp[0].class);
-            this.note.detectedTag.push(tmp[0].class);
-          }
-        }
-        // 태그가 미리 생성된 것이 없을 경우
-        else {
-          this.tags.push(tmp[0].class);
-          this.note.selectedTags.push(tmp[0].class);
-          this.note.detectedTag.push(tmp[0].class);
-        }
-
-        console.log(this.note.detectedTag);
-      }
+      return new Promise(function (resolve) {
+        let detected = "";
+        detected = tmp[0].class;
+        resolve(detected);
+      });
     },
     changeImage() {
       if (this.image) {
@@ -233,9 +207,12 @@ export default {
     },
 
     // 노트 생성
-    createNew() {
+    async createNew() {
       // 객체 탐지
-      if (this.note.imagePath) this.predict();
+      if (this.note.imagePath) {
+        this.note.detectedTag = await this.predict();
+        this.note.selectedTags.push(await this.predict());
+      }
 
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {

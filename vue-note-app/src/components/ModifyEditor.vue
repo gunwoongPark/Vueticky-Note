@@ -185,7 +185,6 @@ export default {
 
   mounted() {
     this.originImage = this.note.imagePath;
-    console.log(this.originImage);
   },
 
   methods: {

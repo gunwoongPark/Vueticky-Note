@@ -311,6 +311,12 @@ export default {
       imagePath,
       detectedTag
     ) {
+      if (detectedTag) {
+        if (this.tags.length !== 0) {
+          if (this.tags.indexOf(detectedTag) === -1)
+            this.tags.push(detectedTag);
+        } else this.tags.push(detectedTag);
+      }
       this.notes.push({
         title: title,
         text: text,
