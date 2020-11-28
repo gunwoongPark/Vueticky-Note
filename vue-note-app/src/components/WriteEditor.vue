@@ -196,18 +196,23 @@ export default {
           // 해당 태그가 이미 있다면
           if (originTags.indexOf(tmp[0].class) !== -1) {
             this.note.selectedTags.push(tmp[0].class);
+            this.note.detectedTag.push(tmp[0].class);
           }
           // 없다면
           else {
             this.tags.push(tmp[0].class);
             this.note.selectedTags.push(tmp[0].class);
+            this.note.detectedTag.push(tmp[0].class);
           }
         }
         // 태그가 미리 생성된 것이 없을 경우
         else {
           this.tags.push(tmp[0].class);
           this.note.selectedTags.push(tmp[0].class);
+          this.note.detectedTag.push(tmp[0].class);
         }
+
+        console.log(this.note.detectedTag);
       }
     },
     changeImage() {
@@ -261,7 +266,8 @@ export default {
         this.note.guid,
         this.note.isImportant,
         this.note.selectedTags,
-        this.note.imagePath
+        this.note.imagePath,
+        this.note.detectedTag
       );
 
       // 중요도 표시를 초기화

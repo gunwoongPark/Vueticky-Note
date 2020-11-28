@@ -308,7 +308,8 @@ export default {
       guid,
       isImportant,
       tags,
-      imagePath
+      imagePath,
+      detectedTag
     ) {
       this.notes.push({
         title: title,
@@ -321,6 +322,7 @@ export default {
         important: isImportant,
         tags: tags,
         imagePath: imagePath,
+        detectedTag: detectedTag,
       });
     },
 

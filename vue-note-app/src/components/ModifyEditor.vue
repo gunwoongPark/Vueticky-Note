@@ -170,15 +170,58 @@ export default {
     brightness() {
       return this.$store.getters.getBrightness;
     },
+    model() {
+      return this.$store.getters.getModel;
+    },
   },
 
   data() {
     return {
       newImg: null,
+      isChange: false,
+      originImage: "",
     };
   },
 
+  mounted() {
+    this.originImage = this.note.imagePath;
+    console.log(this.originImage);
+  },
+
   methods: {
+    async predict() {
+      var img = document.createElement("img");
+
+      img.setAttribute("src", this.note.imagePath);
+
+      let tmp = await this.model.detect(img);
+
+      // 객체 탐지 성공 시
+      if (tmp.length) {
+        let originTags;
+
+        // 태그가 미리 생성된 것이 있을 경우
+        if (localStorage.getItem("tags")) {
+          originTags = JSON.parse(localStorage.getItem("tags"));
+
+          // 해당 태그가 이미 있다면 -> 가만 있어
+          if (originTags.indexOf(tmp[0].class) !== -1) {
+            this.note.selectedTags.push(tmp[0].class);
+          }
+          // 없다면 -> 기존 태그 삭제 후 새로운 태그 할당
+          else {
+            this.tags.push(tmp[0].class);
+            this.note.selectedTags.push(tmp[0].class);
+          }
+        }
+        // 태그가 미리 생성된 것이 없을 경우
+        else {
+          this.tags.push(tmp[0].class);
+          this.note.selectedTags.push(tmp[0].class);
+        }
+      }
+    },
+
     cancelImage() {
       this.note.imagePath = "";
     },
@@ -189,6 +232,8 @@ export default {
 
       reader.readAsDataURL(file[0]);
       reader.onload = (e) => {
+        // 변경을 기존과 같은 이미지로 했을 경우
+        if (e.target.result === this.originImage) this.isChange = true;
         this.note.imagePath = e.target.result;
       };
     },
@@ -200,6 +245,7 @@ export default {
     },
 
     modifyNote() {
+      if (this.isChange) this.predict();
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -239,6 +285,8 @@ export default {
       );
 
       this.newImg = null;
+
+      this.isChange = false;
     },
     addImportant() {
       this.note.important = !this.note.important;
