@@ -192,9 +192,8 @@ export default {
   methods: {
     // 일단 이미지가 들어왔을 때
     changeImage(e) {
-      console.log("in!");
+      console.log("changeImage!");
       let file = e.target.files;
-      console.log(file[0]);
       let reader = new FileReader();
 
       reader.readAsDataURL(file[0]);
@@ -233,9 +232,7 @@ export default {
       return new Promise(function (resolve) {
         if (!tmp.length) resolve(null);
 
-        if (this.note.detectedTag !== tmp[0].class) {
-          resolve(tmp[0].class);
-        }
+        resolve(tmp[0].class);
       });
     },
 
@@ -245,14 +242,25 @@ export default {
         if (this.isChange) {
           // 감지된 객체가 있을 경우
           if ((await this.predict()) !== null) {
-            this.note.detectedTag = await this.predict();
             this.note.tags.push(await this.predict());
+
+            this.delTag = this.note.detectedTag;
+
+            this.note.detectedTag = await this.predict();
+
+            this.addTag = await this.predict();
           }
 
-          // 감지된 객체가 없을 경우
+          // 사진은 있지만 감지된 객체가 없을 경우
           else {
+            console.log("사진은 있지만 감지된 객체가 없음!");
             const delIndex = this.note.tags.indexOf(this.note.detectedTag);
             this.note.tags.splice(delIndex, 1);
+
+            this.delTag = this.note.detectedTag;
+            this.addTag = "";
+
+            this.note.detectedTag = "";
           }
         }
       }
@@ -280,6 +288,9 @@ export default {
       const date = `${year}-${month}-${day}`;
 
       const time = `${hour}:${minutes}:${seconds}`;
+
+      console.log("add : ", this.addTag);
+      console.log("del : ", this.delTag);
 
       this.$emit(
         "noteModified",

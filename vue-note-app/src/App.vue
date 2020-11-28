@@ -369,7 +369,7 @@ export default {
       // 밑으로는 태그 놀이
 
       if (addTag) {
-        console.log("add!");
+        this.tags.push(addTag);
       }
 
       if (delTag) {
