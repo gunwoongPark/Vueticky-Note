@@ -230,7 +230,7 @@ export default {
     // 노트 생성
     createNew() {
       // 객체 탐지
-      this.predict();
+      if (this.note.imagePath) this.predict();
 
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
