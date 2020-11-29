@@ -58,19 +58,17 @@
         </v-row>
 
         <!-- 사진 등록 -->
-        <div id="fileContainer">
-          <input
-            type="file"
-            id="modifyImage"
-            @change="changeImage"
-            accept="image/*"
-          />
-
-          <v-icon id="cancelImageIcon" @click="cancelImage"
-            >mdi-close-thick</v-icon
-          >
-        </div>
-
+        <v-file-input
+          id="inputImage2"
+          @change="changeImage"
+          @click:clear="cancelImage"
+          v-model="note.imageFile"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input>
         <v-img
           v-if="note.imagePath"
           :src="note.imagePath"
@@ -191,23 +189,21 @@ export default {
 
   methods: {
     // 일단 이미지가 들어왔을 때
-    changeImage (e) {
-      //console.log("changeImage!");
-      let file = e.target.files;
-      let reader = new FileReader();
+    changeImage () {
 
-      reader.readAsDataURL(file[0]);
-      reader.onload = (e) => {
-        // 변경을 기존과 다른 이미지로 했을 경우
-        if (e.target.result !== this.originImage) {
-          this.isChange = true;
+      if (this.note.imageFile) { //이미지가 입력 됐을 경우
+        //console.log(this.note.imageFile);
+        let input = document.querySelector("#inputImage2");
+        let fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onload = (e) => {
+          if (e.target.result !== this.originImage) this.isChange = true;
           this.note.imagePath = e.target.result;
-        }
-        //변경 되지 않았다면 굳이 바꿀 필요x 
 
-      };
+
+        };
+      }
     },
-
     initColor (picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
@@ -307,7 +303,8 @@ export default {
         this.note.imagePath,
         this.note.detectedTag,
         this.delTag,
-        this.addTag
+        this.addTag,
+        this.note.imageFile,
       );
 
       this.newImg = null;

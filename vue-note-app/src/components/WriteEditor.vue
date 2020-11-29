@@ -56,14 +56,18 @@
         <v-file-input
           id="inputImage"
           @change="changeImage"
-          v-model="image"
+          v-model="note.imageFile"
           accept="image/*"
           color="teal"
           counter
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
-        <v-img v-if="image" :src="note.imagePath" alt="image error"></v-img>
+        <v-img
+          v-if="note.imageFile"
+          :src="note.imagePath"
+          alt="image error"
+        ></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -170,11 +174,7 @@ export default {
     },
   },
 
-  data () {
-    return {
-      image: null,
-    };
-  },
+
 
   methods: {
     // 객체 탐지 함수
@@ -191,7 +191,7 @@ export default {
 
     changeImage () {
 
-      if (this.image) { //이미지가 입력 됐을 경우
+      if (this.note.imageFile) { //이미지가 입력 됐을 경우
         let input = document.querySelector("#inputImage");
         let fReader = new FileReader();
         fReader.readAsDataURL(input.files[0]);
@@ -247,7 +247,8 @@ export default {
         this.note.isImportant,
         this.note.selectedTags,
         this.note.imagePath,
-        this.note.detectedTag
+        this.note.detectedTag,
+        this.note.imageFile,
       );
 
       // 중요도 표시를 초기화
