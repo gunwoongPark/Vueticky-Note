@@ -391,6 +391,15 @@ export default {
     deleteNote(guid) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
+      let filtNotes = this.notes.filter(
+        (el) => el.tags.indexOf(this.notes[index].detectedTag) !== -1
+      );
+
+      if (filtNotes.length === 1) {
+        const delIndex = this.tags.indexOf(this.notes[index].detectedTag);
+        this.tags.splice(delIndex, 1);
+      }
+
       this.notes.splice(index, 1);
     },
 
