@@ -309,7 +309,8 @@ export default {
       isImportant,
       tags,
       imagePath,
-      detectedTag
+      detectedTag,
+      imageObj
     ) {
       if (detectedTag) {
         if (this.tags.length !== 0) {
@@ -329,6 +330,7 @@ export default {
         tags: tags,
         imagePath: imagePath,
         detectedTag: detectedTag,
+        imageObj: imageObj,
       });
     },
 
