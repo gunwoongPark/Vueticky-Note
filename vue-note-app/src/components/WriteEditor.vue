@@ -64,7 +64,7 @@
           prepend-icon="mdi-camera"
         ></v-file-input>
         <v-img
-          v-if="note.imageObj"
+          v-if="note.imagePath"
           :src="note.imagePath"
           alt="image error"
         ></v-img>

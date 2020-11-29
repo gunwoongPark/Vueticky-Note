@@ -72,6 +72,18 @@
           >
         </div>
 
+        <!-- <v-file-input
+          id="modifyImage"
+          @change="changeImage"
+          @click:clear="cancelImage"
+          v-model="note.imageObj"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input> -->
+
         <v-img
           v-if="note.imagePath"
           :src="note.imagePath"
@@ -178,9 +190,6 @@ export default {
 
   data() {
     return {
-      newImg: null,
-      // isChange: false,
-      // originImage: "",
       delTag: "",
       addTag: "",
     };
@@ -192,7 +201,8 @@ export default {
 
   methods: {
     testFunc() {
-      console.log(this.note.imagePath);
+      let el = document.querySelector("#modifyImage");
+      console.log(el.value);
     },
 
     // 일단 이미지가 들어왔을 때
@@ -208,6 +218,16 @@ export default {
         this.note.imagePath = e.target.result;
       };
     },
+    // changeImage() {
+    //   if (this.note.imageObj) {
+    //     let input = document.querySelector("#modifyImage");
+    //     let fReader = new FileReader();
+    //     fReader.readAsDataURL(input.files[0]);
+    //     fReader.onload = (e) => {
+    //       this.note.imagePath = e.target.result;
+    //     };
+    //   }
+    // },
 
     initColor(picker) {
       this.note.theme = picker;
@@ -217,6 +237,7 @@ export default {
 
     cancelImage() {
       this.note.imagePath = "";
+      document.querySelector("#modifyImage").value = "";
     },
 
     // 객체 탐지 함수
@@ -315,6 +336,7 @@ export default {
         this.note.tags,
         this.note.imagePath,
         this.note.detectedTag,
+        this.note.imageObj,
         this.delTag,
         this.addTag
       );

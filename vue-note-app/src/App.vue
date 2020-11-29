@@ -347,6 +347,7 @@ export default {
       tags,
       imagePath,
       detectedTag,
+      imageObj,
       delTag,
       addTag
     ) {
@@ -364,6 +365,7 @@ export default {
       tempObj.tags = tags;
       tempObj.imagePath = imagePath;
       tempObj.detectedTag = detectedTag;
+      tempObj.imageObj = imageObj;
 
       this.notes.splice(index, 1);
       this.notes.splice(index, 0, tempObj);
