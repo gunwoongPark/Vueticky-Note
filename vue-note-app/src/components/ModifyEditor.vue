@@ -3,6 +3,7 @@
   <div>
     <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
+        @click="testFunc"
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
       >
@@ -178,8 +179,8 @@ export default {
   data() {
     return {
       newImg: null,
-      isChange: false,
-      originImage: "",
+      // isChange: false,
+      // originImage: "",
       delTag: "",
       addTag: "",
     };
@@ -190,6 +191,10 @@ export default {
   },
 
   methods: {
+    testFunc() {
+      console.log(this.note.imagePath);
+    },
+
     // 일단 이미지가 들어왔을 때
     changeImage(e) {
       console.log("changeImage!");
@@ -199,7 +204,7 @@ export default {
       reader.readAsDataURL(file[0]);
       reader.onload = (e) => {
         // 변경을 기존과 다른 이미지로 했을 경우
-        if (e.target.result !== this.originImage) this.isChange = true;
+        // if (e.target.result !== this.originImage) this.isChange = true;
         this.note.imagePath = e.target.result;
       };
     },
@@ -212,15 +217,6 @@ export default {
 
     cancelImage() {
       this.note.imagePath = "";
-
-      const delIndex = this.note.tags.indexOf(this.note.detectedTag);
-      this.note.tags.splice(delIndex, 1);
-
-      // 사진 -> 글
-      this.delTag = this.note.detectedTag;
-      this.addTag = "";
-
-      this.note.detectedTag = "";
     },
 
     // 객체 탐지 함수
@@ -230,44 +226,58 @@ export default {
       let tmp = await this.model.detect(img);
 
       return new Promise(function (resolve) {
+        // 감지된 객체가 없을 경우
         if (!tmp.length) resolve(null);
-
+        // 감지된 객체가 있을 경우
         resolve(tmp[0].class);
       });
     },
 
     async modifyNote() {
-      // 우선 이미지가 들어와야하고 변경 또한 되어야 함
-      if (this.note.imagePath) {
-        if (this.isChange) {
-          // 감지된 객체가 있을 경우
-          if ((await this.predict()) !== null) {
-            this.note.tags.push(await this.predict());
-
-            this.delTag = this.note.detectedTag;
-
-            this.note.detectedTag = await this.predict();
-
-            this.addTag = await this.predict();
-          }
-
-          // 사진은 있지만 감지된 객체가 없을 경우
-          else {
-            console.log("사진은 있지만 감지된 객체가 없음!");
-            const delIndex = this.note.tags.indexOf(this.note.detectedTag);
-            this.note.tags.splice(delIndex, 1);
-
-            this.delTag = this.note.detectedTag;
-            this.addTag = "";
-
-            this.note.detectedTag = "";
-          }
-        }
-      }
-
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
+      }
+
+      // 이미지가 있는 경우
+      if (this.note.imagePath) {
+        // 해당 이미지의 객체가 감지 될 때
+        if ((await this.predict()) !== null) {
+          const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+          if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+          this.delTag = this.note.detectedTag;
+
+          this.note.tags.push(await this.predict());
+
+          this.note.detectedTag = await this.predict();
+
+          this.addTag = await this.predict();
+        }
+
+        // 해당 이미지의 객체가 감지 되지 않을 때
+        else {
+          const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+          if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+          this.delTag = this.note.detectedTag;
+
+          this.note.detectedTag = "";
+
+          this.addTag = "";
+        }
+      }
+      // 이미지가 없을 때
+      else {
+        console.log("no image!");
+        const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+        if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+        this.delTag = this.note.detectedTag;
+
+        this.note.detectedTag = "";
+
+        this.addTag = "";
       }
 
       const originDate = this.note.date;
