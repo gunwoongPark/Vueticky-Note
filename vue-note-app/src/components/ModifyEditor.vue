@@ -167,15 +167,15 @@ export default {
   },
 
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
     },
-    model () {
+    model() {
       return this.$store.getters.getModel;
     },
   },
 
-  data () {
+  data() {
     return {
       newImg: null,
       isChange: false,
@@ -185,36 +185,32 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     this.originImage = this.note.imagePath;
   },
 
   methods: {
     // 일단 이미지가 들어왔을 때
-    changeImage (e) {
-      //console.log("changeImage!");
+    changeImage(e) {
+      console.log("changeImage!");
       let file = e.target.files;
       let reader = new FileReader();
 
       reader.readAsDataURL(file[0]);
       reader.onload = (e) => {
         // 변경을 기존과 다른 이미지로 했을 경우
-        if (e.target.result !== this.originImage) {
-          this.isChange = true;
-          this.note.imagePath = e.target.result;
-        }
-        //변경 되지 않았다면 굳이 바꿀 필요x 
-
+        if (e.target.result !== this.originImage) this.isChange = true;
+        this.note.imagePath = e.target.result;
       };
     },
 
-    initColor (picker) {
+    initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
       this.note.brightness = this.brightness;
     },
 
-    cancelImage () {
+    cancelImage() {
       this.note.imagePath = "";
 
       const delIndex = this.note.tags.indexOf(this.note.detectedTag);
@@ -224,11 +220,11 @@ export default {
       this.delTag = this.note.detectedTag;
       this.addTag = "";
 
-      //this.note.detectedTag = ""; 이미지 삭제 버튼을 누른 후 수정할 경우 기존 detectedTag가 필요
+      this.note.detectedTag = "";
     },
 
     // 객체 탐지 함수
-    async predict () {
+    async predict() {
       var img = document.createElement("img");
       img.setAttribute("src", this.note.imagePath);
       let tmp = await this.model.detect(img);
@@ -240,21 +236,24 @@ export default {
       });
     },
 
-    async modifyNote () {
+    async modifyNote() {
       // 우선 이미지가 들어와야하고 변경 또한 되어야 함
       if (this.note.imagePath) {
         if (this.isChange) {
-          if ((await this.predict()) !== null) {// 감지된 객체가 있을 경우
-            //감지된 객체가 있을 경우에도 기존의 태그는 지워야 함 
-            const delIndex = this.note.tags.indexOf(this.note.detectedTag);
-            this.note.tags.splice(delIndex, 1);
-
+          // 감지된 객체가 있을 경우
+          if ((await this.predict()) !== null) {
             this.note.tags.push(await this.predict());
-            this.delTag = this.note.detectedTag; //기존의 감지된 태그 
+
+            this.delTag = this.note.detectedTag;
+
             this.note.detectedTag = await this.predict();
+
             this.addTag = await this.predict();
-          } else {// 사진은 변경됐지만 감지된 객체가 없을 경우
-            console.log("사진은 변경됐지만 감지된 객체가 없음!");
+          }
+
+          // 사진은 있지만 감지된 객체가 없을 경우
+          else {
+            console.log("사진은 있지만 감지된 객체가 없음!");
             const delIndex = this.note.tags.indexOf(this.note.detectedTag);
             this.note.tags.splice(delIndex, 1);
 
@@ -314,20 +313,20 @@ export default {
 
       this.isChange = false;
     },
-    addImportant () {
+    addImportant() {
       this.note.important = !this.note.important;
     },
 
-    bindKor (event) {
+    bindKor(event) {
       this.note.text = event.target.value;
     },
 
-    closeDialog () {
+    closeDialog() {
       this.$emit("closeDialog");
       this.newImg = null;
     },
 
-    onClickOutside () {
+    onClickOutside() {
       this.newImg = null;
     },
   },
