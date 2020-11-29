@@ -3,6 +3,7 @@
   <div>
     <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
+        @click="testFunc"
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
       >
@@ -70,6 +71,18 @@
             >mdi-close-thick</v-icon
           >
         </div>
+
+        <!-- <v-file-input
+          id="modifyImage"
+          @change="changeImage"
+          @click:clear="cancelImage"
+          v-model="note.imageObj"
+          accept="image/*"
+          color="teal"
+          counter
+          placeholder="Input Image"
+          prepend-icon="mdi-camera"
+        ></v-file-input> -->
 
         <v-img
           v-if="note.imagePath"
@@ -170,28 +183,51 @@ export default {
     brightness() {
       return this.$store.getters.getBrightness;
     },
+    model() {
+      return this.$store.getters.getModel;
+    },
   },
 
   data() {
     return {
-      newImg: null,
+      delTag: "",
+      addTag: "",
     };
   },
 
+  mounted() {
+    this.originImage = this.note.imagePath;
+  },
+
   methods: {
-    cancelImage() {
-      this.note.imagePath = "";
+    testFunc() {
+      let el = document.querySelector("#modifyImage");
+      console.log(el.value);
     },
+
+    // 일단 이미지가 들어왔을 때
     changeImage(e) {
+      console.log("changeImage!");
       let file = e.target.files;
-      console.log(file[0]);
       let reader = new FileReader();
 
       reader.readAsDataURL(file[0]);
       reader.onload = (e) => {
+        // 변경을 기존과 다른 이미지로 했을 경우
+        // if (e.target.result !== this.originImage) this.isChange = true;
         this.note.imagePath = e.target.result;
       };
     },
+    // changeImage() {
+    //   if (this.note.imageObj) {
+    //     let input = document.querySelector("#modifyImage");
+    //     let fReader = new FileReader();
+    //     fReader.readAsDataURL(input.files[0]);
+    //     fReader.onload = (e) => {
+    //       this.note.imagePath = e.target.result;
+    //     };
+    //   }
+    // },
 
     initColor(picker) {
       this.note.theme = picker;
@@ -199,10 +235,70 @@ export default {
       this.note.brightness = this.brightness;
     },
 
-    modifyNote() {
+    cancelImage() {
+      this.note.imagePath = "";
+      document.querySelector("#modifyImage").value = "";
+    },
+
+    // 객체 탐지 함수
+    async predict() {
+      var img = document.createElement("img");
+      img.setAttribute("src", this.note.imagePath);
+      let tmp = await this.model.detect(img);
+
+      return new Promise(function (resolve) {
+        // 감지된 객체가 없을 경우
+        if (!tmp.length) resolve(null);
+        // 감지된 객체가 있을 경우
+        resolve(tmp[0].class);
+      });
+    },
+
+    async modifyNote() {
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
+      }
+
+      // 이미지가 있는 경우
+      if (this.note.imagePath) {
+        // 해당 이미지의 객체가 감지 될 때
+        if ((await this.predict()) !== null) {
+          const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+          if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+          this.delTag = this.note.detectedTag;
+
+          this.note.tags.push(await this.predict());
+
+          this.note.detectedTag = await this.predict();
+
+          this.addTag = await this.predict();
+        }
+
+        // 해당 이미지의 객체가 감지 되지 않을 때
+        else {
+          const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+          if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+          this.delTag = this.note.detectedTag;
+
+          this.note.detectedTag = "";
+
+          this.addTag = "";
+        }
+      }
+      // 이미지가 없을 때
+      else {
+        console.log("no image!");
+        const delIndex = this.note.tags.indexOf(this.note.detectedTag);
+        if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
+
+        this.delTag = this.note.detectedTag;
+
+        this.note.detectedTag = "";
+
+        this.addTag = "";
       }
 
       const originDate = this.note.date;
@@ -224,6 +320,9 @@ export default {
 
       const time = `${hour}:${minutes}:${seconds}`;
 
+      console.log("add : ", this.addTag);
+      console.log("del : ", this.delTag);
+
       this.$emit(
         "noteModified",
         this.note.title,
@@ -235,10 +334,16 @@ export default {
         originDate,
         this.note.important,
         this.note.tags,
-        this.note.imagePath
+        this.note.imagePath,
+        this.note.detectedTag,
+        this.note.imageObj,
+        this.delTag,
+        this.addTag
       );
 
       this.newImg = null;
+
+      this.isChange = false;
     },
     addImportant() {
       this.note.important = !this.note.important;

@@ -21,6 +21,7 @@
 
       <CategoryBtn
         class="categoryBtn"
+        :tags="tags"
         @initTags="initTags"
         @deleteTag="deleteTag"
       />
@@ -157,7 +158,6 @@
 </template>
 
 <script>
-
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
@@ -165,8 +165,6 @@ import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
-
-
 
 export default {
   components: {
@@ -179,9 +177,8 @@ export default {
     ChangeMode,
   },
 
-  data () {
+  data() {
     return {
-
       notes: [],
       todayNotes: [],
       importantNotes: [],
@@ -214,17 +211,16 @@ export default {
   },
 
   computed: {
-    isDark () {
+    isDark() {
       return this.$store.getters.getDark;
     },
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
     },
   },
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
-  async mounted () {
-
+  async mounted() {
     await this.$store.dispatch("loadModel");
     const dateObj = new Date();
     const year = dateObj.getFullYear();
@@ -256,7 +252,7 @@ export default {
   watch: {
     // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
-      handler () {
+      handler() {
         var newNotes = this.notes;
         localStorage.setItem("notes", JSON.stringify(newNotes));
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
@@ -270,7 +266,7 @@ export default {
 
     // 날짜를 변경할 때 그 날짜에 맞는 노트를 받아옴
     date: {
-      handler () {
+      handler() {
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
 
         let year = Number(this.date.slice(0, 4));
@@ -284,7 +280,7 @@ export default {
 
     // 태그 변경할 때 해당 태그를 받아옴
     tags: {
-      handler () {
+      handler() {
         var newTags = this.tags;
         localStorage.setItem("tags", JSON.stringify(newTags));
 
@@ -293,7 +289,7 @@ export default {
     },
 
     isDark: {
-      handler () {
+      handler() {
         if (this.isDark)
           document.querySelector(".main").style.background = "rgb(53,53,53)";
         else document.querySelector(".main").style.background = "white";
@@ -303,7 +299,7 @@ export default {
 
   methods: {
     // 노트 생성
-    newNote (
+    newNote(
       title,
       text,
       theme,
@@ -312,8 +308,16 @@ export default {
       guid,
       isImportant,
       tags,
-      imagePath
+      imagePath,
+      detectedTag,
+      imageObj
     ) {
+      if (detectedTag) {
+        if (this.tags.length !== 0) {
+          if (this.tags.indexOf(detectedTag) === -1)
+            this.tags.push(detectedTag);
+        } else this.tags.push(detectedTag);
+      }
       this.notes.push({
         title: title,
         text: text,
@@ -325,11 +329,13 @@ export default {
         important: isImportant,
         tags: tags,
         imagePath: imagePath,
+        detectedTag: detectedTag,
+        imageObj: imageObj,
       });
     },
 
     // 노트 수정
-    modifyNote (
+    modifyNote(
       title,
       text,
       theme,
@@ -339,7 +345,11 @@ export default {
       guid,
       important,
       tags,
-      imagePath
+      imagePath,
+      detectedTag,
+      imageObj,
+      delTag,
+      addTag
     ) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -354,25 +364,52 @@ export default {
       tempObj.important = important;
       tempObj.tags = tags;
       tempObj.imagePath = imagePath;
+      tempObj.detectedTag = detectedTag;
+      tempObj.imageObj = imageObj;
 
       this.notes.splice(index, 1);
       this.notes.splice(index, 0, tempObj);
+
+      // 반영된 노트를 기반으로 전체 태그 수정
+      if (addTag) {
+        if (this.tags.indexOf(addTag) === -1) this.tags.push(addTag);
+      }
+
+      if (delTag) {
+        let filtNotes = this.notes.filter(
+          (el) => el.tags.indexOf(delTag) !== -1
+        );
+
+        if (!filtNotes.length) {
+          const delIndex = this.tags.indexOf(delTag);
+          this.tags.splice(delIndex, 1);
+        }
+      }
     },
 
     // 고유값을 이용한 노트 삭제
-    deleteNote (guid) {
+    deleteNote(guid) {
       const index = this.notes.findIndex((note) => note.guid === guid);
+
+      let filtNotes = this.notes.filter(
+        (el) => el.tags.indexOf(this.notes[index].detectedTag) !== -1
+      );
+
+      if (filtNotes.length === 1) {
+        const delIndex = this.tags.indexOf(this.notes[index].detectedTag);
+        this.tags.splice(delIndex, 1);
+      }
 
       this.notes.splice(index, 1);
     },
 
     // 달력에서 고른 날짜를 변수에 초기화
-    selectDate (picker) {
+    selectDate(picker) {
       if (this.date !== picker) this.date = picker;
     },
 
     // 노트 검색 기능
-    searchNote (memo) {
+    searchNote(memo) {
       this.isNormal = false;
       this.isTagMode = false;
       this.isSearch = true;
@@ -392,17 +429,17 @@ export default {
     },
 
     // 태그 변경 시 고른 태그를 변수에 초기화
-    initTags (tags) {
+    initTags(tags) {
       this.tags = tags;
     },
 
     // 태그 삭제
-    deleteTag (index) {
+    deleteTag(index) {
       this.tags.splice(index, 1);
     },
 
     // 태그를 선택하여 출력을 태그모드로 변경
-    selectTag (index) {
+    selectTag(index) {
       this.isNormal = false;
       this.isSearch = false;
       this.isTagMode = true;
@@ -414,7 +451,7 @@ export default {
     },
 
     // 태그 모드에서 다시 돌아오는 기능
-    reloadOrigin () {
+    reloadOrigin() {
       this.isTagMode = false;
       this.isSearch = false;
       this.isNormal = true;

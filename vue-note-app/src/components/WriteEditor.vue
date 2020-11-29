@@ -56,14 +56,18 @@
         <v-file-input
           id="inputImage"
           @change="changeImage"
-          v-model="image"
+          v-model="note.imageObj"
           accept="image/*"
           color="teal"
           counter
           placeholder="Input Image"
           prepend-icon="mdi-camera"
         ></v-file-input>
-        <v-img v-if="image" :src="note.imagePath" alt="image error"></v-img>
+        <v-img
+          v-if="note.imagePath"
+          :src="note.imagePath"
+          alt="image error"
+        ></v-img>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -162,54 +166,53 @@ export default {
   },
 
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
     },
-    model () {
+    model() {
       return this.$store.getters.getModel;
     },
   },
 
-  data () {
-    return {
-      image: null,
-    };
-  },
-
   methods: {
-    async predict () {
-
+    // 객체 탐지 함수
+    async predict() {
       var img = document.createElement("img");
-
       img.setAttribute("src", this.note.imagePath);
-
       let tmp = await this.model.detect(img);
-      console.log(tmp[0].class);
-      this.tags.push(tmp[0].class);
-      this.note.selectedTags.push(tmp[0].class);
 
+      return new Promise(function (resolve) {
+        if (!tmp.length) resolve(null);
+        resolve(tmp[0].class);
+      });
     },
-    changeImage () {
-      if (this.image) {
+    changeImage() {
+      if (this.note.imageObj) {
         let input = document.querySelector("#inputImage");
         let fReader = new FileReader();
         fReader.readAsDataURL(input.files[0]);
         fReader.onload = (event) => {
           this.note.imagePath = event.target.result;
-
         };
       } else this.note.imagePath = "";
     },
 
     // 팔레트에서 받아온 색 초기화
-    initColor (picker) {
+    initColor(picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
     },
 
     // 노트 생성
-    createNew () {
-      this.predict();
+    async createNew() {
+      // 객체 탐지
+      if (this.note.imagePath) {
+        if ((await this.predict()) !== null) {
+          this.note.detectedTag = await this.predict();
+          this.note.selectedTags.push(await this.predict());
+        }
+      }
+
       // 입력 예외처리
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
@@ -239,26 +242,28 @@ export default {
         this.note.guid,
         this.note.isImportant,
         this.note.selectedTags,
-        this.note.imagePath
+        this.note.imagePath,
+        this.note.detectedTag,
+        this.note.imageObj
       );
 
       // 중요도 표시를 초기화
       this.note.isImportant = false;
     },
 
-    addImportant () {
+    addImportant() {
       this.note.isImportant = !this.note.isImportant;
     },
 
-    bindKor (event) {
+    bindKor(event) {
       this.note.text = event.target.value;
     },
-    closeDialog () {
+    closeDialog() {
       this.$emit("closeDialog");
       this.image = null;
     },
 
-    onClickOutside () {
+    onClickOutside() {
       this.image = null;
     },
   },

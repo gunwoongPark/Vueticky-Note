@@ -66,6 +66,8 @@ export default {
         isImportant: false,
         selectedTags: [],
         imagePath: "",
+        detectedTag: "",
+        imageObj: {},
         guid: "",
       },
 
@@ -83,6 +85,8 @@ export default {
       this.note.selectedTags = [];
       this.$store.commit("setBrightness", this.note.theme);
       this.note.imagePath = "";
+      this.note.detectedTag = "";
+      this.note.imageObj = {};
       this.note.guid = cryptoRandomString({
         length: 10,
       });
@@ -97,7 +101,9 @@ export default {
       guid,
       isImportant,
       tags,
-      imagePath
+      imagePath,
+      detectedTag,
+      imageObj
     ) {
       this.dialog = false;
       this.$emit(
@@ -110,7 +116,9 @@ export default {
         guid,
         isImportant,
         tags,
-        imagePath
+        imagePath,
+        detectedTag,
+        imageObj
       );
     },
 

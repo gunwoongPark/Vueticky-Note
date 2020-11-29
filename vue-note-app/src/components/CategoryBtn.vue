@@ -79,17 +79,18 @@
 
 <script>
 export default {
+  props: {
+    tags: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     return {
       dialog: false,
-      tags: [],
       text: "",
     };
-  },
-
-  mounted() {
-    if (localStorage.getItem("tags"))
-      this.tags = JSON.parse(localStorage.getItem("tags"));
   },
 
   // dialog가 닫히면 데이터 전송
@@ -112,6 +113,8 @@ export default {
 
     // 등록 및 예외처리
     registerTag() {
+      this.text = this.text.toLowerCase();
+
       if (this.text === "") {
         alert("태그명을 입력해주세요");
         return;
@@ -126,6 +129,12 @@ export default {
 
       if (this.text.length > 20) {
         alert("태그가 너무 깁니다.");
+        this.text = "";
+        return;
+      }
+
+      if (this.tags.indexOf(this.text) !== -1) {
+        alert("이미 등록된 태그가 있습니다.");
         this.text = "";
         return;
       }

@@ -105,7 +105,6 @@ import { Editor } from "vuetify-markdown-editor";
 import ModifyEditor from "./ModifyEditor";
 export default {
   props: {
-
     note: {
       type: Object,
       required: true,
@@ -120,7 +119,7 @@ export default {
     },
   },
 
-  data () {
+  data() {
     return {
       dialog: false,
       isSubmit: false,
@@ -132,7 +131,7 @@ export default {
   // 카드의 출력이 변경하지 않아도 렌더링 되는 경우를 방지 할 수 있음
   watch: {
     dialog: {
-      handler () {
+      handler() {
         if (this.dialog === false && this.isSubmit === false) {
           this.note.title = this.tempNote.title;
           this.note.text = this.tempNote.text;
@@ -142,35 +141,32 @@ export default {
           this.note.important = this.tempNote.important;
           this.note.tags = this.tempNote.tags;
           this.note.imagePath = this.tempNote.imagePath;
+          this.note.dectedTag = this.tempNote.dectedTag;
+          this.note.imageObj = this.tempNote.imageObj;
         }
       },
     },
   },
 
-
-  mounted () {
-    //this.setBrightness(this.note.theme) 
+  mounted() {
+    //this.setBrightness(this.note.theme)
     this.$store.commit("setBrightness", this.note.theme);
-
   },
   computed: {
-    brightness () {
+    brightness() {
       return this.$store.getters.getBrightness;
     },
-
   },
   methods: {
-
-
-    mouseEnter (e) {
+    mouseEnter(e) {
       e.target.firstChild.lastChild.style.visibility = "visible";
     },
 
-    mouseLeave (e) {
+    mouseLeave(e) {
       e.target.firstChild.lastChild.style.visibility = "hidden";
     },
 
-    modifyNote (
+    modifyNote(
       title,
       text,
       theme,
@@ -179,7 +175,11 @@ export default {
       originDate,
       important,
       tags,
-      imagePath
+      imagePath,
+      detectedTag,
+      imageObj,
+      delTag,
+      addTag
     ) {
       this.isSubmit = true;
       this.dialog = false;
@@ -194,12 +194,16 @@ export default {
         this.note.guid,
         important,
         tags,
-        imagePath
+        imagePath,
+        detectedTag,
+        imageObj,
+        delTag,
+        addTag
       );
     },
 
     // 버튼을 누를 경우 데이터 초기화
-    initData () {
+    initData() {
       this.tempNote.title = this.note.title;
       this.tempNote.text = this.note.text;
       this.tempNote.theme = this.note.theme;
@@ -207,16 +211,18 @@ export default {
       this.tempNote.important = this.note.important;
       this.tempNote.tags = this.note.tags;
       this.tempNote.imagePath = this.note.imagePath;
+      this.tempNote.dectedTag = this.note.dectedTag;
+      this.tempNote.imageObj = this.note.imageObj;
 
       this.isSubmit = false;
     },
 
-    deleteNote () {
+    deleteNote() {
       if (confirm("정말 삭제하시겠습니까?"))
         this.$emit("deleteNote", this.note.guid);
     },
 
-    closeDialog () {
+    closeDialog() {
       this.dialog = false;
     },
   },
