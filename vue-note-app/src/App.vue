@@ -309,10 +309,8 @@ export default {
       isImportant,
       tags,
       imagePath,
-      detectedTag,
-      imageFile,
+      detectedTag
     ) {
-
       if (detectedTag) {
         if (this.tags.length !== 0) {
           if (this.tags.indexOf(detectedTag) === -1) //중복 검사 
@@ -331,7 +329,6 @@ export default {
         tags: tags,
         imagePath: imagePath,
         detectedTag: detectedTag,
-        imageFile: imageFile,
       });
     },
 
@@ -349,8 +346,7 @@ export default {
       imagePath,
       detectedTag,
       delTag,
-      addTag,
-      imageFile,
+      addTag
     ) {
       const index = this.notes.findIndex((note) => note.guid === guid);
 
@@ -366,7 +362,6 @@ export default {
       tempObj.tags = tags;
       tempObj.imagePath = imagePath;
       tempObj.detectedTag = detectedTag;
-      tempObj.imageFile = imageFile;
 
       this.notes.splice(index, 1);
       this.notes.splice(index, 0, tempObj);
