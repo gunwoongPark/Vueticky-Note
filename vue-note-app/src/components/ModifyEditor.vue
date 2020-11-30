@@ -3,7 +3,6 @@
   <div>
     <v-card class="dialogBox" v-click-outside="onClickOutside">
       <v-card-title
-        @click="testFunc"
         class="headline lighten-2"
         :style="{ backgroundColor: note.theme }"
       >
@@ -200,14 +199,8 @@ export default {
   },
 
   methods: {
-    testFunc() {
-      let el = document.querySelector("#modifyImage");
-      console.log(el.value);
-    },
-
     // 일단 이미지가 들어왔을 때
     changeImage(e) {
-      console.log("changeImage!");
       let file = e.target.files;
       let reader = new FileReader();
 
@@ -290,7 +283,6 @@ export default {
       }
       // 이미지가 없을 때
       else {
-        console.log("no image!");
         const delIndex = this.note.tags.indexOf(this.note.detectedTag);
         if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
 
@@ -319,9 +311,6 @@ export default {
       const date = `${year}-${month}-${day}`;
 
       const time = `${hour}:${minutes}:${seconds}`;
-
-      console.log("add : ", this.addTag);
-      console.log("del : ", this.delTag);
 
       this.$emit(
         "noteModified",
