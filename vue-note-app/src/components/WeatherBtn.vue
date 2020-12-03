@@ -37,7 +37,7 @@
 </template>
 
 <script>
-const apiURL = "http://api.openweathermap.org/data/2.5/weather";
+const apiURL = "https://api.openweathermap.org/data/2.5/weather";
 const appid = "7ae860771f4eef0020863071b271395c";
 
 import axios from "axios";
