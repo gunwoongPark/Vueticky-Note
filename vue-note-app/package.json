@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "crypto-random-string": "^3.3.0",
+    "firebase": "^8.1.1",
     "vue": "^2.6.11",
     "vue-masonry": "^0.11.8",
     "vuetify": "^2.2.11",
@@ -44,7 +45,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",
