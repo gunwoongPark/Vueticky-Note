@@ -6,19 +6,12 @@
 
 <script>
 export default {
-  computed: {
-    isLogin() {
-      return this.$store.getters.getIsLogin;
-    },
-  },
   mounted() {
     this.$store.commit("loginCheck");
   },
-
   methods: {
     googleLogin() {
-      if (!this.isLogin) this.$store.dispatch("googleLogin");
-      else alert("이미 로그인되어 있습니다.");
+      this.$store.dispatch("googleLogin");
     },
   },
 };

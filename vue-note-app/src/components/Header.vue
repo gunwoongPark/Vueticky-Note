@@ -38,9 +38,9 @@
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
 
-    <GoogleLogin />
+    <GoogleLogin v-if="!isLogin" />
 
-    <GoogleLogout />
+    <GoogleLogout v-else />
   </div>
 </template>
 
@@ -55,6 +55,12 @@ export default {
     tags: {
       type: Array,
       required: true,
+    },
+  },
+
+  computed: {
+    isLogin() {
+      return this.$store.getters.getIsLogin;
     },
   },
 

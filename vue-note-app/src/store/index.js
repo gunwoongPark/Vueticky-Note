@@ -121,6 +121,7 @@ export default new Vuex.Store({
             // 로그인 아이디의 기본값을 지정합니다. 지정하지 않아도 됩니다.
             provider.setCustomParameters({
                 login_hint: "user@example.com",
+                // 계정 지정 옵션
                 prompt: 'select_account'
             });
 
