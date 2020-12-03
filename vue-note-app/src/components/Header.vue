@@ -37,12 +37,15 @@
     </v-container>
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
+
+    <GoogleBtn />
   </div>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
 import WeatherBtn from "./WeatherBtn";
+import GoogleBtn from "./GoogleBtn";
 
 export default {
   props: {
@@ -65,6 +68,7 @@ export default {
   components: {
     SearchBar,
     WeatherBtn,
+    GoogleBtn,
   },
 };
 </script>
