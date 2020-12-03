@@ -38,14 +38,17 @@
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
 
-    <GoogleBtn />
+    <GoogleLogin />
+
+    <GoogleLogout />
   </div>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
 import WeatherBtn from "./WeatherBtn";
-import GoogleBtn from "./GoogleBtn";
+import GoogleLogin from "./GoogleLogin";
+import GoogleLogout from "./GoogleLogout";
 
 export default {
   props: {
@@ -68,7 +71,8 @@ export default {
   components: {
     SearchBar,
     WeatherBtn,
-    GoogleBtn,
+    GoogleLogin,
+    GoogleLogout,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-//import axios from "axios"
+import firebase from "firebase"
 
 import * as cocoSSD from '@tensorflow-models/coco-ssd'
 import * as tf from '@tensorflow/tfjs';
@@ -13,12 +13,10 @@ export default new Vuex.Store({
         isDark: false,
         brightness: true,
 
-
-        // ServerURL: "http://192.168.35.17:3000",
-        // imgName: "",
-
         imgPath: "",
         model: {},
+
+        isLogin: false
     },
 
     // computed
@@ -34,14 +32,12 @@ export default new Vuex.Store({
         },
 
         getModel: state => {
-
             return state.model;
+        },
 
-
+        getIsLogin: state => {
+            return state.isLogin;
         }
-        // getImgName: state => {
-        //     return state.imgName;
-        // },
 
     },
 
@@ -80,7 +76,6 @@ export default new Vuex.Store({
             let decB = parseInt(hexB, 16);
             // 명도 계산
             let v = (decR + decG + decB) / 3;
-            //console.log(v);
 
             //threshold
             (v < 120) ? state.brightness = false : state.brightness = true;
@@ -94,9 +89,19 @@ export default new Vuex.Store({
         initModel: async (state, model) => {
             state.model = model;
             console.log("model loaded");
+        },
+
+        loginCheck: (state) => {
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    state.isLogin = true
+                    console.log("login!");
+                } else {
+                    state.isLogin = false
+                    console.log("no login!");
+                }
+            });
         }
-
-
 
     },
 
@@ -108,6 +113,49 @@ export default new Vuex.Store({
             model = tf.sequential();
             model = await cocoSSD.load(); //cocoSSD라는 detection model을 로딩 동기식으로 
             context.commit('initModel', model)
+        },
+
+        googleLogin: () => {
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            // 로그인 아이디의 기본값을 지정합니다. 지정하지 않아도 됩니다.
+            provider.setCustomParameters({
+                login_hint: "user@example.com",
+                prompt: 'select_account'
+            });
+
+            // 로그인 팝업창을 띄웁니다.
+            firebase
+                .auth()
+                .signInWithPopup(provider)
+                .then(function (result) {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+                    // ...
+                    console.log(user.uid);
+                    // _this.$router.push("/profile");
+                })
+                .catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                });
+        },
+
+        googleLogout: (context) => {
+            firebase.auth().signOut().then(function () {
+                alert("로그아웃 되셨습니다.")
+                context.state.isLogin = false
+            }).catch(function (error) {
+                alert("ERROR")
+            });
         }
 
     }
