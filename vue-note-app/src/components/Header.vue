@@ -37,18 +37,13 @@
     </v-container>
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
-
-    <GoogleLogin v-if="!isLogin" />
-
-    <GoogleLogout v-else />
   </div>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
 import WeatherBtn from "./WeatherBtn";
-import GoogleLogin from "./GoogleLogin";
-import GoogleLogout from "./GoogleLogout";
+
 
 export default {
   props: {
@@ -58,18 +53,14 @@ export default {
     },
   },
 
-  computed: {
-    isLogin() {
-      return this.$store.getters.getIsLogin;
-    },
-  },
+
 
   methods: {
-    submitText(text) {
+    submitText (text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag(index) {
+    selectTag (index) {
       this.$emit("selectTag", index);
     },
   },
@@ -77,8 +68,7 @@ export default {
   components: {
     SearchBar,
     WeatherBtn,
-    GoogleLogin,
-    GoogleLogout,
+
   },
 };
 </script>
