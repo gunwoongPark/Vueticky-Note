@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from "firebase"
+import { vuexfireMutations, firestoreAction } from 'vuexfire'
+import { db } from '../main'
 
 import * as cocoSSD from '@tensorflow-models/coco-ssd'
 import * as tf from '@tensorflow/tfjs';
@@ -10,6 +12,7 @@ export default new Vuex.Store({
     namespaced: true,
     // data
     state: {
+        notes: [],
         isDark: false,
         brightness: true,
 
@@ -48,6 +51,7 @@ export default new Vuex.Store({
     // methods
     // 실제 값을 변경할 때(비동기X)
     mutations: {
+        ...vuexfireMutations,
         // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영
         changeMode: (state) => {
             state.isDark = !state.isDark;
@@ -112,6 +116,30 @@ export default new Vuex.Store({
     // methods
     // 일반 로직(비동기O)
     actions: {
+        bindDB:
+            firestoreAction(({ bindFirestoreRef }) => {
+                // return the promise returned by `bindFirestoreRef`
+                return bindFirestoreRef('database', db.collection("test"))
+            })
+        ,
+
+        addDB:
+            firestoreAction((context, payload) => {
+                // return the promise so we can await the write
+                return db.collection("test").add(payload);
+
+            })
+        ,
+
+        deleteDB:
+            firestoreAction((context, payload) => {
+                db.collection("test")
+                    .doc(payload)
+                    .delete()
+            })
+        ,
+
+
         loadModel: async (context) => {
             let model;
             model = tf.sequential();

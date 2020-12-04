@@ -335,7 +335,7 @@ export default {
             this.tags.push(detectedTag);
         } else this.tags.push(detectedTag);
       }
-      this.notes.push({
+      this.$store.dispatch("addDB", {
         title: title,
         text: text,
         theme: theme,
@@ -349,6 +349,20 @@ export default {
         detectedTag: detectedTag,
         imageObj: imageObj,
       });
+      // this.notes.push({
+      //   title: title,
+      //   text: text,
+      //   theme: theme,
+      //   brightness: this.brightness,
+      //   time: time,
+      //   date: date,
+      //   guid: guid,
+      //   important: isImportant,
+      //   tags: tags,
+      //   imagePath: imagePath,
+      //   detectedTag: detectedTag,
+      //   imageObj: imageObj,
+      // });
     },
 
     // 노트 수정

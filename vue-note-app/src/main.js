@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify';
 import './plugins/vue-masonry'
 import store from './store'
 import firebase from "firebase"
-
+import 'firebase/firestore'
 Vue.config.productionTip = false
 
 var firebaseConfig = {
@@ -16,7 +16,11 @@ var firebaseConfig = {
   appId: "1:111551127882:web:4036debab553ed398321b3"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+export const db = firebase.initializeApp(firebaseConfig).firestore();
+
+const { Timestamp, GeoPoint } = firebase.firestore
+export { Timestamp, GeoPoint }
+
 
 new Vue({
   vuetify,
