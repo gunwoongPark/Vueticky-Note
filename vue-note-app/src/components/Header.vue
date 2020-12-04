@@ -5,17 +5,20 @@
       <!-- 로고와 검색 바 -->
       <v-row class="searchContainer">
         <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
-        <v-col cols="2" lg="1" md="1" sm="2">
+        <v-col cols="1" lg="1" md="1" sm="2">
           <img class="hidden-sm-and-down" src="../assets/Memo_icon.png" />
           <img class="hidden-md-and-up" src="../assets/Memo_icon_xs.png" />
         </v-col>
-        <v-col cols="8" lg="6" md="8" sm="6">
+        <v-col cols="7" lg="6" md="6" sm="6">
           <SearchBar @submitText="submitText"
         /></v-col>
-        <v-col class="hidden-sm-and-down" cols="12" lg="1" md="1"
+        <v-col class="hidden-sm-and-down" cols="1" lg="1" md="2"
           ><WeatherBtn
         /></v-col>
-        <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
+        <v-col class="hidden-sm-and-down" cols="1" lg="2" md="1">
+          <GoogleLogout
+        /></v-col>
+        <v-col class="offsetCols" cols="1" lg="1" md="1" sm="2"></v-col>
       </v-row>
 
       <!-- 태그들 -->
@@ -37,8 +40,6 @@
     </v-container>
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
-
-    <GoogleLogout v-if="isLogin" />
   </div>
 </template>
 
@@ -57,9 +58,7 @@ export default {
   },
 
   computed: {
-    isLogin () {
-      return this.$store.getters.getIsLogin;
-    },
+
   },
 
   methods: {

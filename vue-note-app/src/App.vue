@@ -188,7 +188,7 @@ export default {
 
   data () {
     return {
-      isLogin: false,
+
       notes: [],
       todayNotes: [],
       importantNotes: [],
@@ -221,6 +221,9 @@ export default {
   },
 
   computed: {
+    isLogin () {
+      return this.$store.getters.getIsLogin;
+    },
     isDark () {
       return this.$store.getters.getDark;
     },
@@ -231,34 +234,36 @@ export default {
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
   async mounted () {
-    if (this.isLogin) {
-      await this.$store.dispatch("loadModel");
-      const dateObj = new Date();
-      const year = dateObj.getFullYear();
-      const month = dateObj.getMonth() + 1;
-      const day = dateObj.getDate();
-      this.date = `${year}-${month}-${day}`;
+    //this.$store.commit("loginCheck");
 
-      let monthIndex = month - 1;
+    await this.$store.dispatch("loadModel");
 
-      // 보여줄 날짜
-      this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
+    const dateObj = new Date();
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
+    this.date = `${year}-${month}-${day}`;
 
-      // 노트들 불러오기
-      if (localStorage.getItem("notes"))
-        this.notes = JSON.parse(localStorage.getItem("notes"));
+    let monthIndex = month - 1;
 
-      // 각 노트의 태그들 불러오기
-      if (localStorage.getItem("tags"))
-        this.tags = JSON.parse(localStorage.getItem("tags"));
+    // 보여줄 날짜
+    this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
-      this.$store.commit("initMode");
+    // 노트들 불러오기
+    if (localStorage.getItem("notes"))
+      this.notes = JSON.parse(localStorage.getItem("notes"));
 
-      // 최초 모드 적용
-      if (this.$store.getters.getDark)
-        document.querySelector(".main").style.background = "rgb(53,53,53)";
-      else document.querySelector(".main").style.background = "white";
-    }
+    // 각 노트의 태그들 불러오기
+    if (localStorage.getItem("tags"))
+      this.tags = JSON.parse(localStorage.getItem("tags"));
+
+    //this.$store.commit("initMode");
+    // if (this.isLogin) {
+    //   // 최초 모드 적용
+    //   if (this.$store.getters.getDark)
+    //     document.querySelector(".main").style.background = "rgb(53,53,53)";
+    //   else document.querySelector(".main").style.background = "white";
+    // }
   },
 
   watch: {

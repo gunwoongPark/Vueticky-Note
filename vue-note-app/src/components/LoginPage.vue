@@ -34,7 +34,6 @@
             href="https://github.com/gunwoongPark"
             color="black"
             width="280px"
-            @click="googleLogin"
           >
             <img
               id="gitlogo"
@@ -54,7 +53,6 @@
             href="https://github.com/HwangYoonSeong"
             color="black"
             width="280px"
-            @click="googleLogin"
           >
             <img
               id="gitlogo"
@@ -103,12 +101,10 @@ import GoogleLogin from "./GoogleLogin";
 
 export default {
   name: "LoginForm",
-  data () {
-    return {
-
-
-    };
+  mounted () {
+    //this.$store.commit("loginCheck");
   },
+
 
   methods: {
     removeBack () {
@@ -118,11 +114,7 @@ export default {
     }
 
   },
-  computed: {
-    isLogin () {
-      return this.$store.getters.getIsLogin;
-    },
-  },
+
   components: {
 
     GoogleLogin,

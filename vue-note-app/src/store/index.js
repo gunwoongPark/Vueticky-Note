@@ -7,7 +7,7 @@ import * as tf from '@tensorflow/tfjs';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-
+    namespaced: true,
     // data
     state: {
         isDark: false,
@@ -16,7 +16,8 @@ export default new Vuex.Store({
         imgPath: "",
         model: {},
 
-        isLogin: false
+        isLogin: false,
+        uid: ""
     },
 
     // computed
@@ -37,6 +38,9 @@ export default new Vuex.Store({
 
         getIsLogin: state => {
             return state.isLogin;
+        },
+        getUid: state => {
+            return state.uid;
         }
 
     },
@@ -95,10 +99,10 @@ export default new Vuex.Store({
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     state.isLogin = true
-                    console.log("login!");
+
                 } else {
                     state.isLogin = false
-                    console.log("no login!");
+
                 }
             });
         }
@@ -115,7 +119,7 @@ export default new Vuex.Store({
             context.commit('initModel', model)
         },
 
-        googleLogin: () => {
+        googleLogin: (state) => {
             var provider = new firebase.auth.GoogleAuthProvider();
 
             // 로그인 아이디의 기본값을 지정합니다. 지정하지 않아도 됩니다.
@@ -136,6 +140,7 @@ export default new Vuex.Store({
                     var user = result.user;
                     // ...
                     console.log(user.uid);
+                    state.uid = user.uid;
                     // _this.$router.push("/profile");
                 })
                 .catch(function (error) {

@@ -1,11 +1,11 @@
 <template>
-  <v-btn @click="googleLogout"><v-icon>mdi-logout</v-icon></v-btn>
+  <v-btn style="color: white" color="teal" @click="googleLogout">Logout</v-btn>
 </template>
 
 <script>
 export default {
   methods: {
-    googleLogout() {
+    googleLogout () {
       this.$store.dispatch("googleLogout");
     },
   },
