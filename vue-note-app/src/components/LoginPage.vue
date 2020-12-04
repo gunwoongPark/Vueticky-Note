@@ -6,6 +6,11 @@
           <h1 style="color: teal">Vueticky Note</h1>
         </v-col>
       </v-row>
+      <v-row style="margin-top: -30px" class="text-center">
+        <v-col>
+          <h3 style="color: #a7ffeb">Note your Life!</h3>
+        </v-col>
+      </v-row>
       <v-row class="text-center">
         <v-col>
           <h1>Login</h1>
@@ -17,7 +22,53 @@
           <GoogleLogin />
         </v-col>
       </v-row>
-      <v-row class="text-center">
+
+      <v-row style="margin-top: -30px" class="text-center">
+        <v-col>
+          <h3 style="color: teal">Developer</h3>
+        </v-col>
+      </v-row>
+      <v-row style="margin-top: -20px" class="text-center">
+        <v-col>
+          <v-btn
+            href="https://github.com/gunwoongPark"
+            color="black"
+            width="280px"
+            @click="googleLogin"
+          >
+            <img
+              id="gitlogo"
+              src="../assets/gitlogo4.png"
+              alt="google logo"
+              style="margin-left: -50px"
+            /><span style="margin-left: 20px; color: white"
+              >gunwoongPark</span
+            ></v-btn
+          >
+        </v-col>
+      </v-row>
+
+      <v-row style="margin-top: -10px" class="text-center">
+        <v-col>
+          <v-btn
+            href="https://github.com/HwangYoonSeong"
+            color="black"
+            width="280px"
+            @click="googleLogin"
+          >
+            <img
+              id="gitlogo"
+              src="../assets/gitlogo4.png"
+              alt="google logo"
+            /><span style="margin-left: 15px; color: white"
+              >HwangYoonSeong</span
+            ></v-btn
+          >
+        </v-col>
+      </v-row>
+
+      <!--remove Background Img-->
+      <v-row v-if="false" class="text-center">
         <v-col>
           <v-btn @click="removeBack">Hello</v-btn>
         </v-col>
@@ -84,6 +135,15 @@ export default {
 </script>
 
 <style scoped>
+#glogo {
+  width: 40px;
+  height: auto;
+}
+#gitlogo {
+  margin-left: -32px;
+  width: 30px;
+  height: auto;
+}
 #empty {
   background-color: teal;
 }
