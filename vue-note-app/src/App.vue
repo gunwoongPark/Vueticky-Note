@@ -249,9 +249,13 @@ export default {
     if (localStorage.getItem("notes"))
       this.notes = JSON.parse(localStorage.getItem("notes"));
 
+    // 최초의 노트 불러오기
+
     // 각 노트의 태그들 불러오기
     if (localStorage.getItem("tags"))
       this.tags = JSON.parse(localStorage.getItem("tags"));
+
+    //최초의 각 태그들 불러오기
   },
 
   watch: {
@@ -264,6 +268,10 @@ export default {
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
         );
+
+        // 노트 추가 시
+        this.$store.dispatch();
+
         // vue-masonry 의 다시 그려주는 기능
         this.$nextTick(() => this.$redrawVueMasonry());
       },
@@ -288,6 +296,8 @@ export default {
       handler() {
         var newTags = this.tags;
         localStorage.setItem("tags", JSON.stringify(newTags));
+
+        // 태그 변경 시
 
         this.$nextTick(() => this.$redrawVueMasonry());
       },
@@ -322,21 +332,7 @@ export default {
             this.tags.push(detectedTag);
         } else this.tags.push(detectedTag);
       }
-      // this.$store.dispatch("addDB", {
-      //   title: title,
-      //   text: text,
-      //   theme: theme,
-      //   brightness: this.brightness,
-      //   time: time,
-      //   date: date,
-      //   guid: guid,
-      //   important: isImportant,
-      //   tags: tags,
-      //   imagePath: imagePath,
-      //   detectedTag: detectedTag,
-      //   imageObj: imageObj,
-      // });
-      this.notes.push({
+      this.$store.dispatch("addDB", {
         title: title,
         text: text,
         theme: theme,
@@ -349,6 +345,19 @@ export default {
         imagePath: imagePath,
         detectedTag: detectedTag,
       });
+      // this.notes.push({
+      //   title: title,
+      //   text: text,
+      //   theme: theme,
+      //   brightness: this.brightness,
+      //   time: time,
+      //   date: date,
+      //   guid: guid,
+      //   important: isImportant,
+      //   tags: tags,
+      //   imagePath: imagePath,
+      //   detectedTag: detectedTag,
+      // });
     },
 
     // 노트 수정
@@ -429,6 +438,9 @@ export default {
       this.isTagMode = false;
       this.isSearch = true;
       let notes = JSON.parse(localStorage.getItem("notes"));
+
+      // 검색하기 위해 노트 불러오기
+
       if (memo === "") {
         this.isSearch = false;
         this.isTagMode = false;

@@ -103,6 +103,7 @@ export default new Vuex.Store({
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     state.isLogin = true
+                    state.uid = user.uid
 
                 } else {
                     state.isLogin = false
@@ -118,6 +119,7 @@ export default new Vuex.Store({
     actions: {
         bindDB:
             firestoreAction(({ bindFirestoreRef }) => {
+                console.log("bindDB")
                 // return the promise returned by `bindFirestoreRef`
                 return bindFirestoreRef('database', db.collection("test"))
             })
@@ -125,14 +127,16 @@ export default new Vuex.Store({
 
         addDB:
             firestoreAction((context, payload) => {
+                console.log("addDB")
                 // return the promise so we can await the write
-                return db.collection("test").add(payload);
+                return db.collection(context.state.uid).add(payload);
 
             })
         ,
 
         deleteDB:
             firestoreAction((context, payload) => {
+                console.log("deleteDB")
                 db.collection("test")
                     .doc(payload)
                     .delete()
