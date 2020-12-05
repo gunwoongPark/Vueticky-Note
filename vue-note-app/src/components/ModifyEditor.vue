@@ -71,18 +71,6 @@
           >
         </div>
 
-        <!-- <v-file-input
-          id="modifyImage"
-          @change="changeImage"
-          @click:clear="cancelImage"
-          v-model="note.imageObj"
-          accept="image/*"
-          color="teal"
-          counter
-          placeholder="Input Image"
-          prepend-icon="mdi-camera"
-        ></v-file-input> -->
-
         <v-img
           v-if="note.imagePath"
           :src="note.imagePath"
@@ -211,16 +199,6 @@ export default {
         this.note.imagePath = e.target.result;
       };
     },
-    // changeImage() {
-    //   if (this.note.imageObj) {
-    //     let input = document.querySelector("#modifyImage");
-    //     let fReader = new FileReader();
-    //     fReader.readAsDataURL(input.files[0]);
-    //     fReader.onload = (e) => {
-    //       this.note.imagePath = e.target.result;
-    //     };
-    //   }
-    // },
 
     initColor(picker) {
       this.note.theme = picker;
@@ -325,7 +303,6 @@ export default {
         this.note.tags,
         this.note.imagePath,
         this.note.detectedTag,
-        this.note.imageObj,
         this.delTag,
         this.addTag
       );

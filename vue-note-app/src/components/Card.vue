@@ -142,7 +142,6 @@ export default {
           this.note.tags = this.tempNote.tags;
           this.note.imagePath = this.tempNote.imagePath;
           this.note.dectedTag = this.tempNote.dectedTag;
-          this.note.imageObj = this.tempNote.imageObj;
         }
       },
     },
@@ -177,7 +176,6 @@ export default {
       tags,
       imagePath,
       detectedTag,
-      imageObj,
       delTag,
       addTag
     ) {
@@ -196,7 +194,6 @@ export default {
         tags,
         imagePath,
         detectedTag,
-        imageObj,
         delTag,
         addTag
       );
@@ -212,7 +209,6 @@ export default {
       this.tempNote.tags = this.note.tags;
       this.tempNote.imagePath = this.note.imagePath;
       this.tempNote.dectedTag = this.note.dectedTag;
-      this.tempNote.imageObj = this.note.imageObj;
 
       this.isSubmit = false;
     },
