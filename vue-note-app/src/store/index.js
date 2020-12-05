@@ -103,6 +103,7 @@ export default new Vuex.Store({
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     state.isLogin = true
+                    state.uid = user.uid;
 
                 } else {
                     state.isLogin = false
@@ -117,27 +118,23 @@ export default new Vuex.Store({
     // 일반 로직(비동기O)
     actions: {
         bindDB:
-            firestoreAction(({ bindFirestoreRef }) => {
+            firestoreAction((context, { bindFirestoreRef }) => {
                 // return the promise returned by `bindFirestoreRef`
-                return bindFirestoreRef('database', db.collection("test"))
-            })
-        ,
+                return bindFirestoreRef('notes', db.collection(context.state.uid))
+            }),
 
         addDB:
             firestoreAction((context, payload) => {
                 // return the promise so we can await the write
-                return db.collection("test").add(payload);
+                return db.collection(context.state.uid).add(payload);
 
-            })
-        ,
-
+            }),
         deleteDB:
             firestoreAction((context, payload) => {
-                db.collection("test")
+                db.collection("test2")
                     .doc(payload)
                     .delete()
-            })
-        ,
+            }),
 
 
         loadModel: async (context) => {
@@ -168,7 +165,7 @@ export default new Vuex.Store({
                     var user = result.user;
                     // ...
                     console.log(user.uid);
-                    state.uid = user.uid;
+
                     // _this.$router.push("/profile");
                 })
                 .catch(function (error) {

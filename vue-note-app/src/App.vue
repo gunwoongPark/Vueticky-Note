@@ -217,7 +217,14 @@ export default {
   },
 
   computed: {
+<<<<<<< Updated upstream
     isLogin() {
+=======
+    storeNotes () {
+      return this.$store.state.notes;
+    },
+    isLogin () {
+>>>>>>> Stashed changes
       return this.$store.getters.getIsLogin;
     },
     isDark() {
@@ -348,6 +355,10 @@ export default {
         tags: tags,
         imagePath: imagePath,
         detectedTag: detectedTag,
+<<<<<<< Updated upstream
+=======
+        imageObj: imageObj,
+>>>>>>> Stashed changes
       });
     },
 
