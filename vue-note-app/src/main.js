@@ -8,12 +8,12 @@ import 'firebase/firestore'
 Vue.config.productionTip = false
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAq0BG8AiWQsKI4YHvmclK5E0qz3_6HuaE",
-  authDomain: "vueticky-note.firebaseapp.com",
-  projectId: "vueticky-note",
-  storageBucket: "vueticky-note.appspot.com",
-  messagingSenderId: "111551127882",
-  appId: "1:111551127882:web:4036debab553ed398321b3"
+  apiKey: "AIzaSyDaHOirBYZTLYHqt5iSRdyfEX7Gs1KRyiM",
+  authDomain: "vueticky-note-b08f1.firebaseapp.com",
+  projectId: "vueticky-note-b08f1",
+  storageBucket: "vueticky-note-b08f1.appspot.com",
+  messagingSenderId: "660375676123",
+  appId: "1:660375676123:web:8e65be5427d02890bd18fe"
 };
 // Initialize Firebase
 export const db = firebase.initializeApp(firebaseConfig).firestore();
