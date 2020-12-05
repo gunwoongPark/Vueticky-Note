@@ -1,16 +1,22 @@
 <template>
   <div>
-    <v-btn @click="googleLogin"><v-icon>mdi-google-plus</v-icon></v-btn>
+    <v-btn color="primary" @click="googleLogin">
+      <img id="glogo" src="../assets/g2.png" alt="google logo" /><span
+        style="color: white"
+        >Google 계정으로 로그인하기</span
+      >
+    </v-btn>
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {
+
+  created () {
     this.$store.commit("loginCheck");
   },
   methods: {
-    googleLogin() {
+    googleLogin () {
       this.$store.dispatch("googleLogin");
     },
   },
@@ -18,4 +24,8 @@ export default {
 </script>
 
 <style scoped>
+#glogo {
+  width: 40px;
+  height: auto;
+}
 </style>

@@ -1,22 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from "firebase"
+import { vuexfireMutations, firestoreAction } from 'vuexfire'
+import { db } from '../main'
 
 import * as cocoSSD from '@tensorflow-models/coco-ssd'
 import * as tf from '@tensorflow/tfjs';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-
+    namespaced: true,
     // data
     state: {
+        notes: [],
         isDark: false,
         brightness: true,
 
         imgPath: "",
         model: {},
 
-        isLogin: false
+        isLogin: false,
+        uid: ""
     },
 
     // computed
@@ -37,6 +41,9 @@ export default new Vuex.Store({
 
         getIsLogin: state => {
             return state.isLogin;
+        },
+        getUid: state => {
+            return state.uid;
         }
 
     },
@@ -44,6 +51,7 @@ export default new Vuex.Store({
     // methods
     // 실제 값을 변경할 때(비동기X)
     mutations: {
+        ...vuexfireMutations,
         // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영
         changeMode: (state) => {
             state.isDark = !state.isDark;
@@ -95,10 +103,10 @@ export default new Vuex.Store({
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                     state.isLogin = true
-                    console.log("login!");
+
                 } else {
                     state.isLogin = false
-                    console.log("no login!");
+
                 }
             });
         }
@@ -108,6 +116,30 @@ export default new Vuex.Store({
     // methods
     // 일반 로직(비동기O)
     actions: {
+        bindDB:
+            firestoreAction(({ bindFirestoreRef }) => {
+                // return the promise returned by `bindFirestoreRef`
+                return bindFirestoreRef('database', db.collection("test"))
+            })
+        ,
+
+        addDB:
+            firestoreAction((context, payload) => {
+                // return the promise so we can await the write
+                return db.collection("test").add(payload);
+
+            })
+        ,
+
+        deleteDB:
+            firestoreAction((context, payload) => {
+                db.collection("test")
+                    .doc(payload)
+                    .delete()
+            })
+        ,
+
+
         loadModel: async (context) => {
             let model;
             model = tf.sequential();
@@ -115,7 +147,7 @@ export default new Vuex.Store({
             context.commit('initModel', model)
         },
 
-        googleLogin: () => {
+        googleLogin: (state) => {
             var provider = new firebase.auth.GoogleAuthProvider();
 
             // 로그인 아이디의 기본값을 지정합니다. 지정하지 않아도 됩니다.
@@ -136,6 +168,7 @@ export default new Vuex.Store({
                     var user = result.user;
                     // ...
                     console.log(user.uid);
+                    state.uid = user.uid;
                     // _this.$router.push("/profile");
                 })
                 .catch(function (error) {

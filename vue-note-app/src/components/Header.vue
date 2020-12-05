@@ -12,9 +12,10 @@
         <v-col cols="8" lg="6" md="8" sm="6">
           <SearchBar @submitText="submitText"
         /></v-col>
-        <v-col class="hidden-sm-and-down" cols="12" lg="1" md="1"
-          ><WeatherBtn
-        /></v-col>
+        <v-col class="hidden-sm-and-down" cols="12" lg="1" md="1">
+          <WeatherBtn />
+        </v-col>
+
         <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
       </v-row>
 
@@ -38,16 +39,14 @@
 
     <WeatherBtn class="hidden-md-and-up mobileView" />
 
-    <GoogleLogin v-if="!isLogin" />
-
-    <GoogleLogout v-else />
+    <GoogleLogout />
   </div>
 </template>
 
 <script>
 import SearchBar from "./SearchBar";
 import WeatherBtn from "./WeatherBtn";
-import GoogleLogin from "./GoogleLogin";
+
 import GoogleLogout from "./GoogleLogout";
 
 export default {
@@ -59,17 +58,15 @@ export default {
   },
 
   computed: {
-    isLogin() {
-      return this.$store.getters.getIsLogin;
-    },
+
   },
 
   methods: {
-    submitText(text) {
+    submitText (text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag(index) {
+    selectTag (index) {
       this.$emit("selectTag", index);
     },
   },
@@ -77,7 +74,7 @@ export default {
   components: {
     SearchBar,
     WeatherBtn,
-    GoogleLogin,
+
     GoogleLogout,
   },
 };
