@@ -12,7 +12,9 @@
 <script>
 export default {
 
- 
+  created () {
+    this.$store.commit("loginCheck");
+  },
   methods: {
     googleLogin () {
       this.$store.dispatch("googleLogin");
