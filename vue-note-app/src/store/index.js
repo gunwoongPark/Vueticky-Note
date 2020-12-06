@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from "firebase"
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
-import { db } from '../main'
+// import { db } from '../main'
 
 import * as cocoSSD from '@tensorflow-models/coco-ssd'
 import * as tf from '@tensorflow/tfjs';
@@ -117,31 +117,30 @@ export default new Vuex.Store({
     // methods
     // 일반 로직(비동기O)
     actions: {
-        bindDB:
-            firestoreAction(({ bindFirestoreRef }) => {
-                console.log("bindDB")
-                // return the promise returned by `bindFirestoreRef`
-                return bindFirestoreRef('database', db.collection("test"))
-            })
-        ,
+        // bindDB:
+        //     firestoreAction(({ bindFirestoreRef }) => {
+        //         console.log("bindDB")
+        //         // return the promise returned by `bindFirestoreRef`
+        //         return bindFirestoreRef('database', db.collection("test"))
+        //     })
+        // ,
 
-        addDB:
-            firestoreAction((context, payload) => {
-                console.log("addDB")
-                // return the promise so we can await the write
-                return db.collection(context.state.uid).add(payload);
+        // addDB:
+        //     firestoreAction((context, payload) => {
+        //         console.log("addDB")
+        //         // return the promise so we can await the write
+        //         return db.collection(context.state.uid).add(payload);
+        //     })
+        // ,
 
-            })
-        ,
-
-        deleteDB:
-            firestoreAction((context, payload) => {
-                console.log("deleteDB")
-                db.collection("test")
-                    .doc(payload)
-                    .delete()
-            })
-        ,
+        // deleteDB:
+        //     firestoreAction((context, payload) => {
+        //         console.log("deleteDB")
+        //         db.collection("test")
+        //             .doc(payload)
+        //             .delete()
+        //     })
+        // ,
 
 
         loadModel: async (context) => {

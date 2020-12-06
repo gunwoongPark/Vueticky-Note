@@ -171,6 +171,8 @@ import CategoryBtn from "./components/CategoryBtn";
 import ChangeMode from "./components/ChangeMode";
 import LoginPage from "./components/LoginPage";
 
+import { db } from "./main";
+
 export default {
   components: {
     Header,
@@ -226,6 +228,9 @@ export default {
     brightness() {
       return this.$store.getters.getBrightness;
     },
+    uid() {
+      return this.$store.getters.getUid;
+    },
   },
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
@@ -246,10 +251,23 @@ export default {
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
     // 노트들 불러오기
-    if (localStorage.getItem("notes"))
-      this.notes = JSON.parse(localStorage.getItem("notes"));
+    // if (localStorage.getItem("notes"))
+    //   this.notes = JSON.parse(localStorage.getItem("notes"));
 
     // 최초의 노트 불러오기
+    let test = db.collection("uid").doc("notes");
+    let getText = test
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          console.log("No such document!");
+        } else {
+          this.notes = doc.data().newNotes;
+        }
+      })
+      .catch((err) => {
+        console.log("Error getting document", err);
+      });
 
     // 각 노트의 태그들 불러오기
     if (localStorage.getItem("tags"))
@@ -261,16 +279,17 @@ export default {
   watch: {
     // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
-      handler() {
+      async handler() {
         var newNotes = this.notes;
-        localStorage.setItem("notes", JSON.stringify(newNotes));
+        // localStorage.setItem("notes", JSON.stringify(newNotes));
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
         );
 
         // 노트 추가 시
-        this.$store.dispatch();
+        newNotes = { newNotes };
+        const res = await db.collection(this.uid).doc("notes").set(newNotes);
 
         // vue-masonry 의 다시 그려주는 기능
         this.$nextTick(() => this.$redrawVueMasonry());
@@ -314,7 +333,7 @@ export default {
 
   methods: {
     // 노트 생성
-    newNote(
+    async newNote(
       title,
       text,
       theme,
@@ -332,7 +351,22 @@ export default {
             this.tags.push(detectedTag);
         } else this.tags.push(detectedTag);
       }
-      this.$store.dispatch("addDB", {
+
+      let data = {
+        title: title,
+        text: text,
+        theme: theme,
+        brightness: this.brightness,
+        time: time,
+        date: date,
+        guid: guid,
+        important: isImportant,
+        tags: tags,
+        imagePath: imagePath,
+        detectedTag: detectedTag,
+      };
+
+      this.notes.push({
         title: title,
         text: text,
         theme: theme,
@@ -345,19 +379,6 @@ export default {
         imagePath: imagePath,
         detectedTag: detectedTag,
       });
-      // this.notes.push({
-      //   title: title,
-      //   text: text,
-      //   theme: theme,
-      //   brightness: this.brightness,
-      //   time: time,
-      //   date: date,
-      //   guid: guid,
-      //   important: isImportant,
-      //   tags: tags,
-      //   imagePath: imagePath,
-      //   detectedTag: detectedTag,
-      // });
     },
 
     // 노트 수정
