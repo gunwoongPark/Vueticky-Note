@@ -235,7 +235,8 @@ export default {
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
   async mounted() {
-    //this.$store.commit("loginCheck");
+    let msg = await this.$store.dispatch("loginCheck");
+    console.log(msg);
 
     await this.$store.dispatch("loadModel");
 
@@ -250,13 +251,9 @@ export default {
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
-    // 노트들 불러오기
-    // if (localStorage.getItem("notes"))
-    //   this.notes = JSON.parse(localStorage.getItem("notes"));
-
     // 최초의 노트 불러오기
-    let test = db.collection("uid").doc("notes");
-    let getText = test
+    db.collection(this.uid)
+      .doc("notes")
       .get()
       .then((doc) => {
         if (!doc.exists) {
@@ -274,6 +271,19 @@ export default {
       this.tags = JSON.parse(localStorage.getItem("tags"));
 
     //최초의 각 태그들 불러오기
+    db.collection(this.uid)
+      .doc("tags")
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          console.log("No such document!");
+        } else {
+          this.tags = doc.data().newTags;
+        }
+      })
+      .catch((err) => {
+        console.log("Error getting document", err);
+      });
   },
 
   watch: {
@@ -281,7 +291,6 @@ export default {
     notes: {
       async handler() {
         var newNotes = this.notes;
-        // localStorage.setItem("notes", JSON.stringify(newNotes));
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
@@ -312,11 +321,12 @@ export default {
 
     // 태그 변경할 때 해당 태그를 받아옴
     tags: {
-      handler() {
+      async handler() {
         var newTags = this.tags;
-        localStorage.setItem("tags", JSON.stringify(newTags));
 
         // 태그 변경 시
+        newTags = { newTags };
+        const res = await db.collection(this.uid).doc("tags").set(newTags);
 
         this.$nextTick(() => this.$redrawVueMasonry());
       },
@@ -435,16 +445,13 @@ export default {
     // 고유값을 이용한 노트 삭제
     deleteNote(guid) {
       const index = this.notes.findIndex((note) => note.guid === guid);
-
       let filtNotes = this.notes.filter(
         (el) => el.tags.indexOf(this.notes[index].detectedTag) !== -1
       );
-
       if (filtNotes.length === 1) {
         const delIndex = this.tags.indexOf(this.notes[index].detectedTag);
         this.tags.splice(delIndex, 1);
       }
-
       this.notes.splice(index, 1);
     },
 

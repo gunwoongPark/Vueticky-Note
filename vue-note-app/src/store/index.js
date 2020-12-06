@@ -99,18 +99,6 @@ export default new Vuex.Store({
             console.log("model loaded");
         },
 
-        loginCheck: (state) => {
-            firebase.auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    state.isLogin = true
-                    state.uid = user.uid
-
-                } else {
-                    state.isLogin = false
-
-                }
-            });
-        }
 
     },
 
@@ -141,6 +129,23 @@ export default new Vuex.Store({
         //             .delete()
         //     })
         // ,
+
+
+        loginCheck(context) {
+            return new Promise(function (resolve) {
+                firebase.auth().onAuthStateChanged(function (user) {
+                    if (user) {
+                        context.state.isLogin = true
+                        context.state.uid = user.uid
+                        resolve("complete")
+
+                    } else {
+                        context.state.isLogin = false
+                    }
+                });
+            })
+
+        },
 
 
         loadModel: async (context) => {
