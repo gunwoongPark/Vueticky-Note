@@ -99,7 +99,7 @@ p {
 .mobileView {
   left: 2%;
   position: fixed;
-  bottom: 4%;
+  bottom: 12%;
   z-index: 10;
 }
 </style>
