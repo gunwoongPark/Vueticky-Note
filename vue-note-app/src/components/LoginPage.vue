@@ -80,7 +80,7 @@
               <h4>문의 : 16.박건웅/16.황윤성</h4>
             </v-col>
             <v-col cols="12" sm="6" md="4" lg="4" xl="3">
-              <h4>찾아오는 길 : DK_B_207</h4>
+              <h4>찾아오는 길 : 경상북도 구미시 거의동 대학로 61</h4>
             </v-col>
             <v-col cols="12" sm="6" md="4" lg="4" xl="3">
               <h4>소속 : 금오공과대학교 컴퓨터공학과</h4>
@@ -98,14 +98,12 @@
 <script>
 import GoogleLogin from "./GoogleLogin";
 
-
 export default {
   name: "LoginForm",
 
   mounted () {
     //this.$store.commit("loginCheck");
   },
-
 
   methods: {
     // removeBack () {
@@ -123,8 +121,6 @@ export default {
 
   },
 };
-
-
 
 </script>
 

@@ -1,9 +1,14 @@
 <template>
   <div class="mb-3">
     <!-- 그리드 레이아웃을 활용하여 헤더를 반응형으로 배치 -->
+    <!-- 계정과 logout 버튼 -->
+    <div id="user" class="text-right">
+      <span class="hidden-sm-and-down" id="Email">{{ Email }}</span>
+      <GoogleLogout class="hidden-sm-and-down" />
+    </div>
     <v-container>
       <!-- 로고와 검색 바 -->
-      <v-row class="searchContainer">
+      <v-row class="searchContainer hidden-sm-and-down">
         <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
         <v-col cols="2" lg="1" md="1" sm="2">
           <img class="hidden-sm-and-down" src="../assets/Memo_icon.png" />
@@ -12,9 +17,23 @@
         <v-col cols="8" lg="6" md="8" sm="6">
           <SearchBar @submitText="submitText"
         /></v-col>
-        <v-col class="hidden-sm-and-down" cols="12" lg="1" md="1">
+        <v-col class="hidden-sm-and-down" cols="1" lg="1" md="1">
           <WeatherBtn />
         </v-col>
+
+        <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
+      </v-row>
+
+      <!-- 모바일 뷰 -->
+      <v-row class="msearchContainer hidden-md-and-up">
+        <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
+        <v-col cols="2" lg="1" md="1" sm="2">
+          <img class="hidden-sm-and-down" src="../assets/Memo_icon.png" />
+          <img class="hidden-md-and-up" src="../assets/Memo_icon_xs.png" />
+        </v-col>
+        <v-col cols="8" lg="6" md="8" sm="6">
+          <SearchBar @submitText="submitText"
+        /></v-col>
 
         <v-col class="offsetCols" cols="1" lg="2" md="1" sm="2"></v-col>
       </v-row>
@@ -36,10 +55,8 @@
         >
       </v-row>
     </v-container>
-
+    <GoogleLogout class="hidden-md-and-up glo" />
     <WeatherBtn class="hidden-md-and-up mobileView" />
-
-    <GoogleLogout />
   </div>
 </template>
 
@@ -50,6 +67,7 @@ import WeatherBtn from "./WeatherBtn";
 import GoogleLogout from "./GoogleLogout";
 
 export default {
+
   props: {
     tags: {
       type: Array,
@@ -57,14 +75,18 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    Email () {
+      return this.$store.state.email;
+    }
+  },
 
   methods: {
-    submitText(text) {
+    submitText (text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag(index) {
+    selectTag (index) {
       this.$emit("selectTag", index);
     },
   },
@@ -87,6 +109,12 @@ p {
 }
 
 .searchContainer {
+  margin-top: -50px;
+  display: flex;
+  align-items: center;
+}
+
+.msearchContainer {
   display: flex;
   align-items: center;
 }
@@ -101,6 +129,20 @@ p {
   position: fixed;
   bottom: 4%;
   z-index: 10;
+}
+.glo {
+  left: 2%;
+  position: fixed;
+  bottom: 20%;
+  z-index: 10;
+}
+#user {
+  margin: 10px;
+}
+#Email {
+  margin-right: 10px;
+  color: teal;
+  font-size: 15px;
 }
 </style>
 

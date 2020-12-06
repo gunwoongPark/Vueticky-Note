@@ -1,5 +1,7 @@
 <template>
-  <v-btn style="color: white" color="teal" @click="googleLogout">Logout</v-btn>
+  <v-btn style="color: teal" color="white" fab small @click="googleLogout"
+    ><v-icon>mdi-logout</v-icon></v-btn
+  >
 </template>
 
 <script>

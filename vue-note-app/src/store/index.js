@@ -19,7 +19,8 @@ export default new Vuex.Store({
         model: {},
 
         isLogin: false,
-        uid: ""
+        uid: "",
+        email: ""
     },
 
     // computed
@@ -80,10 +81,11 @@ export default new Vuex.Store({
     // 일반 로직(비동기O)
     actions: {
 
-        loginCheck(context) {
+        loginCheck (context) {
             return new Promise(function (resolve) {
                 firebase.auth().onAuthStateChanged(function (user) {
                     if (user) {
+                        context.state.email = user.email;
                         context.state.isLogin = true
                         context.state.uid = user.uid
                         console.log(context.state.uid)
