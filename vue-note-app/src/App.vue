@@ -41,8 +41,6 @@
 
       <TopBtn class="topBtn" />
 
-      <ChangeMode class="modeChangeBtn" />
-
       <!-- masonry 활용 -->
       <div class="noteContainer">
         <hr />
@@ -168,7 +166,6 @@ import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
 import CategoryBtn from "./components/CategoryBtn";
-import ChangeMode from "./components/ChangeMode";
 import LoginPage from "./components/LoginPage";
 
 import { db } from "./main";
@@ -181,7 +178,7 @@ export default {
     Card,
     TopBtn,
     CategoryBtn,
-    ChangeMode,
+
     LoginPage,
   },
 
@@ -222,9 +219,7 @@ export default {
     isLogin() {
       return this.$store.getters.getIsLogin;
     },
-    isDark() {
-      return this.$store.getters.getDark;
-    },
+
     brightness() {
       return this.$store.getters.getBrightness;
     },
@@ -251,8 +246,8 @@ export default {
     // 보여줄 날짜
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
-    // 최초의 노트 불러오기
     if (this.uid) {
+      // 최초의 노트 불러오기
       db.collection(this.uid)
         .doc("notes")
         .get()
@@ -266,10 +261,8 @@ export default {
         .catch((err) => {
           console.log("Error getting document", err);
         });
-    }
 
-    //최초의 각 태그들 불러오기
-    if (this.uid) {
+      //최초의 각 태그들 불러오기
       db.collection(this.uid)
         .doc("tags")
         .get()
@@ -333,14 +326,6 @@ export default {
         }
 
         this.$nextTick(() => this.$redrawVueMasonry());
-      },
-    },
-
-    isDark: {
-      handler() {
-        if (this.isDark)
-          document.querySelector(".main").style.background = "rgb(53,53,53)";
-        else document.querySelector(".main").style.background = "white";
       },
     },
 

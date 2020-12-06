@@ -57,16 +57,14 @@ export default {
     },
   },
 
-  computed: {
-
-  },
+  computed: {},
 
   methods: {
-    submitText (text) {
+    submitText(text) {
       this.$emit("searchNote", text);
     },
 
-    selectTag (index) {
+    selectTag(index) {
       this.$emit("selectTag", index);
     },
   },
@@ -101,7 +99,7 @@ p {
 .mobileView {
   left: 2%;
   position: fixed;
-  bottom: 12%;
+  bottom: 4%;
   z-index: 10;
 }
 </style>

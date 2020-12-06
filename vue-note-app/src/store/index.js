@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from "firebase"
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
-// import { db } from '../main'
+import { db } from '../main'
 
 import * as cocoSSD from '@tensorflow-models/coco-ssd'
 import * as tf from '@tensorflow/tfjs';
@@ -13,7 +13,6 @@ export default new Vuex.Store({
     // data
     state: {
         notes: [],
-        isDark: false,
         brightness: true,
 
         imgPath: "",
@@ -25,9 +24,6 @@ export default new Vuex.Store({
 
     // computed
     getters: {
-        getDark: state => {
-            return state.isDark;
-        },
         getBrightness: state => {
             return state.brightness;
         },
@@ -51,29 +47,7 @@ export default new Vuex.Store({
     // methods
     // 실제 값을 변경할 때(비동기X)
     mutations: {
-        ...vuexfireMutations,
-        // 모드 변경 -> 변수 변경, 로컬 스토리지에 반영
-        changeMode: (state) => {
-            state.isDark = !state.isDark;
 
-            var newMode = state.isDark;
-            localStorage.setItem("isDark", JSON.stringify(newMode));
-        },
-
-
-
-        initMode: (state) => {
-            if (localStorage.getItem("isDark")) {
-                if (JSON.parse(localStorage.getItem("isDark")))
-                    state.isDark = true;
-                else
-                    state.isDark = false;
-            }
-            else {
-                var newMode = false;
-                localStorage.setItem("isDark", JSON.stringify(newMode));
-            }
-        },
         setBrightness: (state, color) => {
             let hexR = color.substring(1, 3);
             let hexG = color.substring(3, 5);
@@ -112,6 +86,7 @@ export default new Vuex.Store({
                     if (user) {
                         context.state.isLogin = true
                         context.state.uid = user.uid
+                        console.log(context.state.uid)
                         resolve("complete")
 
                     } else {
@@ -177,7 +152,7 @@ export default new Vuex.Store({
             }).catch(function (error) {
                 alert("ERROR")
             });
-        }
+        },
 
     }
 })
