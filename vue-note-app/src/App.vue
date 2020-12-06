@@ -287,6 +287,20 @@ export default {
         .catch((err) => {
           console.log("Error getting document", err);
         });
+
+      db.collection(this.uid)
+        .doc("isDark")
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            console.log("No such document!");
+          } else {
+            this.isDark = doc.data().newMode;
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document", err);
+        });
     }
   },
 
@@ -341,9 +355,18 @@ export default {
       },
     },
 
+    isDark: {
+      handler() {
+        if (this.isDark)
+          document.querySelector(".main").style.background = "rgb(53,53,53)";
+        else document.querySelector(".main").style.background = "white";
+      },
+    },
+
     uid: {
       handler() {
         if (this.uid) {
+          // 노트 초기화
           let tempNotes = [];
           db.collection(this.uid)
             .get()
@@ -359,6 +382,7 @@ export default {
               console.log("Error getting documents", err);
             });
 
+          // 태그 초기화
           db.collection(this.uid)
             .doc("tags")
             .get()
@@ -372,9 +396,25 @@ export default {
             .catch((err) => {
               console.log("Error getting document", err);
             });
+
+          // 모드 초기화
+          db.collection(this.uid)
+            .doc("isDark")
+            .get()
+            .then((doc) => {
+              if (!doc.exists) {
+                console.log("No such document!");
+              } else {
+                this.isDark = doc.data().newMode;
+              }
+            })
+            .catch((err) => {
+              console.log("Error getting document", err);
+            });
         } else {
           this.notes = [];
           this.tags = [];
+          this.isDark = false;
         }
       },
     },
@@ -564,9 +604,11 @@ export default {
       this.isNormal = true;
     },
 
-    changeMode(changedMode) {
+    async changeMode(changedMode) {
       this.isDark = changedMode;
-      console.log(changedMode);
+      let newMode = this.isDark;
+      newMode = { newMode };
+      await db.collection(this.uid).doc("isDark").set(newMode);
     },
   },
 };
