@@ -166,23 +166,23 @@ export default {
   },
 
   computed: {
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
     },
-    model() {
+    model () {
       return this.$store.getters.getModel;
     },
   },
 
-  data() {
+  data () {
     return {
-      image: null,
+      image: null
     };
   },
 
   methods: {
     // 객체 탐지 함수
-    async predict() {
+    async predict () {
       var img = document.createElement("img");
       img.setAttribute("src", this.note.imagePath);
       let tmp = await this.model.detect(img);
@@ -192,25 +192,32 @@ export default {
         resolve(tmp[0].class);
       });
     },
-    changeImage() {
+    changeImage () {
       if (this.image) {
-        let input = document.querySelector("#inputImage");
-        let fReader = new FileReader();
-        fReader.readAsDataURL(input.files[0]);
-        fReader.onload = (event) => {
-          this.note.imagePath = event.target.result;
-        };
+        //console.log(this.image.size);
+        if (this.image.size > 500000) {
+          alert("Image Size should be less than 500KB");
+          this.image = null;
+        } else {
+          let input = document.querySelector("#inputImage");
+          let fReader = new FileReader();
+          fReader.readAsDataURL(input.files[0]);
+          fReader.onload = (event) => {
+            this.note.imagePath = event.target.result;
+          };
+        }
+
       } else this.note.imagePath = "";
     },
 
     // 팔레트에서 받아온 색 초기화
-    initColor(picker) {
+    initColor (picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
     },
 
     // 노트 생성
-    async createNew() {
+    async createNew () {
       // 객체 탐지
       if (this.note.imagePath) {
         if ((await this.predict()) !== null) {
@@ -256,19 +263,19 @@ export default {
       this.note.isImportant = false;
     },
 
-    addImportant() {
+    addImportant () {
       this.note.isImportant = !this.note.isImportant;
     },
 
-    bindKor(event) {
+    bindKor (event) {
       this.note.text = event.target.value;
     },
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
       this.image = null;
     },
 
-    onClickOutside() {
+    onClickOutside () {
       this.image = null;
     },
   },
