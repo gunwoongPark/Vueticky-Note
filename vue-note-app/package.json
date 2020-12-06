@@ -17,6 +17,7 @@
     "firebaseui": "^4.7.1",
     "vue": "^2.6.11",
     "vue-masonry": "^0.11.8",
+    "vue-router": "^3.4.9",
     "vuetify": "^2.2.11",
     "vuetify-markdown-editor": "^3.3.0",
     "vuex": "^3.5.1",
