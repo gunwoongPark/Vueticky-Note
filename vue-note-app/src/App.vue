@@ -493,22 +493,34 @@ export default {
       this.isNormal = false;
       this.isTagMode = false;
       this.isSearch = true;
-      let notes = JSON.parse(localStorage.getItem("notes"));
+
+      db.collection(this.uid)
+        .doc("notes")
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            console.log("No such document!");
+          } else {
+            let notes = doc.data().newNotes;
+            if (memo === "") {
+              this.isSearch = false;
+              this.isTagMode = false;
+              this.isNormal = true;
+              this.todayNotes = notes.filter((note) => note.date === this.date);
+            } else {
+              let todayNotes = notes.filter((note) => note.date === this.date);
+
+              this.searchNotes = todayNotes.filter(
+                (note) => note.title.includes(memo) || note.text.includes(memo)
+              );
+            }
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document", err);
+        });
 
       // 검색하기 위해 노트 불러오기
-
-      if (memo === "") {
-        this.isSearch = false;
-        this.isTagMode = false;
-        this.isNormal = true;
-        this.todayNotes = notes.filter((note) => note.date === this.date);
-      } else {
-        let todayNotes = notes.filter((note) => note.date === this.date);
-
-        this.searchNotes = todayNotes.filter(
-          (note) => note.title.includes(memo) || note.text.includes(memo)
-        );
-      }
     },
 
     // 태그 변경 시 고른 태그를 변수에 초기화
