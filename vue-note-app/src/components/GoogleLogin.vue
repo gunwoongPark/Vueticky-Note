@@ -11,9 +11,6 @@
 
 <script>
 export default {
-  mounted() {
-    this.$store.commit("loginCheck");
-  },
   methods: {
     googleLogin() {
       this.$store.dispatch("googleLogin");
