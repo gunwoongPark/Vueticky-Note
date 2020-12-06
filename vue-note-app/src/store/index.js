@@ -173,6 +173,7 @@ export default new Vuex.Store({
             firebase.auth().signOut().then(function () {
                 alert("로그아웃 되셨습니다.")
                 context.state.isLogin = false
+                context.state.uid = ""
             }).catch(function (error) {
                 alert("ERROR")
             });

@@ -252,34 +252,38 @@ export default {
     this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
 
     // 최초의 노트 불러오기
-    db.collection(this.uid)
-      .doc("notes")
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          console.log("No such document!");
-        } else {
-          this.notes = doc.data().newNotes;
-        }
-      })
-      .catch((err) => {
-        console.log("Error getting document", err);
-      });
+    if (this.uid) {
+      db.collection(this.uid)
+        .doc("notes")
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            console.log("No such document!");
+          } else {
+            this.notes = doc.data().newNotes;
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document", err);
+        });
+    }
 
     //최초의 각 태그들 불러오기
-    db.collection(this.uid)
-      .doc("tags")
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          console.log("No such document!");
-        } else {
-          this.tags = doc.data().newTags;
-        }
-      })
-      .catch((err) => {
-        console.log("Error getting document", err);
-      });
+    if (this.uid) {
+      db.collection(this.uid)
+        .doc("tags")
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            console.log("No such document!");
+          } else {
+            this.tags = doc.data().newTags;
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document", err);
+        });
+    }
   },
 
   watch: {
@@ -293,8 +297,10 @@ export default {
         );
 
         // 노트 추가 시
-        newNotes = { newNotes };
-        const res = await db.collection(this.uid).doc("notes").set(newNotes);
+        if (this.uid) {
+          newNotes = { newNotes };
+          const res = await db.collection(this.uid).doc("notes").set(newNotes);
+        }
 
         // vue-masonry 의 다시 그려주는 기능
         this.$nextTick(() => this.$redrawVueMasonry());
@@ -321,8 +327,10 @@ export default {
         var newTags = this.tags;
 
         // 태그 변경 시
-        newTags = { newTags };
-        const res = await db.collection(this.uid).doc("tags").set(newTags);
+        if (this.uid) {
+          newTags = { newTags };
+          const res = await db.collection(this.uid).doc("tags").set(newTags);
+        }
 
         this.$nextTick(() => this.$redrawVueMasonry());
       },
@@ -338,33 +346,38 @@ export default {
 
     uid: {
       handler() {
-        db.collection(this.uid)
-          .doc("notes")
-          .get()
-          .then((doc) => {
-            if (!doc.exists) {
-              console.log("No such document!");
-            } else {
-              this.notes = doc.data().newNotes;
-            }
-          })
-          .catch((err) => {
-            console.log("Error getting document", err);
-          });
+        if (this.uid) {
+          db.collection(this.uid)
+            .doc("notes")
+            .get()
+            .then((doc) => {
+              if (!doc.exists) {
+                console.log("No such document!");
+              } else {
+                this.notes = doc.data().newNotes;
+              }
+            })
+            .catch((err) => {
+              console.log("Error getting document", err);
+            });
 
-        db.collection(this.uid)
-          .doc("tags")
-          .get()
-          .then((doc) => {
-            if (!doc.exists) {
-              console.log("No such document!");
-            } else {
-              this.tags = doc.data().newTags;
-            }
-          })
-          .catch((err) => {
-            console.log("Error getting document", err);
-          });
+          db.collection(this.uid)
+            .doc("tags")
+            .get()
+            .then((doc) => {
+              if (!doc.exists) {
+                console.log("No such document!");
+              } else {
+                this.tags = doc.data().newTags;
+              }
+            })
+            .catch((err) => {
+              console.log("Error getting document", err);
+            });
+        } else {
+          this.notes = [];
+          this.tags = [];
+        }
       },
     },
   },
