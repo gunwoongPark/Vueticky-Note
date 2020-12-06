@@ -266,10 +266,6 @@ export default {
         console.log("Error getting document", err);
       });
 
-    // 각 노트의 태그들 불러오기
-    if (localStorage.getItem("tags"))
-      this.tags = JSON.parse(localStorage.getItem("tags"));
-
     //최초의 각 태그들 불러오기
     db.collection(this.uid)
       .doc("tags")
@@ -337,6 +333,38 @@ export default {
         if (this.isDark)
           document.querySelector(".main").style.background = "rgb(53,53,53)";
         else document.querySelector(".main").style.background = "white";
+      },
+    },
+
+    uid: {
+      handler() {
+        db.collection(this.uid)
+          .doc("notes")
+          .get()
+          .then((doc) => {
+            if (!doc.exists) {
+              console.log("No such document!");
+            } else {
+              this.notes = doc.data().newNotes;
+            }
+          })
+          .catch((err) => {
+            console.log("Error getting document", err);
+          });
+
+        db.collection(this.uid)
+          .doc("tags")
+          .get()
+          .then((doc) => {
+            if (!doc.exists) {
+              console.log("No such document!");
+            } else {
+              this.tags = doc.data().newTags;
+            }
+          })
+          .catch((err) => {
+            console.log("Error getting document", err);
+          });
       },
     },
   },
