@@ -5,6 +5,9 @@ import './plugins/vue-masonry'
 import store from './store'
 import firebase from "firebase"
 import 'firebase/firestore'
+import router from "./router"
+
+
 Vue.config.productionTip = false
 
 var firebaseConfig = {
@@ -23,6 +26,7 @@ export { Timestamp, GeoPoint }
 
 
 new Vue({
+  router,
   vuetify,
   store,
   render: h => h(App)
