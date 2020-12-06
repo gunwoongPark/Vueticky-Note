@@ -182,7 +182,7 @@ export default {
     LoginPage,
   },
 
-  data() {
+  data () {
     return {
       notes: [],
       todayNotes: [],
@@ -216,20 +216,20 @@ export default {
   },
 
   computed: {
-    isLogin() {
+    isLogin () {
       return this.$store.getters.getIsLogin;
     },
 
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
     },
-    uid() {
+    uid () {
       return this.$store.getters.getUid;
     },
   },
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
-  async mounted() {
+  async mounted () {
     let msg = await this.$store.dispatch("loginCheck");
     console.log(msg);
 
@@ -282,7 +282,7 @@ export default {
   watch: {
     // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
-      async handler() {
+      async handler () {
         var newNotes = this.notes;
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
         this.importantNotes = this.notes.filter(
@@ -302,7 +302,7 @@ export default {
 
     // 날짜를 변경할 때 그 날짜에 맞는 노트를 받아옴
     date: {
-      handler() {
+      handler () {
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
 
         let year = Number(this.date.slice(0, 4));
@@ -316,7 +316,7 @@ export default {
 
     // 태그 변경할 때 해당 태그를 받아옴
     tags: {
-      async handler() {
+      async handler () {
         var newTags = this.tags;
 
         // 태그 변경 시
@@ -330,7 +330,7 @@ export default {
     },
 
     uid: {
-      handler() {
+      handler () {
         if (this.uid) {
           db.collection(this.uid)
             .doc("notes")
@@ -369,7 +369,7 @@ export default {
 
   methods: {
     // 노트 생성
-    async newNote(
+    async newNote (
       title,
       text,
       theme,
@@ -418,7 +418,7 @@ export default {
     },
 
     // 노트 수정
-    modifyNote(
+    modifyNote (
       title,
       text,
       theme,
@@ -469,7 +469,7 @@ export default {
     },
 
     // 고유값을 이용한 노트 삭제
-    deleteNote(guid) {
+    deleteNote (guid) {
       const index = this.notes.findIndex((note) => note.guid === guid);
       let filtNotes = this.notes.filter(
         (el) => el.tags.indexOf(this.notes[index].detectedTag) !== -1
@@ -482,12 +482,12 @@ export default {
     },
 
     // 달력에서 고른 날짜를 변수에 초기화
-    selectDate(picker) {
+    selectDate (picker) {
       if (this.date !== picker) this.date = picker;
     },
 
     // 노트 검색 기능
-    searchNote(memo) {
+    searchNote (memo) {
       this.isNormal = false;
       this.isTagMode = false;
       this.isSearch = true;
@@ -522,17 +522,17 @@ export default {
     },
 
     // 태그 변경 시 고른 태그를 변수에 초기화
-    initTags(tags) {
+    initTags (tags) {
       this.tags = tags;
     },
 
     // 태그 삭제
-    deleteTag(index) {
+    deleteTag (index) {
       this.tags.splice(index, 1);
     },
 
     // 태그를 선택하여 출력을 태그모드로 변경
-    selectTag(index) {
+    selectTag (index) {
       this.isNormal = false;
       this.isSearch = false;
       this.isTagMode = true;
@@ -544,7 +544,7 @@ export default {
     },
 
     // 태그 모드에서 다시 돌아오는 기능
-    reloadOrigin() {
+    reloadOrigin () {
       this.isTagMode = false;
       this.isSearch = false;
       this.isNormal = true;
