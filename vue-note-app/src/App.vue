@@ -239,7 +239,11 @@ export default {
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
-    this.date = `${year}-${month}-${day}`;
+
+    if (day < 10) this.date = `${year}-${month}-0${day}`;
+    else this.date = `${year}-${month}-${day}`;
+
+    console.log(this.date);
 
     let monthIndex = month - 1;
 
@@ -256,6 +260,10 @@ export default {
             console.log("No such document!");
           } else {
             this.notes = doc.data().newNotes;
+            console.log(this.date);
+            this.todayNotes = doc
+              .data()
+              .newNotes.filter((note) => note.date === this.date);
           }
         })
         .catch((err) => {
@@ -280,11 +288,20 @@ export default {
   },
 
   watch: {
+    // todayNotes: {
+    //   handler() {
+    //     console.log(this.date);
+    //     console.log(this.todayNotes);
+    //   },
+    // },
     // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
       async handler() {
         var newNotes = this.notes;
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
+        console.log(newNotes);
+        console.log(this.todayNotes);
+
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
         );
@@ -303,7 +320,9 @@ export default {
     // 날짜를 변경할 때 그 날짜에 맞는 노트를 받아옴
     date: {
       handler() {
+        console.log(this.notes);
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
+        console.log(this.notes.filter((note) => note.date === this.date));
 
         let year = Number(this.date.slice(0, 4));
         let monthIndex = Number(this.date.slice(5, 7)) - 1;
@@ -340,6 +359,9 @@ export default {
                 console.log("No such document!");
               } else {
                 this.notes = doc.data().newNotes;
+                this.todayNotes = doc
+                  .data()
+                  .newNotes.filter((note) => note.date === this.date);
               }
             })
             .catch((err) => {

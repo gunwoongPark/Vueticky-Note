@@ -56,7 +56,10 @@ export default {
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
 
-    this.picker = `${year}-${month}-${day}`;
+    if (day < 10) this.picker = `${year}-${month}-0${day}`;
+    else this.picker = `${year}-${month}-${day}`;
+
+    console.log(this.picker);
   },
   data() {
     return {
