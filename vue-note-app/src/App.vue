@@ -252,18 +252,20 @@ export default {
 
     if (this.uid) {
       // 최초의 노트 불러오기
+
+      let tempNotes = [];
       db.collection(this.uid)
-        .doc("notes")
         .get()
-        .then((doc) => {
-          if (!doc.exists) {
-            console.log("No such document!");
-          } else {
-            this.notes = doc.data().newNotes;
-          }
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            if (doc.id.substr(0, 4) === "note") {
+              tempNotes.push(doc.data());
+            }
+          });
+          this.notes = tempNotes;
         })
         .catch((err) => {
-          console.log("Error getting document", err);
+          console.log("Error getting documents", err);
         });
 
       //최초의 각 태그들 불러오기
@@ -284,15 +286,9 @@ export default {
   },
 
   watch: {
-    // todayNotes: {
-    //   handler() {
-    //     console.log(this.date);
-    //     console.log(this.todayNotes);
-    //   },
-    // },
     // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
-      async handler() {
+      handler() {
         var newNotes = this.notes;
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
 
@@ -300,10 +296,10 @@ export default {
           (note) => note.important === true
         );
 
-        // 노트 추가 시
         if (this.uid) {
-          newNotes = { newNotes };
-          const res = await db.collection(this.uid).doc("notes").set(newNotes);
+          newNotes.forEach(async (note) => {
+            await db.collection(this.uid).doc(`note-${note.guid}`).set(note);
+          });
         }
 
         // vue-masonry 의 다시 그려주는 기능
@@ -314,9 +310,7 @@ export default {
     // 날짜를 변경할 때 그 날짜에 맞는 노트를 받아옴
     date: {
       handler() {
-        console.log(this.notes);
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
-        console.log(this.notes.filter((note) => note.date === this.date));
 
         let year = Number(this.date.slice(0, 4));
         let monthIndex = Number(this.date.slice(5, 7)) - 1;
@@ -345,21 +339,19 @@ export default {
     uid: {
       handler() {
         if (this.uid) {
+          let tempNotes = [];
           db.collection(this.uid)
-            .doc("notes")
             .get()
-            .then((doc) => {
-              if (!doc.exists) {
-                console.log("No such document!");
-              } else {
-                this.notes = doc.data().newNotes;
-                this.todayNotes = doc
-                  .data()
-                  .newNotes.filter((note) => note.date === this.date);
-              }
+            .then((snapshot) => {
+              snapshot.forEach((doc) => {
+                if (doc.id.substr(0, 4) === "note") {
+                  tempNotes.push(doc.data());
+                }
+              });
+              this.notes = tempNotes;
             })
             .catch((err) => {
-              console.log("Error getting document", err);
+              console.log("Error getting documents", err);
             });
 
           db.collection(this.uid)
