@@ -18,7 +18,7 @@ export default new Vuex.Store({
         imgPath: "",
         model: {},
 
-        isLogin: false,
+        isLogin: true,
         uid: "",
         email: ""
     },
