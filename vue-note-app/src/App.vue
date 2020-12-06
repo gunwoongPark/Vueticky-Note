@@ -260,10 +260,6 @@ export default {
             console.log("No such document!");
           } else {
             this.notes = doc.data().newNotes;
-            console.log(this.date);
-            this.todayNotes = doc
-              .data()
-              .newNotes.filter((note) => note.date === this.date);
           }
         })
         .catch((err) => {
@@ -299,8 +295,6 @@ export default {
       async handler() {
         var newNotes = this.notes;
         this.todayNotes = this.notes.filter((note) => note.date === this.date);
-        console.log(newNotes);
-        console.log(this.todayNotes);
 
         this.importantNotes = this.notes.filter(
           (note) => note.important === true
