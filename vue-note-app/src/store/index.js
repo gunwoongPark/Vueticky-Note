@@ -105,31 +105,6 @@ export default new Vuex.Store({
     // methods
     // 일반 로직(비동기O)
     actions: {
-        // bindDB:
-        //     firestoreAction(({ bindFirestoreRef }) => {
-        //         console.log("bindDB")
-        //         // return the promise returned by `bindFirestoreRef`
-        //         return bindFirestoreRef('database', db.collection("test"))
-        //     })
-        // ,
-
-        // addDB:
-        //     firestoreAction((context, payload) => {
-        //         console.log("addDB")
-        //         // return the promise so we can await the write
-        //         return db.collection(context.state.uid).add(payload);
-        //     })
-        // ,
-
-        // deleteDB:
-        //     firestoreAction((context, payload) => {
-        //         console.log("deleteDB")
-        //         db.collection("test")
-        //             .doc(payload)
-        //             .delete()
-        //     })
-        // ,
-
 
         loginCheck(context) {
             return new Promise(function (resolve) {
@@ -156,6 +131,8 @@ export default new Vuex.Store({
         },
 
         googleLogin: (state) => {
+
+
             var provider = new firebase.auth.GoogleAuthProvider();
 
             // 로그인 아이디의 기본값을 지정합니다. 지정하지 않아도 됩니다.
@@ -189,6 +166,7 @@ export default new Vuex.Store({
                     var credential = error.credential;
                     // ...
                 });
+
         },
 
         googleLogout: (context) => {
