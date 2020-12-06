@@ -101,17 +101,19 @@ import GoogleLogin from "./GoogleLogin";
 
 export default {
   name: "LoginForm",
+
   mounted () {
     //this.$store.commit("loginCheck");
   },
 
 
   methods: {
-    removeBack () {
-      var test = document.getElementById('main');
-      test.removeAttribute("id");
-      console.log(test);
-    }
+    // removeBack () {
+    //   var test = document.getElementById('main');
+    //   // test.removeAttribute("id");
+    //   console.log(test.id);
+    //   //console.log(this.backImgSize);
+    // }
 
   },
 
@@ -140,7 +142,8 @@ export default {
   background-color: teal;
 }
 #main {
-  background-image: url(../assets/l.png);
+  height: auto;
+  background: url(../assets/l.png) center center / cover no-repeat;
 }
 #container {
   width: 400px;
