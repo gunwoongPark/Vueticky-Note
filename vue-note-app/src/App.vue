@@ -532,6 +532,8 @@ export default {
         this.tags.splice(delIndex, 1);
       }
       this.notes.splice(index, 1);
+
+      let deleteDoc = db.collection(this.uid).doc(`note-${guid}`).delete();
     },
 
     // 달력에서 고른 날짜를 변수에 초기화
