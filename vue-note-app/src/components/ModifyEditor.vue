@@ -167,52 +167,56 @@ export default {
   },
 
   computed: {
-    brightness() {
+    brightness () {
       return this.$store.getters.getBrightness;
     },
-    model() {
+    model () {
       return this.$store.getters.getModel;
     },
   },
 
-  data() {
+  data () {
     return {
       delTag: "",
       addTag: "",
     };
   },
 
-  mounted() {
+  mounted () {
     this.originImage = this.note.imagePath;
   },
 
   methods: {
     // 일단 이미지가 들어왔을 때
-    changeImage(e) {
+    changeImage (e) {
       let file = e.target.files;
-      let reader = new FileReader();
+      // 이미지 용량 예외처리(500KB초과 시 alert)
+      if (file[0].size > 500000) {
+        alert("용량이 500KB가 초과되는 이미지는 업로드가 제한됩니다.");
 
-      reader.readAsDataURL(file[0]);
-      reader.onload = (e) => {
-        // 변경을 기존과 다른 이미지로 했을 경우
-        // if (e.target.result !== this.originImage) this.isChange = true;
-        this.note.imagePath = e.target.result;
-      };
+      } else {
+        let reader = new FileReader();
+        reader.readAsDataURL(file[0]);
+        reader.onload = (e) => {
+          this.note.imagePath = e.target.result;
+        };
+      }
+
     },
 
-    initColor(picker) {
+    initColor (picker) {
       this.note.theme = picker;
       this.$store.commit("setBrightness", this.note.theme);
       this.note.brightness = this.brightness;
     },
 
-    cancelImage() {
+    cancelImage () {
       this.note.imagePath = "";
       document.querySelector("#modifyImage").value = "";
     },
 
     // 객체 탐지 함수
-    async predict() {
+    async predict () {
       var img = document.createElement("img");
       img.setAttribute("src", this.note.imagePath);
       let tmp = await this.model.detect(img);
@@ -225,7 +229,7 @@ export default {
       });
     },
 
-    async modifyNote() {
+    async modifyNote () {
       if (this.note.title === "" || this.note.text === "") {
         alert("제목이나 내용을 입력해주세요");
         return;
@@ -309,22 +313,22 @@ export default {
 
       this.newImg = null;
 
-      this.isChange = false;
+
     },
-    addImportant() {
+    addImportant () {
       this.note.important = !this.note.important;
     },
 
-    bindKor(event) {
+    bindKor (event) {
       this.note.text = event.target.value;
     },
 
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
       this.newImg = null;
     },
 
-    onClickOutside() {
+    onClickOutside () {
       this.newImg = null;
     },
   },

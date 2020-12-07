@@ -194,9 +194,10 @@ export default {
     },
     changeImage () {
       if (this.image) {
-        //console.log(this.image.size);
+
+        // 이미지 용량 예외처리(500KB초과 시 alert)
         if (this.image.size > 500000) {
-          alert("Image Size should be less than 500KB");
+          alert("용량이 500KB가 초과되는 이미지는 업로드가 제한됩니다.");
           this.image = null;
         } else {
           let input = document.querySelector("#inputImage");
