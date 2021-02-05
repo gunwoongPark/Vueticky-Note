@@ -23,13 +23,6 @@
         <v-icon dark> mdi-reload </v-icon>
       </v-btn>
 
-      <CategoryBtn
-        class="categoryBtn"
-        :tags="tags"
-        @initTags="initTags"
-        @deleteTag="deleteTag"
-      />
-
       <CalendarBtn class="calendarBtn" @selectDate="selectDate" />
 
       <WriteBtn
@@ -167,7 +160,6 @@ import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
-import CategoryBtn from "./components/CategoryBtn";
 import LoginPage from "./components/LoginPage";
 import ChangeMode from "./components/ChangeMode";
 
@@ -180,7 +172,6 @@ export default {
     CalendarBtn,
     Card,
     TopBtn,
-    CategoryBtn,
     ChangeMode,
     LoginPage,
   },
@@ -637,7 +628,7 @@ p {
 .reloadBtn {
   right: 2%;
   position: fixed;
-  bottom: 36%;
+  bottom: 28%;
   z-index: 10;
 }
 </style>
