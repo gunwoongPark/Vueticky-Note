@@ -101,27 +101,12 @@ import GoogleLogin from "./GoogleLogin";
 export default {
   name: "LoginForm",
 
-  mounted () {
-    //this.$store.commit("loginCheck");
-  },
-
-  methods: {
-    // removeBack () {
-    //   var test = document.getElementById('main');
-    //   // test.removeAttribute("id");
-    //   console.log(test.id);
-    //   //console.log(this.backImgSize);
-    // }
-
-  },
+  methods: {},
 
   components: {
-
     GoogleLogin,
-
   },
 };
-
 </script>
 
 <style scoped>

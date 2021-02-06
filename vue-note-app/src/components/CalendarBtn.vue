@@ -50,16 +50,19 @@
 
 <script>
 export default {
-  created() {
+  mounted() {
     const dateObj = new Date();
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
 
-    if (day < 10) this.picker = `${year}-${month}-0${day}`;
-    else this.picker = `${year}-${month}-${day}`;
+    // if (day < 10) this.picker = `${year}-${month}-0${day}`;
+    // else this.picker = `${year}-${month}-${day}`;
 
-    console.log(this.picker);
+    if (day < 10) this.picker = `${year}-${month}-0${day}`;
+    if (month < 10) this.picker = `${year}-0${month}-${day}`;
+    if (day < 10 && month < 10) this.picker = `${year}-0${month}-0${day}`;
+    else this.picker = `${year}-${month}-${day}`;
   },
   data() {
     return {
