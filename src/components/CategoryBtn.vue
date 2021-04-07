@@ -51,10 +51,10 @@
             <p>There are no saved tags...</p>
           </div>
 
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
 
           <!-- 그리드 레이아웃을 활용하여 버튼 배치를 반응형으로 구현 -->
-          <v-row class="inputContainer">
+          <!-- <v-row class="inputContainer">
             <v-col cols="12" lg="8" md="8" sm="12">
               <v-text-field
                 color="teal"
@@ -70,7 +70,7 @@
             <v-col cols="12" lg="4" md="4" sm="12" style="text-align: center">
               <v-btn text @click="registerTag">register</v-btn>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -112,36 +112,36 @@ export default {
     },
 
     // 등록 및 예외처리
-    registerTag() {
-      this.text = this.text.toLowerCase();
+    // registerTag() {
+    //   this.text = this.text.toLowerCase();
 
-      if (this.text === "") {
-        alert("태그명을 입력해주세요");
-        return;
-      }
+    //   if (this.text === "") {
+    //     alert("태그명을 입력해주세요");
+    //     return;
+    //   }
 
-      var blank_pattern = /[\s]/g;
-      if (blank_pattern.test(this.text) == true) {
-        alert("태그에는 공백은 사용할 수 없습니다. ");
-        this.text = "";
-        return;
-      }
+    //   var blank_pattern = /[\s]/g;
+    //   if (blank_pattern.test(this.text) == true) {
+    //     alert("태그에는 공백은 사용할 수 없습니다. ");
+    //     this.text = "";
+    //     return;
+    //   }
 
-      if (this.text.length > 20) {
-        alert("태그가 너무 깁니다.");
-        this.text = "";
-        return;
-      }
+    //   if (this.text.length > 20) {
+    //     alert("태그가 너무 깁니다.");
+    //     this.text = "";
+    //     return;
+    //   }
 
-      if (this.tags.indexOf(this.text) !== -1) {
-        alert("이미 등록된 태그가 있습니다.");
-        this.text = "";
-        return;
-      }
+    //   if (this.tags.indexOf(this.text) !== -1) {
+    //     alert("이미 등록된 태그가 있습니다.");
+    //     this.text = "";
+    //     return;
+    //   }
 
-      this.tags.push(this.text);
-      this.text = "";
-    },
+    //   this.tags.push(this.text);
+    //   this.text = "";
+    // },
   },
 };
 </script>

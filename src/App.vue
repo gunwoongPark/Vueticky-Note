@@ -36,6 +36,13 @@
 
       <ChangeMode :isDark="isDark" @changeMode="changeMode" />
 
+      <CategoryBtn
+        class="categoryBtn"
+        :tags="tags"
+        @initTags="initTags"
+        @deleteTag="deleteTag"
+      />
+
       <!-- masonry 활용 -->
       <div class="noteContainer">
         <hr />
@@ -158,6 +165,7 @@
 import Header from "./components/Header";
 import WriteBtn from "./components/WriteBtn";
 import CalendarBtn from "./components/CalendarBtn";
+import CategoryBtn from "./components/CategoryBtn";
 import Card from "./components/Card";
 import TopBtn from "./components/TopBtn";
 import LoginPage from "./components/LoginPage";
@@ -174,6 +182,7 @@ export default {
     TopBtn,
     ChangeMode,
     LoginPage,
+    CategoryBtn,
   },
 
   data() {
@@ -330,6 +339,10 @@ export default {
         let monthIndex = Number(this.date.slice(5, 7)) - 1;
         let day = Number(this.date.slice(8, 10));
         this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, ${year}`;
+
+        // 날짜 변경 시 reload
+        this.reloadOrigin();
+
         this.$nextTick(() => this.$redrawVueMasonry());
       },
       deep: true,
@@ -632,7 +645,7 @@ p {
 .reloadBtn {
   right: 2%;
   position: fixed;
-  bottom: 28%;
+  bottom: 36%;
   z-index: 10;
 }
 </style>
