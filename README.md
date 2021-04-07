@@ -1,24 +1,16 @@
-# vue-note-app
+# Vueticky Note
 
-## Project setup
-```
-npm install
-```
+노트 웹앱 구현 프로젝트
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+노트와 인공지능을 결합한 노트 웹앱을 구현함
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Tensorflow.js를 활용하여 이미지 객체 탐지를 활용한 자동 태깅 기능
 
-### Lints and fixes files
-```
-npm run lint
-```
+Open Weather API를 활용하여 실시간 현위치 날씨 정보
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Google Firebase를 적극 활용
+
+* Hosting을 활용한 서버 호스팅
+* Authentication을 활용한 구글 사용자 인증
+* Cloud Firestore를 활용한 가상의 DB 구축
+
