@@ -14,5 +14,7 @@ Google Firebase를 적극 활용
 * Authentication을 활용한 구글 사용자 인증
 * Cloud Firestore를 활용한 가상의 DB 구축
 
-test
+
+
+주소 : https://vueticky-note-b08f1.web.app/
 
