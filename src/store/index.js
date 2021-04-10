@@ -67,7 +67,7 @@ export default new Vuex.Store({
       console.log(path);
     },
 
-    initModel: async (state, model) => {
+    initModel: (state, model) => {
       state.model = model;
       console.log("model loaded");
     },
