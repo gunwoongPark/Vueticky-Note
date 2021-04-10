@@ -53,7 +53,9 @@ export default {
   },
   // 현 위도 경도를 받아오는 자바스크립트 내장 기능을 비동기로 처리해야함
   async mounted() {
+    // 현 위치를 받아오기 전에
     this.position = await this.getLocation();
+    // 이 함수가 실행됨
     this.getWeather();
   },
 
@@ -70,6 +72,7 @@ export default {
       });
     },
 
+    // api 요청 함수
     getWeather() {
       axios
         .get(
