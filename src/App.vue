@@ -249,15 +249,21 @@ export default {
     // if (day < 10 && month < 10) this.picker = `${year}-0${month}-0${day}`;
     // else this.picker = `${year}-${month}-${day}`;
 
-    if (day < 10) this.date = `${year}-${month}-0${day}`;
-    if (month < 10) this.date = `${year}-0${month}-${day}`;
-    if (day < 10 && month < 10) this.date = `${year}-0${month}-0${day}`;
-    else this.date = `${year}-${month}-${day}`;
+    if (day < 10 || month < 10 || (day < 10 && month <10))
+    {
+      if (day < 10) this.date = `${year}-${month}-0${day}`
+
+      if (month < 10) this.date = `${year}-0${month}-${day}`
+
+      if (day < 10 && month < 10) this.date = `${year}-0${month}-0${day}`
+    }
+
+    else this.date = `${year}-${month}-${day}`
 
     let monthIndex = month - 1;
 
     // 보여줄 날짜
-    this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, year`;
+    this.showDate = `Notes of ${this.monthNames[monthIndex]} ${day}, ${year}`;
 
     if (this.uid) {
       // 최초의 노트 불러오기
@@ -309,7 +315,6 @@ export default {
   },
 
   watch: {
-    // 노트 변수를 감시하며 변경될때마다 로컬스토리 초기화
     notes: {
       handler() {
         var newNotes = this.notes;
