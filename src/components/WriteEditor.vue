@@ -219,9 +219,10 @@ export default {
     async createNew() {
       // 객체 탐지
       if (this.note.imagePath) {
-        if ((await this.predict()) !== null) {
-          this.note.detectedTag = await this.predict();
-          this.note.selectedTags.push(await this.predict());
+        let predictResult = await this.predict() 
+        if (predictResult !== null) {
+          this.note.detectedTag = predictResult;
+          this.note.selectedTags.push(predictResult);
         }
       }
 

@@ -236,17 +236,18 @@ export default {
       // 이미지가 있는 경우
       if (this.note.imagePath) {
         // 해당 이미지의 객체가 감지 될 때
-        if ((await this.predict()) !== null) {
+        let predictResult = await this.predict()
+        if (predictResult !== null) {
           const delIndex = this.note.tags.indexOf(this.note.detectedTag);
           if (delIndex !== -1) this.note.tags.splice(delIndex, 1);
 
           this.delTag = this.note.detectedTag;
 
-          this.note.tags.push(await this.predict());
+          this.note.tags.push(predictResult);
 
-          this.note.detectedTag = await this.predict();
+          this.note.detectedTag = predictResult;
 
-          this.addTag = await this.predict();
+          this.addTag = predictResult;
         }
 
         // 해당 이미지의 객체가 감지 되지 않을 때
