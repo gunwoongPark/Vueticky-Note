@@ -71,7 +71,6 @@ export default {
     },
 
     getWeather() {
-      this.getLocation();
       axios
         .get(
           `${apiURL}?lat=${this.position.lat}&lon=${this.position.lon}&units=metric&appid=${appid}`
