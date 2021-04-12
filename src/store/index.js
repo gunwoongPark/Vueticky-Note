@@ -70,13 +70,13 @@ export default new Vuex.Store({
   // 일반 로직(비동기O)
   actions: {
     loginCheck(context) {
-      return new Promise(function(resolve) {
-        firebase.auth().onAuthStateChanged(function(user) {
+      return new Promise(function (resolve) {
+        firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             context.state.email = user.email;
             context.state.isLogin = true;
             context.state.uid = user.uid;
-            resolve("complete");
+            resolve(true);
           } else {
             context.state.isLogin = false;
           }
@@ -105,7 +105,7 @@ export default new Vuex.Store({
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(function(result) {
+        .then(function (result) {
           var user = result.user;
           state.uid = user.uid;
         })
@@ -118,12 +118,12 @@ export default new Vuex.Store({
       firebase
         .auth()
         .signOut()
-        .then(function() {
+        .then(function () {
           alert("로그아웃 되셨습니다.");
           context.state.isLogin = false;
           context.state.uid = "";
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert("ERROR");
         });
     },

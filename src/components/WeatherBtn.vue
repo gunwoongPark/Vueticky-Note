@@ -52,16 +52,16 @@ export default {
     };
   },
   // 현 위도 경도를 받아오는 자바스크립트 내장 기능을 비동기로 처리해야함
-  async mounted() {
-    // 현 위치를 받아오기 전에
-    this.position = await this.getLocation();
-    // 이 함수가 실행됨
+   mounted() {
+    // 위도와 경도를 받아서
+    this.position =  this.getLocation();
+    // 현 위치의 날씨 정보를 얻어온다
     this.getWeather();
   },
 
   methods: {
+    // 현위치 반환
     getLocation() {
-      // Promise 객체를 반환하여 await 키워드 사용가능
       return new Promise(function (resolve) {
         let tempObj = {};
         window.navigator.geolocation.getCurrentPosition((position) => {
@@ -81,12 +81,11 @@ export default {
         .then((res) => {
           this.name = res.data.name;
           this.temp = res.data.main.temp;
-          // 이미지 바인딩을 위함
           this.icon = require(`../assets/${res.data.weather[0].icon}.png`);
           this.description = res.data.weather[0].description;
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     },
   },

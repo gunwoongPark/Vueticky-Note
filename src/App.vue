@@ -235,7 +235,7 @@ export default {
 
   // 최초 1회 날짜와 그 날짜에 맞는 노트를 받아옴
   async mounted() {
-    let msg = await this.$store.dispatch("loginCheck");
+    await this.$store.dispatch("loginCheck");
 
     await this.$store.dispatch("loadModel");
 
@@ -244,16 +244,13 @@ export default {
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
 
-    if (day < 10 || month < 10 || (day < 10 && month <10))
-    {
-      if (day < 10) this.date = `${year}-${month}-0${day}`
+    if (day < 10 || month < 10 || (day < 10 && month < 10)) {
+      if (day < 10) this.date = `${year}-${month}-0${day}`;
 
-      if (month < 10) this.date = `${year}-0${month}-${day}`
+      if (month < 10) this.date = `${year}-0${month}-${day}`;
 
-      if (day < 10 && month < 10) this.date = `${year}-0${month}-0${day}`
-    }
-
-    else this.date = `${year}-${month}-${day}`
+      if (day < 10 && month < 10) this.date = `${year}-0${month}-0${day}`;
+    } else this.date = `${year}-${month}-${day}`;
 
     let monthIndex = month - 1;
 
