@@ -16,7 +16,6 @@ Google Firebase를 적극 활용
 
 
 
-주소 : https://vueticky-note-b08f1.web.app/
 
 ![image](https://user-images.githubusercontent.com/60931745/126513163-6a8fba63-6476-43d9-b50b-ef752e6fd595.png)
 ![image](https://user-images.githubusercontent.com/60931745/126513179-915ea5e8-8124-41a5-ab07-aaea835831de.png)
